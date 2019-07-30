@@ -36,10 +36,12 @@ def listStrings(lst, wdth, edg):
     # Generates list strings with buffered side
     # borders and buffered Dollar-signed prices
 
+    symbol = '$'
     items_format = '{0:<{gap}}{1}'
     for slist in lst[1:]:
         item = '{0:<2}{1}'.format(edg, slist[0])
-        price = '${1:{buff}.2f}{0:>2}'.format(edg, slist[1], buff=6)
+        price = '{smbl}{1:{buff}.2f}{0:>2}'.format(edg, slist[1],
+                                                   smbl=symbol, buff=6)
         gap = wdth - len(price)
         yield items_format.format(item, price, gap=gap)
 
