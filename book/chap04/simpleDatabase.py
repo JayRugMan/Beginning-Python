@@ -28,7 +28,7 @@ people = {
 # Description labels for the phone number and address. These will be used
 # when printing the output.
 labels = {
-    'phone': 'phone number',
+    'phone': 'phone extension',
     'addr': 'address'
 }
 
