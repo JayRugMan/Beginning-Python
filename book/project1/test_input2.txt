@@ -1,0 +1,27 @@
+Jason Hardman dot org
+
+This is a page that discribes my website.
+There are more lines than one, only becuase I need those 
+lines to test my python script.
+
+Who I Am
+
+I'm just a *Joe Smoe* with a whole lot to say, but only a few outlets to say it. I have opinions
+ that challenge orthodoxy and like to cook. If I had my way, Thomas Paine would have his.
+
+What I Do
+
+Manage a minecraft and plex server, an Arch-Linux-on-RaspberryPI jump box, and a small home network. 
+All of the Operating Systems I run are Linux of some sort. 
+
+Websites:
+
+- My external and intarnal HUB (http://www.jasonrhardman.org)
+
+- My old portfolio (http://www.jasonrhardman.info)
+
+Ways to Contact Me:
+
+- Phone - 801.613.9833
+
+- email - jasonrhardman@gmail.com
