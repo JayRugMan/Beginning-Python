@@ -21,6 +21,11 @@ people = {
     'Cecil': {
         'phone': '3158',
         'addr': 'Baz Avenue 90'
+    },
+
+    'Jason': {
+        'phone': '255',
+        'addr': 'Westbank Street'
     }
 
 }
@@ -35,10 +40,10 @@ labels = {
 name = input('Name: ')
 
 # Are we looking for a phone number or address?
-request = input('Phone number (p) or address (a)? ')
+request = input('Phone Extension (e) or address (a)? ')
 
 # Match request to key
-if request == 'p':
+if request == 'e':
     key = 'phone'
 if request == 'a':
     key = 'addr'
