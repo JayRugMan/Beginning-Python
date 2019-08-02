@@ -40,7 +40,7 @@ request = input('Phone extenstion (e) or address (a)? ')
 
 # Correct-key check
 key = request  # In case the request is neither 'p' or 'a'
-if request == 'p':
+if request == 'e':
     key = 'phone extension'
 if request == 'a':
     key = 'address'
@@ -50,4 +50,4 @@ person = people.get(name, {})
 label = labels.get(key, key)
 result = person.get(key, 'not available')
 
-print("{}'s {} is {}".format_map(name, label, result))
+print("{}'s {} is {}".format(name, label, result))
