@@ -39,11 +39,11 @@ name = input('Name: ')
 request = input('Phone extenstion (e) or address (a)? ')
 
 # Correct-key check
-key = request  # In case the request is neither 'p' or 'a'
+key = request  # In case the request is neither 'e' or 'a'
 if request == 'e':
-    key = 'phone extension'
+    key = 'phone'
 if request == 'a':
-    key = 'address'
+    key = 'addr'
 
 # Using get to provide default values
 person = people.get(name, {})
