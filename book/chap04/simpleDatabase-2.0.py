@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3.7
 # Another simple database, but this one uses the get() method
+# Adding a comment for git test
 
 # A dictionary of People and their info
 people = {
