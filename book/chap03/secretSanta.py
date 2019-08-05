@@ -22,21 +22,23 @@ assignments = []
 for i in range(count):
     assignments.append('{} has {}'.format(names[i], shuffled_names[i]))
 
-# Print names, one at a time, clearing the screen each time
+# Print assignments, one at a time, clearing the screen each time
 while True:
     os.system('cls' if os.name == 'nt' else 'clear')
+
     # prints unmbered list of names
     count = 1
-
     for name in names:
         print('{} - {}'.format(count, name))
         count += 1
 
+    # gets users number associated with name from list
     entry = input('Enter your number to see your assignment ("0" if done): ')
     entry = int(entry)
     if entry == 0:  # Exits loop if '0' is entered
         break
 
+    # prints out assignment
     name_index = entry - 1
     output = '\n{}. Write it down (if you have you, buy you something nice;) )'
     print(output.format(assignments[name_index]))
