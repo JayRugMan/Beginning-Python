@@ -39,6 +39,7 @@ while True:
         break
 
     # prints out assignment
+    os.system('cls' if os.name == 'nt' else 'clear')
     name_index = entry - 1
     output = '\n{}. Write it down (if you have you, buy you something nice;) )'
     print(output.format(assignments[name_index]))
