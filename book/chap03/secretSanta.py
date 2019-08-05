@@ -42,4 +42,4 @@ while True:
     name_index = entry - 1
     output = '\n{}. Write it down (if you have you, buy you something nice;) )'
     print(output.format(assignments[name_index]))
-    input('\nType enter to continue clear screen for next person.')
+    input('\nType enter to clear screen and continue with next person.')
