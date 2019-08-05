@@ -35,11 +35,11 @@ while True:
     # gets users number associated with name from list
     entry = input('Enter your number to see your assignment ("0" if done): ')
     entry = int(entry)
+    os.system('cls' if os.name == 'nt' else 'clear')
     if entry == 0:  # Exits loop if '0' is entered
         break
 
     # prints out assignment
-    os.system('cls' if os.name == 'nt' else 'clear')
     name_index = entry - 1
     output = '\n{}. Write it down (if you have you, buy you something nice;) )'
     print(output.format(assignments[name_index]))
