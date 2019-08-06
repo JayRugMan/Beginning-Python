@@ -13,6 +13,7 @@ def areMatches(lst1, lst2):
     for i in range(rng):
         if lst1[cnt] == lst2[cnt]:
             isSame = True
+        cnt += 1
     return isSame
 
 
@@ -56,4 +57,4 @@ while True:
     name_index = entry - 1
     output = '\n{}. Write it down!'
     print(output.format(assignments[name_index]))
-    input('\nType enter to clear screen and continue with next person.')
+    input('\nHit enter to clear screen and continue with next person.')
