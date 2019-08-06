@@ -8,10 +8,10 @@ from random import shuffle
 def areMatches(lst1, lst2):
     # This function makes sure nobody gets assigned themselves
     isSame = False
-    count = 0
+    cnt = 0
     rng = len(lst1)
     for i in range(rng):
-        if lst1[count] == lst2[count]:
+        if lst1[cnt] == lst2[cnt]:
             isSame = True
     return isSame
 
