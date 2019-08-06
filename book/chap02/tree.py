@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3.7
 # Creates a tree of hash symbols based on the "height" entered by the user
 
 
