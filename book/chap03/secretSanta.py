@@ -4,6 +4,18 @@
 import os
 from random import shuffle
 
+
+def areMatches(lst1, lst2):
+    # This function makes sure nobody gets assigned themselves
+    isSame = False
+    count = 0
+    rng = len(lst1)
+    for i in range(rng):
+        if lst1[count] == lst2[count]:
+            isSame = True
+    return isSame
+
+
 # Get names into names list
 names = []
 entry = ''
@@ -14,7 +26,8 @@ while entry != 'done':
 
 # Make a shuffled copy of list
 shuffled_names = names[:]
-shuffle(shuffled_names)  # Not really shuffled until this
+while areMatches(names, shuffled_names):
+    shuffle(shuffled_names)  # Not really shuffled until this
 
 # Match names in lists to make assignments
 count = len(names)
@@ -41,6 +54,6 @@ while True:
 
     # prints out assignment
     name_index = entry - 1
-    output = '\n{}. Write it down (if you have you, buy you something nice;) )'
+    output = '\n{}. Write it down!'
     print(output.format(assignments[name_index]))
     input('\nType enter to clear screen and continue with next person.')
