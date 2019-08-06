@@ -15,24 +15,25 @@ def get_input():
             check = False
         except ValueError:
             check = True
-    while len(tree_char) != 1:  # looking for on character
+    while len(tree_char) != 1:  # looking for one character
         tree_char = input(' Pick a character for the tree: ')
-    while len(stump_char) != 1:  # looking for on character
+    while len(stump_char) != 1:  # looking for one character
         stump_char = input(' Pick a character for the stump: ')
     print()
     return (height, tree_char, stump_char)
 
 
-def print_tree(space, tree, needles):
+def print_tree(height, needles):
     # Loops through each row of the tree, printing out the
     # number of hashes and left-whitespace based on "height"
     blank = ' '
-    while space > 0:
+    tree = 1
+    while height > 0:
         print(' {0:<{buff}}{1:{1}^{tree}}'.format(blank,
                                                   needles,
-                                                  buff=space,
+                                                  buff=height,
                                                   tree=tree))
-        space -= 1
+        height -= 1
         tree += 2
 
 
@@ -42,17 +43,16 @@ def print_stump(height, wood):
     # based on height - no less than 1
     stump_factor = int((height / 7)) or 1
     wood = wood * stump_factor
-    # the stump gains a level for each 9 levels of the tree
+    # the stump gains a level for each 7 levels of the tree
     for row in range(stump_factor):
-        print(' {0:^{width}}'.format(wood, width=(height*2+1)))
+        print(' {0:^{buff}}'.format(wood, buff=(height*2+1)))
     # Print a blank line at the end
     print()
 
 
 def main():
     (height, needles, wood) = get_input()
-    hashes = 1
-    print_tree(height, hashes, needles)
+    print_tree(height, needles)
     print_stump(height, wood)
 
 
