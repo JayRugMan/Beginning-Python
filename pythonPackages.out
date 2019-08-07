@@ -1,3 +1,10 @@
+set up python3 env with the following commands:
+mkdir /home/jason/python3-venv
+python3 -m venv /home/jason/python3-venv
+
+set up the following bash alias:
+alias p3activate='. /home/jason/python3-venv/bin/activate'
+
 libpeas-1.0-python2loader:amd64
 libpython-dev:amd64
 libpython-stdlib:amd64
