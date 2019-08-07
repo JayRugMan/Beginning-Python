@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 print("Paste ascii art below: ")
 
 lines = []

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 # Prints a sentence in a centered "box" of correct width
 
 # Note that the integer division operator (//) only works in python

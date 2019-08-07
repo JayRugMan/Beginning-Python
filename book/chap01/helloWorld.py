@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 name = input("What is your name? ")
 # name = 'Jason'
 print("Hello, " + name + "!")

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 
 noun_prop = 'Enter a proper noun: '
 adj = 'Enter an adjective: '

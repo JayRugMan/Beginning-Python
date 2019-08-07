@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 
 # Print out a date, given year, month, and day as numbers
 months = [

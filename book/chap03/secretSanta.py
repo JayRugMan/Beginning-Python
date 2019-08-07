@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 # This program should help in drawing names for secret santa
 
 import os

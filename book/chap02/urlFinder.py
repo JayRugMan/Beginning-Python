@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 # simple sequence slicing example
 # Split up a URL in one of the following forms:
 # - https://www.something.com

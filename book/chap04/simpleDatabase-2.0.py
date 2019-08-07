@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 # Another simple database, but this one uses the get() method
 # Adding a comment for git test
 

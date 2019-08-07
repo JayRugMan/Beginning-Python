@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.7
+#!/usr/bin/python3
 # Print a formatted price list with a given width
 
 width = int(input('Please enter width: '))
