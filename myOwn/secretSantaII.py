@@ -102,7 +102,6 @@ def main():
     names = getNames()
     shuffled_names = shuffleNames(names)
     assignments = makeAssignments(names, shuffled_names)
-    selection = 1
 
     # Print assignments, one at a time, clearing the screen each time
     while True:
