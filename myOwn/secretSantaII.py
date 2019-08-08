@@ -20,30 +20,32 @@ def getNames():
 
 def areMatches(lst1, lst2):
     # This function makes sure nobody gets assigned themselves
-    isSame = False
+    # by returning 'True' if any index in first list matched
+    # same index in second list, or 'False' if there are no
+    # matches
     rng = len(lst1)
-    for cnt in range(rng):
-        if lst1[cnt] == lst2[cnt]:
-                isSame = True
+    for i in range(rng):
+        if lst1[i] == lst2[i]:
+                return True
 
-    return isSame
+    return False
 
 
 def shuffleNames(nms):
     # Make a shuffled copy of list
-    shuffled_nms = nms[:]
-    while areMatches(nms, shuffled_nms):
-        shuffle(shuffled_nms)  # Not really shuffled until this
+    shuf_nms = nms[:]
+    while areMatches(nms, shuf_nms):
+        shuffle(shuf_nms)  # Not really shuffled until this
 
-    return shuffled_nms
+    return shuf_nms
 
 
-def makeAssignments(nms, shuffled_nms):
+def makeAssignments(nms, shuf_nms):
     # Match names in lists to make assignments
     rng = len(nms)
     assgnmnts = []
-    for cnt in range(rng):
-        assgnmnts.append('{} has {}'.format(nms[cnt], shuffled_nms[cnt]))
+    for i in range(rng):
+        assgnmnts.append('{} has {}'.format(nms[i], shuf_nms[i]))
 
     return assgnmnts
 
