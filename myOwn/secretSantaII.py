@@ -58,34 +58,38 @@ def listNames(nms):
 
 def userSelect(nms):
     # gets users number associated with name from list
-    prompt = 'Enter your number to see your assignment ("0" if done): '
+
+    prompt = 'Enter your number to see your assignment ("0" to exit): '
     rng = range(len(nms) + 1)
-    is_int_in_rng = False  # for checking whether is an integer
+    int_in_rng = False  # for checking whether is an integer in range
 
     # loops while entry is not integer or in range
-    while not is_int_in_rng:
+    while not int_in_rng:
         entry = input(prompt)
         try:
             entry = int(entry)
             if entry in rng:
-                is_int_in_rng = True
+                int_in_rng = True
             else:
                 print("That number's out of range")
         except ValueError:
             print("That's not a number")
 
+    # Clears the screen
     os.system('cls' if os.name == 'nt' else 'clear')
 
     return entry
 
 
 def seeAssignment(nms, assgnmnts):
-    # Gets uses selection and prints out secreSanta assignments
+    # Gets uses selection and prints out secret Santa assignments
+
+    # User selection - exits if '0' is selected
     slctn = userSelect(nms)
     if slctn == 0:
         return slctn
 
-    # prints out assignment
+    # prints assignment
     nm_ndx = slctn - 1
     output = '\n{}. Write it down!'
     print(output.format(assgnmnts[nm_ndx]))
@@ -100,10 +104,13 @@ def main():
 
     # Print assignments, one at a time, clearing the screen each time
     while True:
+        # Clears the screen
         os.system('cls' if os.name == 'nt' else 'clear')
 
+        # prints names list with numbers
         listNames(names)
 
+        # Takes user input and prints corresponding secret Santa assignment
         selection = seeAssignment(names, assignments)
         if selection == 0:  # Exits loop if '0' is entered
             break
