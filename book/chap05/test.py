@@ -4,3 +4,5 @@
 
 print('Hello, ', end='')
 print('world!')
+assert False, 'This is false'
+assert True, 'This is false'
