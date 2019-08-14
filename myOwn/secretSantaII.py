@@ -23,9 +23,8 @@ def areMatches(lst1, lst2):
     # by returning 'True' if any index in first list matched
     # same index in second list, or 'False' if there are no
     # matches
-    rng = len(lst1)
-    for i in range(rng):
-        if lst1[i] == lst2[i]:
+    for name, assignment in zip(lst1, lst2):
+        if name == assignment:
                 return True
 
     return False
@@ -42,10 +41,9 @@ def shuffleNames(nms):
 
 def makeAssignments(nms, shuf_nms):
     # Match names in lists to make assignments
-    rng = len(nms)
     assgnmnts = []
-    for i in range(rng):
-        assgnmnts.append('{} has {}'.format(nms[i], shuf_nms[i]))
+    for nm, assgnmnt in zip(nms, shuf_nms):
+        assgnmnts.append('{} has {}'.format(nm, assgnmnt))
 
     return assgnmnts
 
@@ -53,8 +51,8 @@ def makeAssignments(nms, shuf_nms):
 def listNames(nms):
     # prints unmbered list of names
     count = 1
-    for name in nms:
-        print('{} - {}'.format(count, name))
+    for nm in nms:
+        print('{} - {}'.format(count, nm))
         count += 1
 
 

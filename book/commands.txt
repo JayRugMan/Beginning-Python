@@ -1,3 +1,11 @@
 A List of noteworthy commands from each chapter (starting with chapter 5):
 
 ### Chapter 5 ###
+
+# iterate over key/value pairs
+for key, value in d.items():
+    print('{} corresponds to {}'.format(key, value))
+
+x corresponds to 1
+y corresponds to 2
+z corresponds to 3
