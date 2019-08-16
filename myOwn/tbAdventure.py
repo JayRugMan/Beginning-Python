@@ -29,9 +29,8 @@ def random_password():
     # returns a random password from a list of passwords
     # depends on imported random
 
-    password_list = ['sandman', 'Lockhead', 'Babling brooK',
-                    'Santa Claus', 'Peanut', 'fury flurry',
-                    'clinician', 'random PassWord']
+    password_list = ['sandman', 'Lockhead', 'Babling brooK', 'Santa Claus',
+                     'Peanut', 'fury flurry', 'clinician', 'random PassWord']
 
     p_word_picker = random.randint(0,(len(password_list) - 1))
     pw = password_list[p_word_picker]
@@ -47,7 +46,7 @@ def password_challenge(pw):
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
-    user_guess = raw_input('\nWhat is the password? ')
+    user_guess = input('\nWhat is the password? ')
 
     if user_guess == pw:
         return True
@@ -68,46 +67,45 @@ def build_house():
 
     # Foyer
     room_0 = {'north': 'a locked door',
-             'east': 'a map',
-             'south': 'the exit',
-             'west': 'an open door'}
+              'east': 'a map',
+              'south': 'the exit',
+              'west': 'an open door'}
 
     # Parlor
     room_1 = {'north': 'an open door',
-             'east': 'an open door',
-             'south': 'a wall',
-             'west': 'a wall'}
+              'east': 'an open door',
+              'south': 'a wall',
+              'west': 'a wall'}
 
     # Study
     room_2 = {'north': 'an open door',
-             'east': str_password,
-             'south': 'a wall',
-             'west': 'a wall'}
+              'east': str_password,
+              'south': 'a wall',
+              'west': 'a wall'}
 
     # Master Bedroom
     room_3 = {'north': 'a wall',
-             'east': 'an open door',
-             'south': 'an open door',
-             'west': 'a wall'}
+              'east': 'an open door',
+              'south': 'an open door',
+              'west': 'a wall'}
 
     # Kitchen
     room_4 = {'north': 'a map',
-             'east': 'a wall',
-             'south': 'an open door',
-             'west': 'an open door'}
+              'east': 'a wall',
+              'south': 'an open door',
+              'west': 'an open door'}
 
     # Bathroom
     room_5 = {'north': 'a wall',
-             'east': 'a wall',
-             'south': 'an open door',
-             'west': 'a wall'}
+              'east': 'a wall',
+              'south': 'an open door',
+              'west': 'a wall'}
 
     list_house = [room_0, room_1, room_2,
             room_3, room_4, room_5]
 
-    list_room_names = ['foyer', 'parlor',
-                 'study', 'master bedroom',
-                 'kitchen', 'bathroom']
+    list_room_names = ['foyer', 'parlor', 'study',
+                       'master bedroom', 'kitchen', 'bathroom']
 
     return list_house, list_room_names
 
@@ -246,11 +244,9 @@ def turning(str_user_input, int_old_direction, list_directions):
 
 
 # Function for moving forward
-def forward(
-        str_what_you_see, int_in_which_room, str_feedback,
-        bul_won, int_facing_which_direction, str_house_0_west,
-        str_house_0_north, str_password, str_house_2_east,
-        str_user_input):
+def forward(str_what_you_see, int_in_which_room, str_feedback, bul_won,
+            int_facing_which_direction, str_house_0_west,str_house_0_north,
+            str_password, str_house_2_east, str_user_input):
 
     # takes arguments:
     #   what_you_see
