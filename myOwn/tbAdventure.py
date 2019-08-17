@@ -385,8 +385,8 @@ def main():
                          facing_which_direction, house[0]['west'],
                          house[0]['north'], password,
                          house[2]['east'], user_input)
-        what_you_see = house[in_which_room][directions[facing_which_direction]]
 
+        what_you_see = house[in_which_room][directions[facing_which_direction]]
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
