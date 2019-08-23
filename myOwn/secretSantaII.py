@@ -61,15 +61,14 @@ def userSelect(nms):
 
     prompt = 'Enter your number to see your assignment ("0" to exit): '
     rng = range(len(nms) + 1)
-    int_in_rng = False  # for checking whether is an integer in range
 
     # loops while entry is not integer or in range
-    while not int_in_rng:
+    while True:
         entry = input(prompt)
         try:
             entry = int(entry)
             if entry in rng:
-                int_in_rng = True
+                break
             else:
                 print("That number's out of range")
         except ValueError:
