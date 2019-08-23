@@ -43,9 +43,14 @@ def shuffleNames(nms):
 
 def makeAssignments(nms, shuf_nms):
     # Match names in lists to make assignments
+    filter = ['and', '&', '+']
     assgnmnts = []
     for nm, assgnmnt in zip(nms, shuf_nms):
-        assgnmnts.append('{} has {}'.format(nm, assgnmnt))
+        if any([True for f in filter if f in nm]):  #For grammer :)
+            toBe = 'have'
+        else:
+            toBe = 'has'
+        assgnmnts.append('{} {} {}'.format(nm, toBe, assgnmnt))
 
     return assgnmnts
 
