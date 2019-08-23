@@ -8,12 +8,14 @@ from random import shuffle
 def getNames():
     # Get names into names list
     nms = []
-    entry = ''
     prompt = 'Enter name (or "done" when done): '
-    while entry != 'done':
+
+    while True:
         entry = input(prompt)
         if entry != 'done' and entry != '':
             nms.append(entry)
+        if entry == 'done':
+            break
 
     return nms
 
@@ -50,10 +52,8 @@ def makeAssignments(nms, shuf_nms):
 
 def listNames(nms):
     # prints unmbered list of names
-    count = 1
-    for nm in nms:
-        print('{} - {}'.format(count, nm))
-        count += 1
+    for lst_num, nm in enumerate(nms, 1):
+        print('{} - {}'.format(lst_num, nm))
 
 
 def userSelect(nms):
@@ -83,12 +83,12 @@ def userSelect(nms):
 def seeAssignment(nms, assgnmnts):
     # Gets uses selection and prints out secret Santa assignments
 
-    # User selection - exits if '0' is selected
+    # User selection - exits if 0 is selected
     slctn = userSelect(nms)
     if slctn == 0:
         return slctn
 
-    # prints assignment
+    # prints assignment unless 0 is entered
     nm_ndx = slctn - 1
     output = '\n{}. Write it down!'
     print(output.format(assgnmnts[nm_ndx]))
