@@ -1,0 +1,63 @@
+A List of noteworthy commands from each chapter (starting with chapter 5):
+
+### Chapter 5 - Conditionals, Loops, and Some Other Statements ###
+
+# Two lines of code for one line of output
+print('Hello, ', end='')
+print('world!')
+
+# Importing as something else
+from math import sqrt as squareRoot
+
+# Sequence unpacking and switching variable assignments
+>>> x, y, z = 1, 2, 3
+>>> print(x, y, z)
+1 2 3
+>>> x, y = y, x
+>>> print(x, y, z)
+2 1 3
+>>> values = 1, 2, 3
+>>> values
+(1, 2, 3)
+>>> x, y, z = values
+>>> print(x, y, z)
+1 2 3
+>>> scoundrel = {'name': 'Robin', 'girlfriend': 'Marion'}
+>>> key, value = scoundrel.popitem()
+>>> scoundrel
+{'name': 'Robin'}
+>>> key
+'girlfriend'
+>>> value
+'Marion'
+
+# Augmented assignments
+>>> fnord = 'foo'
+>>> fnord += 'bar'
+>>> fnord *= 2
+>>> fnord
+'foobarfoobar'
+
+# Booleans
+>>> True + False + 42
+43
+>>> bool('I think, therefore I am')
+True
+>>> bool('')
+False
+>>> bool(42)
+True
+>>> bool(0)
+False
+>>> name = input('Please enter your name: ') or '<unknown>'
+Please enter your name:
+>>> name
+'<unknown>'
+
+# iterate over key/value pairs
+for key, value in d.items():
+    print('{} corresponds to {}'.format(key, value))
+
+x corresponds to 1
+y corresponds to 2
+z corresponds to 3
