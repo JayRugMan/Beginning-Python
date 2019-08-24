@@ -53,6 +53,35 @@ False
 Please enter your name:
 >>> name
 '<unknown>'
+>>> x = [1, 2, 3]
+>>> y = [2, 4]
+>>> x is not y
+True
+>>> del x[2]
+>>> y[1] = 1
+>>> y.reverse()
+>>> x == y
+True
+>>> x is y
+False
+>>> number = int(input('Enter a number between 1 and 10: '))
+Enter a number between 1 and 10: 4
+>>> if 1 <= number <= 10:
+...     print('Thank you')
+... else:
+...     print('Nice Try')
+...
+Thank you
+
+# Assertions
+>>> age = 10
+>>> assert 0 < age < 100, 'The age must be realistic'
+>>> age = -1
+>>> assert 0 < age < 100, 'The age must be realistic'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError: The age must be realistic
+
 
 # iterate over key/value pairs
 for key, value in d.items():
@@ -61,3 +90,31 @@ for key, value in d.items():
 x corresponds to 1
 y corresponds to 2
 z corresponds to 3
+
+# Parallel Iteration
+>>> names = ['anne', 'beth', 'george', 'damon']
+>>> ages = [12, 45, 32, 102]
+>>> for name, age, in zip(names, ages):
+...     print('{} is {} years old.'.format(name, age))
+...
+anne is 12 years old.
+beth is 45 years old.
+george is 32 years old.
+damon is 102 years old.
+
+# Numbered Iteration
+>>> strings = ['xxx', 'jaxxx', 'jason', 'Elijah', 'Isaiah']
+>>> for index, string in enumerate(strings):
+...     if 'xxx' in string:
+...             strings[index] = '[censored]'
+...
+>>> strings
+['[censored]', '[censored]', 'jason', 'Elijah', 'Isaiah']
+>>> names = ['jason', 'kara', 'isaiah', 'eli']
+>>> for list_num, name in enumerate(names, 1):
+...     print('{} - {}'.format(list_num, name))
+...
+1 - jason
+2 - kara
+3 - isaiah
+4 - eli
