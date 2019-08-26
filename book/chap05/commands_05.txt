@@ -118,3 +118,69 @@ damon is 102 years old.
 2 - kara
 3 - isaiah
 4 - eli
+
+# List Comprehension
+>>> [x*x for x in range(10)]
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+>>> [x*x for x in range(10) if x % 3 == 0]
+[0, 9, 36, 81]
+>>> [(x, y) for x in range(3) for y in range(3)]
+[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+>>> girls = ['alise', 'bernice', 'clarice']
+>>> boys = ['chris', 'arnold', 'bob']
+>>> [b+'+'+g for b in boys for g in girls if b[0] == g[0]]
+['chris+clarice', 'arnold+alise', 'bob+bernice']
+>>> letterGirls = {}
+>>> for girl in girls:
+...     letterGirls.setdefault(girl[0], []).append(girl)
+...
+>>> letterGirls
+{'a': ['alise'], 'b': ['bernice'], 'c': ['clarice']}
+>>> print([b+'+'+g for b in boys for g in letterGirls[b[0]]])
+['chris+clarice', 'arnold+alise', 'bob+bernice']
+
+# exec - preserves namespace in a pre-defined dictionary
+>>> scope = {}
+>>> exec('myPhrase = "Hello, world!"; print(myPhrase)', globals(), scope)
+Hello, world!
+>>> myPhrase
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'myPhrase' is not defined
+>>> scope['myPhrase']
+'Hello, world!'
+>>> from math import sqrt
+>>> sqrt(9)
+3.0
+>>> exec('sqrt = 1', globals(), scope)
+>>> sqrt(9)
+3.0
+>>> scope['sqrt']
+1
+>>> len(scope)
+2
+>>> scope.keys()
+dict_keys(['myPhrase', 'sqrt'])
+
+# eval - also protects namespaces if spcified
+>>> eval(input("Enter an arithmetic expression: "))
+Enter an arithmetic expression: 4 + 3 * 2
+10
+>>> girls
+['alise', 'bernice', 'clarice']
+>>> eval(input("Enter command: "))
+Enter command: 'alise' in girls
+True
+>>> scope = {}
+>>> scope['x'] = 2
+>>> scope['y'] = 3
+>>> eval('x * y', scope)
+6
+>>> x
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'x' is not defined
+>>> y
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'y' is not defined
