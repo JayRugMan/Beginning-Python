@@ -25,9 +25,9 @@ def areMatches(lst1, lst2):
     # by returning 'True' if any index in first list matched
     # same index in second list, or 'False' if there are no
     # matches
-    for name, assignment in zip(lst1, lst2):
-        if name == assignment:
-                return True
+    for itm1, itm2 in zip(lst1, lst2):
+        if itm1 == itm2:
+            return True
 
     return False
 
@@ -69,9 +69,8 @@ def userSelect(nms):
 
     # loops while entry is not integer or in range
     while True:
-        entry = input(prompt)
         try:
-            entry = int(entry)
+            entry = int(input(prompt))
             if entry in rng:
                 break
             else:
