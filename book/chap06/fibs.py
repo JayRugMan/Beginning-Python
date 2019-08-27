@@ -16,4 +16,5 @@ def fibSeq(num):
 
 
 num = int(input('How many Fibonacci numbers do you want? '))
-print(fibs(num))
+[print(nm, end=' - ') for nm in fibSeq(num)]
+print()
