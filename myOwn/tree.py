@@ -6,7 +6,7 @@ def get_input():
     # Gets number of rows from user and puts into argument height
     prompt = {'ht': ' How tall should the tree be: ',
               'ndls': ' Pick a character for the needles: ',
-              'tnk': ' Pick a character for the stump: '}
+              'tnk': ' Pick a character for the trunk: '}
     print()
     # make sure entry is an integer
     while True:
