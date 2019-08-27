@@ -4,56 +4,59 @@
 
 def get_input():
     # Gets number of rows from user and puts into argument height
-    tree_char = 'vv'
-    stump_char = '##'
-    check = True
+    prompt = {'ht': ' How tall should the tree be: ',
+              'ndls': ' Pick a character for the needles: ',
+              'tnk': ' Pick a character for the stump: '}
     print()
-    while check:  # make sure entry is an integer
-        height = input(' How tall should the tree be: ')
+    # make sure entry is an integer
+    while True:
         try:
-            height = int(height)
-            check = False
+            height = int(input(prompt['ht']))
+            break
         except ValueError:
-            check = True
-    while len(tree_char) != 1:  # looking for one character
-        tree_char = input(' Pick a character for the tree: ')
-    while len(stump_char) != 1:  # looking for one character
-        stump_char = input(' Pick a character for the stump: ')
+            continue
+    # looking for one character
+    while True:
+        needles = input(prompt['ndls'])
+        if len(needles) == 1: break
+    # looking for one character
+    while True:
+        trunk = input(prompt['tnk'])
+        if len(trunk) == 1: break
     print()
-    return (height, tree_char, stump_char)
+    return (height, needles, trunk)
 
 
-def print_tree(height, needles):
+def print_tree(level, needles):
     # Loops through each row of the tree, printing out the
     # number of hashes and left-whitespace based on "height"
+    string = ' {0:<{buff}}{1:{1}^{tree}}'
     blank = ' '
     tree = 1
-    while height > 0:
-        print(' {0:<{buff}}{1:{1}^{tree}}'.format(blank,
-                                                  needles,
-                                                  buff=height,
-                                                  tree=tree))
-        height -= 1
+    while level > 0:
+        print(string.format(blank, needles, buff=level, tree=tree))
+        level -= 1
         tree += 2
 
 
-def print_stump(height, wood):
+def print_stump(level, trunk):
     # prints stump
     # Create a stump factor to determine the size of the stump
     # based on height - no less than 1
-    stump_factor = int((height / 7)) or 1
-    wood = wood * stump_factor
+    string = ' {0:^{buff}}'
+    stump_factor = int((level / 7)) or 1
+    trunk = trunk * stump_factor
     # the stump gains a level for each 7 levels of the tree
     for row in range(stump_factor):
-        print(' {0:^{buff}}'.format(wood, buff=(height*2+1)))
+        print(string.format(trunk, buff=(level*2+1)))
     # Print a blank line at the end
     print()
 
 
 def main():
-    (height, needles, wood) = get_input()
+    (height, needles, trunk) = get_input()
     print_tree(height, needles)
-    print_stump(height, wood)
+    print_stump(height, trunk)
 
 
 main()
