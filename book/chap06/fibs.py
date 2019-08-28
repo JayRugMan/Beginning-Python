@@ -12,8 +12,9 @@ def fibSeq(num):
     for i in range(num-2):
         fibs.append(fibs[-2] + fibs[-1])
 
-    return fibs
+    fibs_string = ', '.join(map(str, fibs))
+    return fibs_string
 
 
 num = int(input('How many Fibonacci numbers do you want? '))
-print(', '.join(map(str, fibSeq(num))))
+print(fibSeq(num))
