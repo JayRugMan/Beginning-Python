@@ -22,7 +22,7 @@ def getNames():
 
 def areMatches(lst1, lst2):
     # This function makes sure nobody gets assigned themselves
-    # by returning 'True' if any index in first list matched
+    # by returning 'True' if any index in first list matches
     # same index in second list, or 'False' if there are no
     # matches
     for itm1, itm2 in zip(lst1, lst2):
@@ -33,8 +33,10 @@ def areMatches(lst1, lst2):
 
 
 def shuffleNames(nms):
-    # Make a shuffled copy of list
+    # Copies list of names and shuffles the copy
     shuf_nms = nms[:]
+
+    # loops until all no indexes match between lists
     while areMatches(nms, shuf_nms):
         shuffle(shuf_nms)  # Not really shuffled until this
 
@@ -42,11 +44,13 @@ def shuffleNames(nms):
 
 
 def makeAssignments(nms, shuf_nms):
-    # Match names in lists to make assignments
+    # Matches names in lists to make assignments
     filter = ['and', '&', '+']
     assgnmnts = []
     for nm, assgnmnt in zip(nms, shuf_nms):
-        if any([True for f in filter if f in nm]):  #For grammer :)
+        # if the name is really two people (contains any form of "and"), the
+        # "to be" verb is conjegated accordingly - For good grammer :)
+        if any([True for f in filter if f in nm]):
             toBe = 'have'
         else:
             toBe = 'has'
@@ -55,16 +59,9 @@ def makeAssignments(nms, shuf_nms):
     return assgnmnts
 
 
-def listNames(nms):
-    # prints unmbered list of names
-    for lst_num, nm in enumerate(nms, 1):
-        print('{} - {}'.format(lst_num, nm))
-
-
 def userSelect(nms):
     # gets users number associated with name from list
-
-    prompt = 'Enter your number to see your assignment ("0" to exit): '
+    prompt = '\nEnter your number to see your assignment ("0" to exit): '
     rng = range(len(nms) + 1)
 
     # loops while entry is not integer or in range
@@ -74,48 +71,43 @@ def userSelect(nms):
             if entry in rng:
                 break
             else:
-                print("That number's out of range")
+                print("\tWoa cowboy, that number's out of range")
         except ValueError:
-            print("That's not a number")
-
-    # Clears the screen
-    os.system('cls' if os.name == 'nt' else 'clear')
+            print("\tHey, that's not a number")
 
     return entry
 
 
-def seeAssignment(nms, assgnmnts):
-    # Gets uses selection and prints out secret Santa assignments
+def giveResults(nms, assgnmnts):
+    # Print assignments, one at a time, clearing the screen each time
+    while True:
+        # Clears the screen
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    # User selection - exits if 0 is selected
-    slctn = userSelect(nms)
-    if slctn == 0:
-        return slctn
+        # Prints numbered list of names
+        print()
+        for lst_num, nm in enumerate(nms, 1):
+            print('\t{} - {}'.format(lst_num, nm))
 
-    # prints assignment unless 0 is entered
-    nm_ndx = slctn - 1
-    output = '\n{}. Write it down!'
-    print(output.format(assgnmnts[nm_ndx]))
-    input('\nHit enter to clear screen and continue with next person.')
+        # Asks for selection verifies it's a number in range of options
+        selection = userSelect(nms)
+        # Exits if 0 is selected
+        if selection == 0:
+            break
+
+        # If selection is accepted and not zero,
+        # the name's assignment is printed
+        nm_ndx = selection - 1
+        output = '\n{}. Write it down!'
+        print(output.format(assgnmnts[nm_ndx]))
+        input('\nHit enter to clear screen and continue with next person.')
 
 
 def main():
     names = getNames()
     shuffled_names = shuffleNames(names)
     assignments = makeAssignments(names, shuffled_names)
-
-    # Print assignments, one at a time, clearing the screen each time
-    while True:
-        # Clears the screen
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-        # prints names list with numbers
-        listNames(names)
-
-        # Takes user input and prints corresponding secret Santa assignment
-        selection = seeAssignment(names, assignments)
-        if selection == 0:  # Exits loop if '0' is entered
-            break
+    giveResults(names, assignments)
 
 
 main()
