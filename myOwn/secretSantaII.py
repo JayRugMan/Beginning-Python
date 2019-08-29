@@ -61,7 +61,7 @@ def makeAssignments(nms, shuf_nms):
 
 def userSelect(nms):
     # gets users number associated with name from list
-    prompt = '\nEnter your number to see your assignment ("0" to exit): '
+    prompt = 'Enter your number to see your assignment ("0" to exit): '
     rng = range(len(nms) + 1)
 
     # loops while entry is not integer or in range
@@ -87,7 +87,7 @@ def giveResults(nms, assgnmnts):
         # Prints numbered list of names
         print()
         for lst_num, nm in enumerate(nms, 1):
-            print('\t{} - {}'.format(lst_num, nm))
+            print(' {} - {}'.format(lst_num, nm))
 
         # Asks for selection, verifies it's a number in range of options
         selection = userSelect(nms)
