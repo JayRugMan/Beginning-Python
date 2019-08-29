@@ -91,7 +91,7 @@ def giveResults(nms, assgnmnts):
     nm_lst_str = [' {} - {}'.format(l, n) for l, n in enumerate(nms, 1)]
     nm_lst_str = '\n'.join(nm_lst_str)
 
-    # Loops until selection is 0, then loop breaks
+    # Selecting 0 breaks out of the while loop
     while True:
         # Clears the screen
         os.system('cls' if os.name == 'nt' else 'clear')
