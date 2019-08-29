@@ -22,4 +22,117 @@ Help on function getNames in module __main__:
 getNames()
     Allows user to input names and return them in a list
 
+# Can I change Parameters? Short answer, yes, any mutable object can be changed
+>>> def try_to_change(n):
+...     n = 'Mr. Gumby'
+...
 >>>
+>>> name = 'Mrs. Entity'
+>>> try_to_change(name)
+>>> name
+'Mrs. Entity'
+>>> def change(n):
+...     n[0] = 'Mr. Gumby'
+...
+>>> names = getNames()
+Enter name (or "done" when done): Mrs. Entity
+Enter name (or "done" when done): Mrs. Thing
+Enter name (or "done" when done): done
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> change(names)
+>>> names
+['Mr. Gumby', 'Mrs. Thing']
+>>> names = getNames()
+Enter name (or "done" when done): Mrs. Entity
+Enter name (or "done" when done): Mrs. Thing
+Enter name (or "done" when done): done
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> change(names[:]) # passes a copy of the list
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> me
+'Jason Ruggles Hardman'
+>>> wife
+'Kara Lyn Hardman'
+>>> storage = {}
+>>> storage['first'] = {}
+>>> storage['middle'] = {}
+>>> storage['last'] = {}
+>>> storage['first'].setdefault('Hardman', []).append(me)
+>>> storage['middle'].setdefault('Ruggles', []).append(me)
+>>> storage['last'].setdefault('Hardman', []).append(me)
+>>> storage
+{'first': {'Hardman': ['Jason Ruggles Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman']}}
+>>> storage['first'].setdefault('Kara', []).append(wife)
+>>> storage['middle'].setdefault('Lyn', []).append(wife)
+>>> storage['last'].setdefault('Hardman', []).append(wife)
+>>> storage
+{'first': {'Hardman': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman']}}
+>>> storage['last']['Hardman']
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
+>>>
+>>> def init(data):
+...     data['first'] = {}
+...     data['middle'] = {}
+...     data['last'] = {}
+...
+>>> storage = {}
+>>> init(storage)
+>>> storage
+{'first': {}, 'middle': {}, 'last': {}}
+>>> def updateMe(name, store): ## before I got to the similar script in the book...
+...     lst_name = name.split()
+...     if len(lst_name) == 2:
+...         lst_name.insert(1, 'none')
+...     store['first'].setdefault(lst_name[0], []).append(name)
+...     store['middle'].setdefault(lst_name[1], []).append(name)
+...     store['last'].setdefault(lst_name[2], []).append(name)
+...
+>>> updateMe(me, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman']}}
+>>> updateMe(wife, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman']}}
+>>> mom = 'Carolyn Briggs'
+>>> updateMe(mom, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman'], 'Carolyn': ['Carolyn Briggs']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman'], 'none': ['Carolyn Briggs']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman'], 'Briggs': ['Carolyn Briggs']}}
+>>> random = 'Joe Shmoe'
+>>> updateMe(random, storage)
+>>> storage['middle']['none']
+['Carolyn Briggs', 'Joe Shmoe']
+>>>
+>>> def lookup(data, label, name):
+...     return data[label].get(name)
+...
+>>> lookup(storage, 'middle', 'none')
+['Carolyn Briggs', 'Joe Shmoe']
+>>> lookup(storage, 'last', 'Hardman')
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
+>>> lookup(storage, 'last', 'Smith')
+>>>
+>>> def store(data, full_name):  ## From the book
+...     names = full_name.split()
+...     if len(names) == 2: names.insert(1, '')
+...     labels = 'first', 'middle', 'last'
+...     for label, name in zip(labels, names):
+...         people = lookup(data, label, name)
+...         if people:
+...             people.append(full_name)
+...         else:
+...             data[label][name] = [full_name]
+...
+>>> myNames = {}
+>>> init(myNames)
+>>> store(myNames, me)
+>>> store(myNames, wife)
+>>> store(myNames, mom)
+>>> store(myNames, random)
+>>> lookup(myNames, 'middle', None)
+>>> lookup(myNames, 'middle', '')
+['Carolyn Briggs', 'Joe Shmoe']
+>>> lookup(myNames, 'last', 'Hardman')
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
