@@ -6,7 +6,7 @@ from random import shuffle
 
 
 def getNames():
-    'Get names into names list'
+    'Gets names into names list'
 
     nms = []
     prompt = 'Enter name (or "done" when done): '
