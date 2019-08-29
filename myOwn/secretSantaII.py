@@ -6,7 +6,8 @@ from random import shuffle
 
 
 def getNames():
-    # Get names into names list
+    'Get names into names list'
+
     nms = []
     prompt = 'Enter name (or "done" when done): '
 
@@ -21,10 +22,11 @@ def getNames():
 
 
 def areMatches(lst1, lst2):
-    # This function makes sure nobody gets assigned themselves
-    # by returning 'True' if any index in first list matches
-    # same index in second list, or 'False' if there are no
-    # matches
+    """This function makes sure nobody gets assigned themselves
+    by returning 'True' if any index in first list matches
+    same index in second list, or 'False' if there are no
+    matches"""
+
     for itm1, itm2 in zip(lst1, lst2):
         if itm1 == itm2:
             return True
@@ -33,10 +35,12 @@ def areMatches(lst1, lst2):
 
 
 def shuffleNames(nms):
-    # Copies list of names and shuffles the copy
+    'Takes a list and returns the list shuffled'
+
+    # Makes a copy of the list to be shuffled
     shuf_nms = nms[:]
 
-    # loops until all no indexes match between lists
+    # loops until no indexes match between lists
     while areMatches(nms, shuf_nms):
         shuffle(shuf_nms)  # Not really shuffled until this
 
@@ -44,7 +48,8 @@ def shuffleNames(nms):
 
 
 def makeAssignments(nms, shuf_nms):
-    # Matches names in lists to make assignments
+    'Matches names in lists to make assignments'
+
     filter = ['and', '&', '+']
     assgnmnts = []
     for nm, assgnmnt in zip(nms, shuf_nms):
@@ -60,18 +65,19 @@ def makeAssignments(nms, shuf_nms):
 
 
 def userSelect(nms):
-    # gets users number associated with name from list
+    'Gets users number associated with name from list'
+
     prompt = 'Enter your number to see your assignment ("0" to exit): '
-    rng = range(len(nms) + 1)
+    rng = len(nms)
 
     # loops while entry is not integer or in range
     while True:
         try:
             entry = int(input(prompt))
-            if entry in rng:
+            if entry in range(rng + 1):
                 break
             else:
-                print("\tWoa cowboy, that number's out of range")
+                print("\tWoa cowboy!! Select between 0 and {}".format(rng))
         except ValueError:
             print("\tHey, that's not a number")
 
@@ -79,15 +85,19 @@ def userSelect(nms):
 
 
 def giveResults(nms, assgnmnts):
-    # Print assignments, one at a time, clearing the screen each time
+    'Prints assignments, one at a time, clearing the screen each time'
+
+    # creates a numbered list, then a list-string separated by line-feed
+    nm_lst_str = [' {} - {}'.format(l, n) for l, n in enumerate(nms, 1)]
+    nm_lst_str = '\n'.join(nm_lst_str)
+
+    # Loops until selection is 0, then loop breaks
     while True:
         # Clears the screen
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        # Prints numbered list of names
-        print()
-        for lst_num, nm in enumerate(nms, 1):
-            print(' {} - {}'.format(lst_num, nm))
+        # Prints numbered list of names with spaces above and below
+        print('\n{}\n'.format(nm_lst_str))
 
         # Asks for selection, verifies it's a number in range of options
         selection = userSelect(nms)
@@ -104,6 +114,8 @@ def giveResults(nms, assgnmnts):
 
 
 def main():
+    'Main Function'
+
     names = getNames()
     shuffled_names = shuffleNames(names)
     assignments = makeAssignments(names, shuffled_names)
