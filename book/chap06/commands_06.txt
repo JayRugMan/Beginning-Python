@@ -1,1 +1,25 @@
 ### Chapter 6, Abstraction
+
+# Documenting Functions
+>>> def getNames():
+...     'Allows user to input names and return them in a list'
+...     nms = []
+...     prompt = 'Enter name (or "done" when done): '
+...     while True:
+...         entry = input(prompt)
+...         if entry != 'done' and entry != '':
+...             nms.append(entry)
+...         if entry == 'done':
+...             break
+...     return nms
+...
+>>> getNames.__doc__
+'Allows user to input names and return them in a list'
+>>> help(getNames)
+
+Help on function getNames in module __main__:
+
+getNames()
+    Allows user to input names and return them in a list
+
+>>>

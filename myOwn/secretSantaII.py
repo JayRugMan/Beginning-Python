@@ -89,7 +89,7 @@ def giveResults(nms, assgnmnts):
         for lst_num, nm in enumerate(nms, 1):
             print('\t{} - {}'.format(lst_num, nm))
 
-        # Asks for selection verifies it's a number in range of options
+        # Asks for selection, verifies it's a number in range of options
         selection = userSelect(nms)
         # Exits if 0 is selected
         if selection == 0:
