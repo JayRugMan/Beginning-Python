@@ -64,11 +64,10 @@ def makeAssignments(nms, shuf_nms):
     return assgnmnts
 
 
-def userSelect(nms):
+def userSelect(rng):
     'Gets users number associated with name from list'
 
     prompt = 'Enter your number to see your assignment ("0" to exit): '
-    rng = len(nms)
 
     # loops while entry is not integer or in range
     while True:
@@ -100,7 +99,7 @@ def giveResults(nms, assgnmnts):
         print('\n{}\n'.format(nm_lst_str))
 
         # Asks for selection, verifies it's a number in range of options
-        selection = userSelect(nms)
+        selection = userSelect(len(nms))
         # Exits if 0 is selected
         if selection == 0:
             break
