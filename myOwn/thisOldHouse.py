@@ -112,17 +112,17 @@ def define_player(rooms, directions):  ##JH UPDATED and USED
     return player
 
 
-def hud(house, room, direction):  ##JH UPDATED and USED
+def hud(house, player):  ##JH UPDATED and USED
     """Prints HUD with which room your in, which direction you're facing, What's
     straight ahead, and what the feedback is from the host of the house"""
 
     os.system('cls' if os.name == 'nt' else 'clear')
-    ahead = house[room][direction]
+    ahead = house[player['room']][player['direction']]
     feedback = house['feedback']
 
     print("""=== This Old House ===
 
-You are in the {} facing {}
+You are in the {room} facing {direction}
 
 straight ahead is {}
 
@@ -134,7 +134,7 @@ q = quit
 
 "{}"
 "What would you like to do?"
-""".format(room, direction, ahead, feedback))
+""".format(**player, ahead, feedback))
 
     return
 
@@ -347,14 +347,14 @@ def main():
     # Enter gameplay loop
     while True:
         # Heads Up Display
-        hud(house, room, direction)
+        hud(house, player)
         # Get User input
-        user_input = input(': ').lower()
-        if user_input == 'q':  # quit if q
+        player['input'] = input(': ').lower()
+        if player['input'] == 'q':  # quit if q
             break
-        elif user_input == 'l' or user_input == 'r':  # turn in l or r
+        elif player['input'] == 'l' or player['input'] == 'r':  # turn in l or r
             direction = turn(house, directions, direction, user_input)
-        elif user_input == 'f':  # move forward or interact with what's ahead
+        elif player['input'] == 'f':  # interact with what's ahead
             room = forward(house, rooms, room, direction)
 
     os.system('cls' if os.name == 'nt' else 'clear')
