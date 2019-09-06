@@ -29,10 +29,8 @@ def random_password():  ##JH UPDATED and USED
 
     password_list = ['sandman', 'Lockhead', 'Babling brooK', 'Santa Claus',
                      'Peanut', 'fury flurry', 'clinician', 'random PassWord']
-
     p_word_picker = random.randint(0, (len(password_list) - 1))
     pw = password_list[p_word_picker]
-
     return pw
 
 
@@ -92,7 +90,6 @@ def build_house(password):  ##JH UPDATED and USED
     rooms = ['foyer', 'parlor', 'study',
              'master bedroom', 'kitchen', 'bathroom']
     directions = ['north', 'east', 'south', 'west']
-
     return house, room_connections, rooms, directions
 
 
@@ -106,7 +103,6 @@ def define_player(rooms, directions):  ##JH UPDATED and USED
         'facing': direction,
         'won': False
     }
-
     return player
 
 
@@ -117,7 +113,6 @@ def hud(house, player):  ##JH UPDATED and USED
     os.system('cls' if os.name == 'nt' else 'clear')
     ahead = house[player['room']][player['facing']]
     feedback = house['feedback']
-
     print("""=== This Old House ===
 
 You are in the {room} facing {facing}
@@ -133,7 +128,6 @@ q = quit
 "{fb}"
 "What would you like to do?"
 """.format(**player, hd=ahead, fb=feedback))
-
     return
 
 
@@ -142,7 +136,6 @@ def turn(house, player, directions):  ##JH UPDATED and USED
 
     last_index = len(directions) - 1
     dir_index = directions.index(player['facing'])
-
     if player['input'] == 'l':
         if dir_index == 0:
             player['facing'] = directions[last_index]
@@ -153,9 +146,7 @@ def turn(house, player, directions):  ##JH UPDATED and USED
             player['facing'] = directions[dir_index+1]
         else:
             player['facing'] = directions[0]
-
     house['feedback'] = 'take a look around'
-
     return
 
 
@@ -198,7 +189,6 @@ def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
     """Resonds to the users selection to move forward"""
 
     ahead = house[player['room']][player['facing']]
-
     if ahead == 'an open door':
         # updates player's room based on infrastructure dictionary
         player['room'] = infrastructure[player['room']][player['facing']]
@@ -214,7 +204,6 @@ def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
         # given that you are in a new room
         else:
             house['feedback'] = "You're in a new room"
-
     # if the door is locked and you move forward,
     # you are challenged for a password
     elif ahead == 'a locked door':
@@ -228,25 +217,20 @@ def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
         else:
             house['feedback'] = 'You guessed wrong. It is written anew.'
             house['study']['east'] = random_password()
-
     # if you see a wall, you're scolded, but given hope
     elif ahead == 'a wall':
         house['feedback'] = "You can't walk through walls yet"
-
     # if you see an exit, you leave the game by going forward
     elif ahead == 'the exit':
         player['input'] = 'q'
-
     # the door to the parlor - or rest of the
     # house - closed once you enter the bathroom
     elif ahead == 'a closed door':
         house['feedback'] = 'You have your treasure, please leave.'
-
     # if you see a map, you get to find where you are
     elif ahead == 'a map':
         display_map()
         house['feedback'] = "don't get lost now"
-
     return
 
 
@@ -271,7 +255,6 @@ def main():
             forward(house, player, infrastructure, rooms)
         if player['input'] == 'q':  # quit if q
             break
-
     os.system('cls' if os.name == 'nt' else 'clear')
     if player['won']:
         print("\n\tCongradulations!!\n\tSpend it on charity, will ya?!\n")
