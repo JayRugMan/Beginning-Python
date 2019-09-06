@@ -37,7 +37,8 @@ def random_password():  ##JH UPDATED and USED
 
 
 def build_house(password):  ##JH UPDATED and USED
-    """Creates the house dictionary, as well as rooms and directions list"""
+    """Creates the house dictionary, a dictionary on how the rooms connect,
+    and rooms and directions list"""
 
     house = {
         'foyer': {
@@ -72,11 +73,27 @@ def build_house(password):  ##JH UPDATED and USED
             'west': 'a wall'},
         'feedback': 'Welcome to my old house.',  # updated as needed throughout
     }
+    room_connections = {  # Used for changing rooms
+        'foyer': {
+            'north': 'bathroom',
+            'west': 'parlor'},
+        'parlor': {
+            'east': 'foyer',
+            'north': 'kitchen'},
+        'study': {'north': 'master bedroom'},
+        'master bedroom': {
+            'east': 'kitchen',
+            'south': 'study'},
+        'kitchen': {
+            'south': 'parlor',
+            'west': 'master bedroom'},
+        'bathroom': {'south': 'foyer'}
+    }
     rooms = ['foyer', 'parlor', 'study',
              'master bedroom', 'kitchen', 'bathroom']
     directions = ['north', 'east', 'south', 'west']
 
-    return house, rooms, directions
+    return house, room_connections, rooms, directions
 
 
 def define_player(rooms, directions):  ##JH UPDATED and USED
@@ -142,15 +159,10 @@ def turn(house, player, directions):  ##JH UPDATED and USED
     return
 
 
-##JH def clean_input(input_type):
-##JH     """ Cleans input based on what i """
-
-
 def display_map():  ##JH UPDATED and USED
     """Clears the screen and displays map until enter is pressed"""
 
     os.system('cls' if os.name == 'nt' else 'clear')
-
     print("""                 === MAP of my house ===
 
                          -NORTH-
@@ -182,47 +194,14 @@ def password_challenge(house):  ##JH UPDATED and USED
         return False
 
 
-def change_rooms(player):  ##JH UPDATED and USE
-    """Moves you to a new room"""
-
-    if player['room'] == 'foyer':
-        if player['facing'] == 'north':
-            player['room'] = 'bathroom'
-        elif player['facing'] == 'west':
-            player['room'] = 'parlor'
-
-    elif player['room'] == 'parlor':
-        if player['facing'] == 'east':
-            player['room'] = 'foyer'
-        elif player['facing'] == 'north':
-            player['room'] = 'kitchen'
-
-    elif player['room'] == 'study':
-        player['room'] = 'master bedroom'
-
-    elif player['room'] == 'master bedroom':
-        if player['facing'] == 'east':
-            player['room'] = 'kitchen'
-        elif player['facing'] == 'south':
-            player['room'] = 'study'
-
-    elif player['room'] == 'kitchen':
-        if player['facing'] == 'south':
-            player['room'] = 'parlor'
-        elif player['facing'] == 'west':
-            player['room'] = 'master bedroom'
-
-    elif player['room'] == 'bathroom':
-        player['room'] = 'foyer'
-
-
-def forward(house, player, rooms):  ##JH UDATED and USED
+def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
     """Resonds to the users selection to move forward"""
 
     ahead = house[player['room']][player['facing']]
 
     if ahead == 'an open door':
-        change_rooms(player)
+        # updates player's room based on infrastructure dictionary
+        player['room'] = infrastructure[player['room']][player['facing']]
         # if you make it into the bathroom
         # you win and can only go into room 1 and exit
         # your direction also changes to south
@@ -271,51 +250,13 @@ def forward(house, player, rooms):  ##JH UDATED and USED
     return
 
 
-# Main function
-def main_old():
-
-    # call function to initialize the following arguments
-    (directions, facing_which_direction, in_which_room, house, room_names,
-     password, what_you_see, feedback, user_input, won) = initialize_args()
-
-    while(user_input != 'q'):
-
-        user_input = main_display(room_names, in_which_room,
-                                  directions, facing_which_direction,
-                                  what_you_see, feedback)
-
-        if user_input == 'l' or user_input == 'r':
-            # the fucntion to turn is called
-            trng = turning(user_input, facing_which_direction, directions)
-            facing_which_direction, feedback = trng
-
-        elif user_input == 'f':
-            (in_which_room, feedback, won, facing_which_direction,
-             house[0]['west'], house[0]['north'], password, house[2]['east'],
-             user_input
-             ) = forward(what_you_see, in_which_room, feedback, won,
-                         facing_which_direction, house[0]['west'],
-                         house[0]['north'], password,
-                         house[2]['east'], user_input)
-
-        what_you_see = house[in_which_room][directions[facing_which_direction]]
-
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-    if won:
-        print("\n\tCongradulations!!\n\tSpend it on charity, will ya?!\n")
-
-    else:
-        print('\n\tSmell you later!\n')
-
-
 def main():
     'Main Function'
 
     # Set random password
     password = random_password()
     # Build House and include password on one of the walls
-    house, rooms, directions = build_house(password)
+    house, infrastructure, rooms, directions = build_house(password)
     # Initialize player with start room, direction, and "won" status
     player = define_player(rooms, directions)
     # Enter gameplay loop
@@ -327,7 +268,7 @@ def main():
         if player['input'] == 'l' or player['input'] == 'r':  # turning l/r
             turn(house, player, directions)
         elif player['input'] == 'f':
-            forward(house, player, rooms)
+            forward(house, player, infrastructure, rooms)
         if player['input'] == 'q':  # quit if q
             break
 
