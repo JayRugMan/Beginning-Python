@@ -23,7 +23,7 @@ import os
 import random
 
 
-def random_password():  ##JH UPDATED and USED
+def random_password():
     """Returns a random password from a list of passwords
     depends on imported random"""
 
@@ -34,7 +34,7 @@ def random_password():  ##JH UPDATED and USED
     return pw
 
 
-def build_house(password):  ##JH UPDATED and USED
+def build_house(password):
     """Creates the house dictionary, a dictionary on how the rooms connect,
     and a compass dictionary defining directions right or left of oneanother"""
 
@@ -102,7 +102,7 @@ def build_house(password):  ##JH UPDATED and USED
     return house, infrastructure, compass
 
 
-def define_player(infrastructure, compass):  ##JH UPDATED and USED
+def define_player(infrastructure, compass):
     """Sets initial room and direction randomly"""
 
     directions = [key for key in compass['r']]
@@ -117,7 +117,7 @@ def define_player(infrastructure, compass):  ##JH UPDATED and USED
     return player
 
 
-def hud(house, player):  ##JH UPDATED and USED
+def hud(house, player):
     """Prints HUD with which room your in, which direction you're facing, What
     is straight ahead, and what the feedback is from the host of the house"""
 
@@ -142,7 +142,7 @@ q = quit
     return
 
 
-def display_map():  ##JH UPDATED and USED
+def display_map():
     """Clears the screen and displays map until enter is pressed"""
 
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -167,7 +167,7 @@ T |                |                |                 | T
     return
 
 
-def password_challenge(house):  ##JH UPDATED and USED
+def password_challenge(house):
     """Takes user input and compares it to argument entered"""
 
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -177,7 +177,7 @@ def password_challenge(house):  ##JH UPDATED and USED
         return False
 
 
-def forward(house, player, infrastructure):  ##JH UDATED and USED
+def forward(house, player, infrastructure):
     """Resonds to the users selection to move forward"""
 
     ahead = house[player['room']][player['facing']]
