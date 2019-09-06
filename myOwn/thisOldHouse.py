@@ -36,7 +36,7 @@ def random_password():  ##JH UPDATED and USED
 
 def build_house(password):  ##JH UPDATED and USED
     """Creates the house dictionary, a dictionary on how the rooms connect,
-    and rooms and directions list"""
+    and a compass dictionary defining directions right or left of oneanother"""
 
     house = {
         'foyer': {
@@ -71,7 +71,7 @@ def build_house(password):  ##JH UPDATED and USED
             'west': 'a wall'},
         'feedback': 'Welcome to my old house.',  # updated as needed throughout
     }
-    room_connections = {  # Used for changing rooms
+    infrastructure = {  # Used for changing rooms
         'foyer': {
             'north': 'bathroom',
             'west': 'parlor'},
@@ -87,15 +87,26 @@ def build_house(password):  ##JH UPDATED and USED
             'west': 'master bedroom'},
         'bathroom': {'south': 'foyer'}
     }
-    rooms = ['foyer', 'parlor', 'study',
-             'master bedroom', 'kitchen', 'bathroom']
-    directions = ['north', 'east', 'south', 'west']
-    return house, room_connections, rooms, directions
+    compass = {  # used for changing directions and defining player
+        'l': {
+            'north': 'west',
+            'west': 'south',
+            'south': 'east',
+            'east': 'north'},
+        'r': {
+            'north': 'east',
+            'east': 'south',
+            'south': 'west',
+            'west': 'north'}
+    }
+    return house, infrastructure, compass
 
 
-def define_player(rooms, directions):  ##JH UPDATED and USED
+def define_player(infrastructure, compass):  ##JH UPDATED and USED
     """Sets initial room and direction randomly"""
 
+    directions = [key for key in compass['r']]
+    rooms = [r for r in infrastructure]
     room = rooms[random.randint(0, 4)]  # does not include locked room
     direction = directions[random.randint(0, 3)]
     player = {
@@ -128,25 +139,6 @@ q = quit
 "{fb}"
 "What would you like to do?"
 """.format(**player, hd=ahead, fb=feedback))
-    return
-
-
-def turn(house, player, directions):  ##JH UPDATED and USED
-    """Changes direction base on user input"""
-
-    last_index = len(directions) - 1
-    dir_index = directions.index(player['facing'])
-    if player['input'] == 'l':
-        if dir_index == 0:
-            player['facing'] = directions[last_index]
-        else:
-            player['facing'] = directions[dir_index-1]
-    elif player['input'] == 'r':
-        if dir_index < last_index:
-            player['facing'] = directions[dir_index+1]
-        else:
-            player['facing'] = directions[0]
-    house['feedback'] = 'take a look around'
     return
 
 
@@ -185,7 +177,7 @@ def password_challenge(house):  ##JH UPDATED and USED
         return False
 
 
-def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
+def forward(house, player, infrastructure):  ##JH UDATED and USED
     """Resonds to the users selection to move forward"""
 
     ahead = house[player['room']][player['facing']]
@@ -234,25 +226,34 @@ def forward(house, player, infrastructure, rooms):  ##JH UDATED and USED
     return
 
 
+def player_interactions(house, player, infrastructure, compass):
+    """Defines the player's interacions with the game"""
+
+    player['input'] = input(': ').lower()
+    if player['input'] == 'l' or player['input'] == 'r':  # turning l/r
+        # player will face new direction based on compass dictionary
+        player['facing'] = compass[player['input']][player['facing']]
+        house['feedback'] = 'take a look around'
+    elif player['input'] == 'f':
+        forward(house, player, infrastructure)
+    return
+
+
 def main():
     'Main Function'
 
     # Set random password
     password = random_password()
     # Build House and include password on one of the walls
-    house, infrastructure, rooms, directions = build_house(password)
+    house, infrastructure, compass = build_house(password)
     # Initialize player with start room, direction, and "won" status
-    player = define_player(rooms, directions)
+    player = define_player(infrastructure, compass)
     # Enter gameplay loop
     while True:
         # Heads Up Display
         hud(house, player)
-        # Get User input
-        player['input'] = input(': ').lower()
-        if player['input'] == 'l' or player['input'] == 'r':  # turning l/r
-            turn(house, player, directions)
-        elif player['input'] == 'f':
-            forward(house, player, infrastructure, rooms)
+        # Get player interaction
+        player_interactions(house, player, infrastructure, compass)
         if player['input'] == 'q':  # quit if q
             break
     os.system('cls' if os.name == 'nt' else 'clear')
