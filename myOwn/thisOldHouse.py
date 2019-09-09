@@ -237,7 +237,7 @@ def forward(house, player, infrastructure):
         house['feedback'] = "You can't walk through walls yet"
     # if you see an exit, you leave the game by going forward
     elif ahead == 'the exit':
-        player['input'] = 'q'
+        player['selection'] = 'q'
     # the door to the parlor - or rest of the
     # house - closed once you enter the bathroom
     elif ahead == 'a closed door':
@@ -252,12 +252,12 @@ def forward(house, player, infrastructure):
 def player_interactions(house, player, infrastructure, compass):
     """Defines the player's interacions with the game"""
 
-    player['input'] = input(': ').lower()
-    if player['input'] == 'l' or player['input'] == 'r':  # turning l/r
+    player['selection'] = input(': ').lower()
+    if player['selection'] == 'l' or player['selection'] == 'r':  # turning l/r
         # player will face new direction based on compass dictionary
-        player['facing'] = compass[player['input']][player['facing']]
+        player['facing'] = compass[player['selection']][player['facing']]
         house['feedback'] = 'take a look around'
-    elif player['input'] == 'f':
+    elif player['selection'] == 'f':
         forward(house, player, infrastructure)
     return
 
@@ -281,7 +281,7 @@ def main():
         hud(house, player, options, actions)
         # Get player interaction
         player_interactions(house, player, infrastructure, compass)
-        if player['input'] == 'q':  # quit if q
+        if player['selection'] == 'q':  # quit if q
             break
     os.system('cls' if os.name == 'nt' else 'clear')
     # If player won is yes, closing output changes
