@@ -276,3 +276,88 @@ TypeError: print_params_2() got an unexpected keyword argument 'something'
 >>> store(d, 'Luke Skywalker', 'Anakin Skywalker')
 >>> lookup(d, 'last', 'Skywalker')
 ['Luke Skywalker', 'Anakin Skywalker']
+
+# Reversing the Process:
+>>> params = {'name': 'Sir Robin', 'greeting': 'Well met'}
+>>> hello_3(**params)
+Well met, Sir Robin!
+>>>
+>>> def with_stars(**kwds):
+...     print('{name} is {age} years old'.format(**kwds))
+...
+>>> def without_stars(kwds):
+...     print('{name} is {age} years old'.format(**kwds))
+...
+>>> args = {'name': 'Mr. Gumby', 'age': 42}
+>>> with_stars(**args)
+Mr. Gumby is 42 years old
+>>> with_stars(args)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: with_stars() takes 0 positional arguments but 1 was given
+>>> without_stars(args)
+Mr. Gumby is 42 years old
+>>> without_stars(**args)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: without_stars() got an unexpected keyword argument 'name'
+
+# Parameter Practice
+>>> def story(**kwds):
+...     return 'Once upon a time, there was a ' \
+...         '{job} called {name}.'.format(**kwds)
+...
+>>> def power(x, y, *others):
+...     if others:
+...         print('Received redundant parameters: {}'.format(others))
+...     return pow(x, y)
+...
+>>> def interval(start, stop=None, step=1):
+...     'Imitates range() for step > 0'
+...     if stop is None:              # If the stop is not supplied
+...         start, stop = 0, start    # shuffle the parameters
+...     result = []
+...     i = start                     # We start counting at the start index
+...     while i < stop:               # Until the index reaches the stop index...
+...         result.append(i)          # ...append the index to the result...
+...         i += step                 # ...increment the index with the step (> 0)
+...     return result
+...
+>>> print(story(job='king', name='Gumby'))
+Once upon a time, there was a king called Gumby.
+>>> print(story(name='Sir Robin', job='brave knight'))
+Once upon a time, there was a brave knight called Sir Robin.
+>>> params = {'job': 'language', 'name': 'Python'}
+>>> print(story(params))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: story() takes 0 positional arguments but 1 was given
+>>> print(story(**params))
+Once upon a time, there was a language called Python.
+>>> del params['job']
+>>> print(story(job='stroke of genius', **params))
+Once upon a time, there was a stroke of genius called Python.
+
+>>> power(2,3)
+8
+>>> power(3,2)
+9
+>>> power(y=3,x=2)
+8
+>>> params = (5,) * 2
+>>> power(*params)
+3125
+>>> power(3, 3, 'Hello, world')
+Received redundant parameters: ('Hello, world',)
+27
+
+>>> interval(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> interval(1,5)
+[1, 2, 3, 4]
+>>> interval(3,12,4)
+[3, 7, 11]
+
+>>> power(*interval(3,7))
+Received redundant parameters: (5, 6)
+81
