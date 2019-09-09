@@ -158,8 +158,8 @@ def hud(house, player, options, actions):
     ]
     opt_tbl = '{0:<2}{1:.>17}'  # makes options box 17 wide in justified format
     # inserts justified table into output list
-    for selection, action in options.items():
-        output_list.insert(7, opt_tbl.format(selection, action))
+    for option, action in options.items():
+        output_list.insert(7, opt_tbl.format(option, action))
     for line in output_list:  # Prints each line centered from output_list
         print('{0:^57}'.format(line))
     return
