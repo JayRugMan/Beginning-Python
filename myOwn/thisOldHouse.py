@@ -26,7 +26,6 @@ import random
 def random_password():
     """Returns a random password from a list of passwords
     depends on imported random"""
-
     password_list = ['sandman', 'Lockhead', 'Babling brooK', 'Santa Claus',
                      'Peanut', 'fury flurry', 'clinician', 'random PassWord']
     p_word_picker = random.randint(0, (len(password_list) - 1))
@@ -119,7 +118,6 @@ def build_house():
 
 def define_player(infrastructure, compass):
     """Sets initial room and direction randomly"""
-
     directions = [key for key in compass['r']]
     rooms = [rm for rm in infrastructure]
     room = rooms[random.randint(0, 4)]  # does not include locked room
@@ -135,7 +133,6 @@ def define_player(infrastructure, compass):
 def hud(house, player, options, actions):
     """Prints HUD with which room your in, which direction you're facing, What
     is straight ahead, and what the feedback is from the host of the house"""
-
     os.system('cls' if os.name == 'nt' else 'clear')  # clear screen
     ahead = house[player['room']][player['facing']]
     # Hackish, for now - if pw is updated, new actions key/value needed
@@ -191,13 +188,19 @@ T |                |                |                 | T
 
 
 def password_challenge(house):
-    """Takes user input and compares it to argument entered"""
-
+    """Takes user input and compares it to password in home-study-east"""
     os.system('cls' if os.name == 'nt' else 'clear')
     if input('\nWhat is the password? ') == house['study']['east']:
-        return True
+        # if you get the password right, the
+        # locked door becomes an open door
+        house['feedback'] = 'You guessed right'
+        house['foyer']['north'] = 'an open door'
     else:
-        return False
+        # otherwise, the door stays
+        # locked and the password changes
+        house['feedback'] = 'You guessed wrong. It is written anew.'
+        house['study']['east'] = random_password()
+    return
 
 
 def forward(house, player, infrastructure):
@@ -222,16 +225,7 @@ def forward(house, player, infrastructure):
     # if the door is locked and you choose to unlock it,
     # you are challenged for a password
     elif ahead == 'a locked door':
-        # if you get the password right, the
-        # locked door becomes an open door
-        if password_challenge(house):
-            house['feedback'] = 'You guessed right'
-            house['foyer']['north'] = 'an open door'
-        # otherwise, the door stays
-        # locked and the password changes
-        else:
-            house['feedback'] = 'You guessed wrong. It is written anew.'
-            house['study']['east'] = random_password()
+        password_challenge(house)
     # if you see a wall, you're scolded, but given hope
     elif ahead == 'a wall':
         house['feedback'] = "You can't walk through walls yet"
@@ -239,7 +233,7 @@ def forward(house, player, infrastructure):
     elif ahead == 'the exit':
         player['selection'] = 'q'
     # the door to the parlor - or rest of the
-    # house - closed once you enter the bathroom
+    # house - closes once you enter the bathroom
     elif ahead == 'a closed door':
         house['feedback'] = 'You have your treasure, please leave.'
     # if you see a map, you get to find where you are
@@ -251,7 +245,6 @@ def forward(house, player, infrastructure):
 
 def player_interactions(house, player, infrastructure, compass):
     """Defines the player's interacions with the game"""
-
     player['selection'] = input(': ').lower()
     if player['selection'] == 'l' or player['selection'] == 'r':  # turning l/r
         # player will face new direction based on compass dictionary
