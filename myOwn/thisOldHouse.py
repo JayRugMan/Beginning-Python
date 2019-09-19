@@ -99,10 +99,10 @@ def build_house():
             'west': 'north'}
     }
     options = {  # used for dynamic heads up display options menu
-        'q': ' quit',
-        'f': ' move forward',
-        'r': ' turn right',
-        'l': ' turn left'
+        'q': 'quit',
+        'f': 'move forward',
+        'r': 'turn right',
+        'l': 'turn left'
     }
     actions = {  # used to update options dictinary per what's ahead
         'a locked door': 'unlock door',
@@ -139,7 +139,6 @@ def hud(house, player, options, actions):
     actions[house['study']['east']] = 'move forward'
     # Option for f changed depending on what's ahead
     options['f'] = actions[ahead]
-    feedback = house['feedback']
     output_list = [
         '=== This Old House ===',
         '',
@@ -149,14 +148,14 @@ def hud(house, player, options, actions):
         '',
         '===== Options =====',  # options will be inserted below this line
         '',
-        '"{}"'.format(feedback),
+        '"{feedback}"'.format(**house),
         '"What would you like to do?"',
         ''
     ]
-    opt_tbl = '{0:<2}{1:.>17}'  # makes options box 17 wide in justified format
+    opt_tbl = '{0:<2}{1:.>17}'  # makes options box 19 wide in justified format
     # inserts justified table into output list
     for option, action in options.items():
-        output_list.insert(7, opt_tbl.format(option, action))
+        output_list.insert(7, opt_tbl.format(option, ' ' + action))
     for line in output_list:  # Prints each line centered from output_list
         print('{0:^57}'.format(line))
     return
