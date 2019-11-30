@@ -1,10 +1,17 @@
 JayMint - ATOM 1.41.0 x64 GitHub
 Jasus - ATOM 1.41.0 x64 GitHub
 
-termination 0.7.6 Fred-Barclay
 atom-live-server 2.3.0 jas-chen
+autocomplete-python 1.16.0 autocomplete-python <
+busy-signal 2.0.1 <
 emmet 2.4.3 emmetio
 git-plus 8.7.1 akonwi
 ide-python 1.5.0 Igeiger
+intentions 1.1.5 steelbrain <
+linter 2.3.1 steelbrain <
+linter-pycodestyle 2.1.3 AtomLinter <
+linter-ui-default 1.8.0 steelbrain <
 multi-cursor-plus 1.2.0 kankaristo
+python-tools 0.6.9 MichaelAquilina <
 script 3.25.0 rgbkrk
+termination 0.7.6 Fred-Barclay
