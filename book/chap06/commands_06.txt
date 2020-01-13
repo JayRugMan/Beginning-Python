@@ -361,3 +361,6 @@ Received redundant parameters: ('Hello, world',)
 >>> power(*interval(3,7))
 Received redundant parameters: (5, 6)
 81
+
+
+# Scoping
