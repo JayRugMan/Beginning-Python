@@ -162,7 +162,6 @@ def hud(house, player, options, actions):
 
 def display_map():
     """Clears the screen and displays map until enter is pressed"""
-
     os.system('cls' if os.name == 'nt' else 'clear')
     print("""                 === MAP of my house ===
 
@@ -203,7 +202,6 @@ def password_challenge(house):
 
 def forward(house, player, infrastructure):
     """Resonds to the users selection to move forward"""
-
     ahead = house[player['room']][player['facing']]
     if ahead == 'an open door':
         # updates player's room based on infrastructure dictionary
