@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ Version 1.1 - Structure
 - Put everything into functions
 - created a main function
