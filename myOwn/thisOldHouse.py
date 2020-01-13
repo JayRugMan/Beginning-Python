@@ -36,7 +36,6 @@ def random_password():
 def build_house():
     """Creates the house dictionary, a dictionary on how the rooms connect,
     and a compass dictionary defining directions right or left of oneanother"""
-
     house = {
         'foyer': {
             'north': 'a locked door',
