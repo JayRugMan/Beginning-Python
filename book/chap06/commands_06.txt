@@ -424,7 +424,8 @@ shrubberry
 
 
 # Recursion
-## Factorial: the factorial of 1 is 1; the factorial of a number n, which is greater than 1 is the product of n and the factorial of n-1
+## Factorial: the factorial of 1 is 1; the factorial of a number n, which is
+## greater than 1 is the product of n and the factorial of n-1
 >>> def factorial(n):
 ...     if n == 1:
 ...             return 1
@@ -440,7 +441,8 @@ shrubberry
 >>> factorial(4)
 24
 
-## Power: power(x, 0) is 1 for all numbers x; power(x, n) for n > 0 is the product of x and power(x, n-1).
+## Power: power(x, 0) is 1 for all numbers x; power(x, n) for n > 0 is the
+## product of x and power(x, n-1).
 >>> def rpower(x,n):
 ...     if n == 0:
 ...             return 1
@@ -465,3 +467,33 @@ shrubberry
 4294967296
 >>> rpower(2,64)
 18446744073709551616
+
+## Binary Search: if the upper and lower limits are the same, they both refer
+## to the correct position of the number, so return it; Otherwise, find the
+## middle of the interval (the average of the upper and lower bound), and find
+## out if the number is in the right or left half. Keep searching in the proper
+## half.
+>>> def search(sequence, number, lower=0, upper=None):
+...     if upper is None: upper = len(sequence) - 1
+...     if lower == upper:
+...             assert number == sequence[upper]
+...             return upper
+...     else:
+...             middle = (lower + upper) // 2
+...             if number > sequence[middle]:
+...                     return search(sequence, number, middle+1, upper)
+...             else:
+...                     return search(sequence, number, lower, middle)
+...
+>>> nums = [34, 67, 8, 123, 4, 100, 95]
+>>> nums.sort()
+>>> nums
+[4, 8, 34, 67, 95, 100, 123]
+>>> search(nums, 67)
+3
+>>> nums[3]
+67
+>>> search(nums, 100)
+5
+>>> nums[5]
+100
