@@ -364,3 +364,104 @@ Received redundant parameters: (5, 6)
 
 
 # Scoping
+>>> x = 1
+>>> scope = vars()
+>>> scope['x']
+1
+>>> y = 2
+>>> scope
+{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'x': 1, 'scope': {...}, 'y': 2}
+>>>
+
+>>> def foo(): x = 42
+...
+>>> x = 2
+>>> foo()
+>>> x
+2
+
+>>> def output(x): print(x)
+...
+>>> x = 1
+>>> y = 2
+>>> output(y)
+2
+
+>>> def combine(parameter): print(parameter + external)
+...
+>>> external = "berry"
+>>> combine("Shrub")
+Shrubberry
+>>> def combine(parameter): print(parameter + globals()['parameter'])
+...
+>>> parameter = 'berry'
+>>> combine("shrub")
+shrubberry
+
+>>> x = 1
+>>> def change_global():
+...     global x
+...     x = x + 1
+...
+>>> change_global()
+>>> x
+2
+
+## Nested Scopes ##
+>>> def multiplier(factor):
+...     def multiplyByFactor(number):
+...             return number*factor
+...     return multiplyByFactor
+...
+>>> double = multiplier(2)
+>>> double(5)
+10
+>>> tripple = multiplier(3)
+>>> tripple(8)
+24
+>>> multiplier(4)(5)
+20
+
+
+# Recursion
+## Factorial: the factorial of 1 is 1; the factorial of a number n, which is greater than 1 is the product of n and the factorial of n-1
+>>> def factorial(n):
+...     if n == 1:
+...             return 1
+...     else:
+...             return n * factorial(n-1)
+...
+>>> factorial(1)
+1
+>>> factorial(2)
+2
+>>> factorial(3)
+6
+>>> factorial(4)
+24
+
+## Power: power(x, 0) is 1 for all numbers x; power(x, n) for n > 0 is the product of x and power(x, n-1).
+>>> def rpower(x,n):
+...     if n == 0:
+...             return 1
+...     else:
+...             return x * rpower(x,n-1)
+...
+>>> rpower(2,4)
+16
+>>> rpower(2,3)
+8
+>>> rpower(2,2)
+4
+>>> rpower(2,1)
+2
+>>> rpower(2,0)
+1
+>>> rpower(2,8)
+256
+>>> rpower(2,16)
+65536
+>>> rpower(2,32)
+4294967296
+>>> rpower(2,64)
+18446744073709551616
