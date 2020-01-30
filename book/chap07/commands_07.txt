@@ -1,1 +1,32 @@
 ### Chapter 7, More Abstraction
+
+
+# Polymorphism and Methods
+>>> from random import choice
+>>> x = choice(['Hello, world!', [1, 2, 'e', 'e', 4]])
+>>> x.count('e')
+2
+
+>>> 1+2
+3
+>>> 'Fish' + 'license'
+'Fishlicense'
+>>>
+>>> def add(x, y):
+...     return x+y
+...
+>>> add(1, 2)
+3
+>>> add('Fish', 'license')
+'Fishlicense'
+
+>>> def length_message(x):
+...     print('The length of {} is {}'.format(repr(x), len(x)))
+...
+>>> length_message('Fnord')
+The length of 'Fnord' is 5
+>>> length_message([1, 2, 3])
+The length of [1, 2, 3] is 3
+
+
+# Encapsulation
