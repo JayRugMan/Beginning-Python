@@ -29,4 +29,29 @@ The length of 'Fnord' is 5
 The length of [1, 2, 3] is 3
 
 
-# Encapsulation
+# Making Your Own Classes
+>>> class Person:
+...     def setName(self, name):
+...             self.name = name
+...     def getName(self):
+...             return self.name
+...     def greet(self):
+...             print("Hello, world! I'm {}.".format(self.name))
+...
+>>> foo = Person()
+>>> bar = Person()
+>>> foo.setName('Luke Skywalker')
+>>> bar.setName('Anakin Skywalker')
+>>> foo.greet()
+Hello, world! I'm Luke Skywalker.
+>>> bar.greet()
+Hello, world! I'm Anakin Skywalker.
+>>> foo.name
+'Luke Skywalker'
+>>> bar.name = 'Yoda'
+>>> bar.greet()
+Hello, world! I'm Yoda.
+>>> Person.greet(foo)
+Hello, world! I'm Luke Skywalker.
+
+# Attributes, Functions, and Methods
