@@ -54,4 +54,19 @@ Hello, world! I'm Yoda.
 >>> Person.greet(foo)
 Hello, world! I'm Luke Skywalker.
 
+
 # Attributes, Functions, and Methods
+>>> class Class:
+...     def method(self):
+...             print('I have a self!')
+...
+>>> def function():
+...     print("I don't...")
+...
+>>> instance = Class()
+>>> instance.method()
+I have a self!
+>>> instance.method = function
+>>> instance.method()
+I don't...
+>>>
