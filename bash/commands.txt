@@ -3,3 +3,6 @@
 # Findind the "soup" score of a movie
 movie="ultimate_gift"
 ratings=($(curl -s https://www.rottentomatoes.com/m/${movie} | awk '/mop-ratings-wrap__half/,/\/div/' | grep -Eo "[0-9]{1,3}%" | sed 's/%//g')) && criticR=${ratings[0]}; audienceR=${ratings[1]}; soupR=$((audienceR - criticR)); echo $soupR
+
+
+# Kali Drive partition 3 start sector: 10487808
