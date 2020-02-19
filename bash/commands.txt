@@ -4,16 +4,3 @@
 movie="ultimate_gift"
 ratings=($(curl -s https://www.rottentomatoes.com/m/${movie} | awk '/mop-ratings-wrap__half/,/\/div/' | grep -Eo "[0-9]{1,3}%" | sed 's/%//g')) && criticR=${ratings[0]}; audienceR=${ratings[1]}; soupR=$((audienceR - criticR)); echo $soupR
 
-# Install Total Annihilation with wine
-sudo apt-get install lgogdownloader
-lgogdownloader --login
-lgogdownloader --download
-cd total_anihilation_commander_pack/
-...
-wget https://www.dropbox.com/s/p3h3k4q9qk9lfvi/total_annihilation_wine.tar.xz?dl=0
-mv 'total_annihilation_wine.tar.xz?dl=0' total_annihilation_wine.tar.xz
-tar xJf total_annihilation_wine.tar.xz
-cd total_annihilation_wine/
-sudo apt install icoutils unrar zenity innoextract
-./total_annihilation_wine.sh -respath="/home/jason/total_anihilation_commander_pack/" -buildpath="/home/jason/Desktop/"
-
