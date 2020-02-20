@@ -29,6 +29,10 @@ The length of 'Fnord' is 5
 The length of [1, 2, 3] is 3
 
 
+# Encapsulation
+
+
+
 # Making Your Own Classes
 >>> class Person:
 ...     def setName(self, name):
@@ -70,3 +74,17 @@ I have a self!
 >>> instance.method()
 I don't...
 >>>
+>>> class Bird:
+...     song = 'Squaak!'
+...     def sing(self):
+...             print(self.song)
+...
+>>> bird = Bird()
+>>> bird.sing()
+Squaak!
+>>> birdsong = bird.sing
+>>> birdsong()
+Squaak!
+
+
+# Privacy Revisited
