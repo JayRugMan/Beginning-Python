@@ -19,6 +19,10 @@
 3
 >>> add('Fish', 'license')
 'Fishlicense'
+>>> lista = ['one', 'two', 'three']
+>>> listb = ['four', 'five', 'six']
+>>> add(lista, listb)
+['one', 'two', 'three', 'four', 'five', 'six']
 
 >>> def length_message(x):
 ...     print('The length of {} is {}'.format(repr(x), len(x)))
@@ -30,7 +34,33 @@ The length of [1, 2, 3] is 3
 
 
 # Encapsulation
+## Note that class OpenObject needs to be created first
+>>> o = OpenObject()
+>>> o.setName('Sir Lancelot')
+>>> o.getName()
+'Sir Lancelot'
+>>> globalName
+'Sir Lancelot'
+>>> globalName = 'Sir Gumby'
+>>> o.getName()
+'Sir Gumby'
+>>> o1 = OpenObject()
+>>> o2 = OpenObject()
+>>> o1.setName('Robin Hood')
+>>> o2.getName()
+'Robin Hood'
 
+### with attributes instead of methods...
+>>> c = ClosedObject()
+>>> c.setName('Sir Lancelot')
+>>> c.getName()
+'Sir Lancelot'
+>>> r = ClosedObject()
+>>> r.setName('Sir Robin')
+>>> r.getName()
+'Sir Robin'
+>>> c.getName()
+'Sir Lancelot'
 
 
 # Making Your Own Classes
@@ -88,3 +118,25 @@ Squaak!
 
 
 # Privacy Revisited
+>>> class Secretive:
+...     def __inaccessible(self):
+...         print("Bet you can't see me...")
+...     def accessible(self):
+...         print("The secret message is:")
+...         self.__inaccessible()
+...
+>>> s = Secretive()
+>>> s.__inaccessible()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Secretive' object has no attribute '__inaccessible'
+>>> s.accessible()
+The secret message is:
+Bet you can't see me...
+>>> Secretive._Secretive__inaccessible
+<function Secretive.__inaccessible at 0x7f426a9a3510>
+>>> s._Secretive__inaccessible()
+Bet you can't see me...
+
+
+# The Class Namespace
