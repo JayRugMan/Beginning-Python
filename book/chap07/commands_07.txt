@@ -140,3 +140,103 @@ Bet you can't see me...
 
 
 # The Class Namespace
+## The two following statements are essentially equivalent:
+>>> def foo(x): return x*x
+...
+>>> foo = lambda x: x*x
+
+>>> class C:
+...     print('Class C being defined...')
+...
+Class C being defined...
+>>> class MemberCounter:
+...     members = 0
+...     def init(self):
+...         MemberCounter.members += 1
+...
+>>> m1 = MemberCounter()
+>>> m1.init()
+>>> MemberCounter.members
+1
+>>> m2 = MemberCounter()
+>>> m2.init()
+>>> MemberCounter.members
+2
+>>> mj = MemberCounter
+>>> mj.members
+2
+>>> m1.members
+2
+>>> m2.members
+2
+>>> m1.members = 'Two'
+>>> m1.members
+'Two'
+>>> m2.members
+2
+
+
+# Specifing a Superclass
+>>> class Filter:
+...     def init(self):
+...         self.blocked = []
+...     def filter(self, sequence):
+...         return [x for x in sequence if x not in self.blocked]
+...
+>>> class SPAMFilter(Filter):  # SPAMFilter is a subclass of Filter
+...     def init(self):  # Overrides init method from Filter superclass
+...         self.blocked = ['SPAM']
+...
+>>> f = Filter()
+>>> f.init()
+>>> f.filter(['SPAM', 'SPAM', 'SPAM', 'SPAM', 'eggs', 'bacon', 'SPAM'])
+['SPAM', 'SPAM', 'SPAM', 'SPAM', 'eggs', 'bacon', 'SPAM']
+>>> f.filter([1, 2, 3])
+[1, 2, 3]
+>>> s = SPAMFilter()
+>>> s.init()
+>>> s.filter(['SPAM', 'SPAM', 'SPAM', 'SPAM', 'eggs', 'bacon', 'SPAM'])
+['eggs', 'bacon']
+
+
+# Investigating Inheritance
+>>> issubclass(SPAMFilter, Filter)
+True
+>>> issubclass(Filter, SPAMFilter)
+False
+>>> SPAMFilter.__bases__
+(<class '__main__.Filter'>,)
+>>> Filter.__bases__
+(<class 'object'>,)
+>>> isinstance(s, SPAMFilter)
+True
+>>> isinstance(s, Filter)
+True
+>>> isinstance(s, str)
+False
+>>> s.__class__
+<class '__main__.SPAMFilter'>
+>>> "Hello World".__class__
+<class 'str'>
+>>> 4.__class__
+  File "<stdin>", line 1
+    4.__class__
+              ^
+SyntaxError: invalid syntax
+>>> jason = 35
+>>> jason.__class__
+<class 'int'>
+>>> jason = 35.3
+>>> jason.__class__
+<class 'float'>
+>>> type(s)
+<class '__main__.SPAMFilter'>
+>>> type(5)
+<class 'int'>
+>>> type(3.5)
+<class 'float'>
+>>> type('Hello world!')
+<class 'str'>
+
+
+# Multiple Superclasses
