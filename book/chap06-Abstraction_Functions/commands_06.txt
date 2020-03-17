@@ -1,0 +1,499 @@
+### Chapter 6, Abstraction
+
+# Documenting Functions
+>>> def getNames():
+...     'Allows user to input names and return them in a list'
+...     nms = []
+...     prompt = 'Enter name (or "done" when done): '
+...     while True:
+...         entry = input(prompt)
+...         if entry != 'done' and entry != '':
+...             nms.append(entry)
+...         if entry == 'done':
+...             break
+...     return nms
+...
+>>> getNames.__doc__
+'Allows user to input names and return them in a list'
+>>> help(getNames)
+
+Help on function getNames in module __main__:
+
+getNames()
+    Allows user to input names and return them in a list
+
+# Can I change Parameters? Short answer, yes, any mutable object can be changed
+>>> def try_to_change(n):
+...     n = 'Mr. Gumby'
+...
+>>>
+>>> name = 'Mrs. Entity'
+>>> try_to_change(name)
+>>> name
+'Mrs. Entity'
+>>> def change(n):
+...     n[0] = 'Mr. Gumby'
+...
+>>> names = getNames()
+Enter name (or "done" when done): Mrs. Entity
+Enter name (or "done" when done): Mrs. Thing
+Enter name (or "done" when done): done
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> change(names)
+>>> names
+['Mr. Gumby', 'Mrs. Thing']
+>>> names = getNames()
+Enter name (or "done" when done): Mrs. Entity
+Enter name (or "done" when done): Mrs. Thing
+Enter name (or "done" when done): done
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> change(names[:]) # passes a copy of the list
+>>> names
+['Mrs. Entity', 'Mrs. Thing']
+>>> me
+'Jason Ruggles Hardman'
+>>> wife
+'Kara Lyn Hardman'
+>>> storage = {}
+>>> storage['first'] = {}
+>>> storage['middle'] = {}
+>>> storage['last'] = {}
+>>> storage['first'].setdefault('Hardman', []).append(me)
+>>> storage['middle'].setdefault('Ruggles', []).append(me)
+>>> storage['last'].setdefault('Hardman', []).append(me)
+>>> storage
+{'first': {'Hardman': ['Jason Ruggles Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman']}}
+>>> storage['first'].setdefault('Kara', []).append(wife)
+>>> storage['middle'].setdefault('Lyn', []).append(wife)
+>>> storage['last'].setdefault('Hardman', []).append(wife)
+>>> storage
+{'first': {'Hardman': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman']}}
+>>> storage['last']['Hardman']
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
+>>>
+>>> def init(data):
+...     data['first'] = {}
+...     data['middle'] = {}
+...     data['last'] = {}
+...
+>>> storage = {}
+>>> init(storage)
+>>> storage
+{'first': {}, 'middle': {}, 'last': {}}
+>>> def updateMe(name, store): ## before I got to the similar script in the book...
+...     lst_name = name.split()
+...     if len(lst_name) == 2:
+...         lst_name.insert(1, 'none')
+...     store['first'].setdefault(lst_name[0], []).append(name)
+...     store['middle'].setdefault(lst_name[1], []).append(name)
+...     store['last'].setdefault(lst_name[2], []).append(name)
+...
+>>> updateMe(me, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman']}}
+>>> updateMe(wife, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman']}}
+>>> mom = 'Carolyn Briggs'
+>>> updateMe(mom, storage)
+>>> storage
+{'first': {'Jason': ['Jason Ruggles Hardman'], 'Kara': ['Kara Lyn Hardman'], 'Carolyn': ['Carolyn Briggs']}, 'middle': {'Ruggles': ['Jason Ruggles Hardman'], 'Lyn': ['Kara Lyn Hardman'], 'none': ['Carolyn Briggs']}, 'last': {'Hardman': ['Jason Ruggles Hardman', 'Kara Lyn Hardman'], 'Briggs': ['Carolyn Briggs']}}
+>>> random = 'Joe Shmoe'
+>>> updateMe(random, storage)
+>>> storage['middle']['none']
+['Carolyn Briggs', 'Joe Shmoe']
+>>>
+>>> def lookup(data, label, name):
+...     return data[label].get(name)
+...
+>>> lookup(storage, 'middle', 'none')
+['Carolyn Briggs', 'Joe Shmoe']
+>>> lookup(storage, 'last', 'Hardman')
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
+>>> lookup(storage, 'last', 'Smith')
+>>>
+>>> def store(data, full_name):  ## From the book
+...     names = full_name.split()
+...     if len(names) == 2: names.insert(1, '')
+...     labels = 'first', 'middle', 'last'
+...     for label, name in zip(labels, names):
+...         people = lookup(data, label, name)
+...         if people:
+...             people.append(full_name)
+...         else:
+...             data[label][name] = [full_name]
+...
+>>> myNames = {}
+>>> init(myNames)
+>>> store(myNames, me)
+>>> store(myNames, wife)
+>>> store(myNames, mom)
+>>> store(myNames, random)
+>>> lookup(myNames, 'middle', None)
+>>> lookup(myNames, 'middle', '')
+['Carolyn Briggs', 'Joe Shmoe']
+>>> lookup(myNames, 'last', 'Hardman')
+['Jason Ruggles Hardman', 'Kara Lyn Hardman']
+
+# What if My Parameter Is Immutable?
+>>>  # in the next two function methods, the first is cleaner
+>>> def inc(x): return x + 1
+...
+>>> inc(2)
+3
+>>> foo = 10
+>>> inc(foo)
+11
+>>> foo
+10
+>>> foo = inc(foo)
+>>> foo
+11
+>>>  ^^^ is cleaner than vvv
+>>> def inc(x): x[0] = x [0] + 1
+...
+>>> foo = [10]
+>>> inc(foo)
+>>> foo
+[11]
+
+# Keyword Parameters and Defaults:
+>>> def hello_1(greeting, name):
+...     print('{}, {}!'.format(greeting, name))
+...
+>>> def hello_2(name, greeting):
+...     print('{}, {}!'.format(name, greeting))
+...
+>>> hello_1('Hello', 'world')
+Hello, world!
+>>> hello_2('Hello', 'world')
+Hello, world!
+>>> hello_1(greeting='Hello', name='world')
+Hello, world!
+>>> hello_1(name='world', greeting='Hello')
+Hello, world!
+>>> hello_2(greeting='Hello', name='world')
+world, Hello!
+>>>
+>>> def hello_3(greeting='Hello', name='world'):
+...     print('{}, {}!'.format(greeting, name))
+...
+>>> hello_3()
+Hello, world!
+>>> hello_3('Greetings')
+Greetings, world!
+>>> hello_3('Greetings', 'universe')
+Greetings, universe!
+>>> hello_3(name=me)
+Hello, Jason Ruggles Hardman!
+>>>
+>>> def hello_4(name, greeting='Hello', punctuation='!'):
+...     print('{}, {}{}'.format(greeting, name, punctuation))
+...
+>>> hello_4('Mars')
+Hello, Mars!
+>>> hello_4('Mars', 'Howdy')
+Howdy, Mars!
+>>> hello_4('Mars', 'Howdy', '...')
+Howdy, Mars...
+>>> hello_4('Mars', punctuation='.')
+Hello, Mars.
+>>> hello_4('Mars', greeting='Top of the morning to ya')
+Top of the morning to ya, Mars!
+>>> hello_4()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: hello_4() missing 1 required positional argument: 'name'
+>>>
+>>> def print_params(*params):
+...     print(params)
+...
+>>> print_params('Testing')
+('Testing',)
+>>> print_params(1, 2, 3)
+(1, 2, 3)
+>>> def print_params_2(title, *params):
+...      print(title)
+...      print(params)
+...
+>>> print_params_2('Params:', 1, 2, 3)
+Params:
+(1, 2, 3)
+>>> print_params_2('Nothing:')
+Nothing:
+()
+>>> print_params_2('Hmm...', something=42)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: print_params_2() got an unexpected keyword argument 'something'
+>>>
+>>> def print_params_3(**params):
+...     print(params)
+...
+>>> print_params_3(x=1, y=2, z=3)
+{'x': 1, 'y': 2, 'z': 3}
+>>> def print_params_4(x, y, z=3, *pospar, **keypar):
+...     print(x, y, z)
+...     print(pospar)
+...     print(keypar)
+...
+>>> print_params_4(1, 2, 3, 5, 6, 7, foo=1, bar=2)
+1 2 3
+(5, 6, 7)
+{'foo': 1, 'bar': 2}
+>>> print_params_4(1, 2)
+1 2 3
+()
+{}
+>>> print_params_4(1, 2, 3, 5, 6, 7, 8, 9, foo=1, bar=2)
+1 2 3
+(5, 6, 7, 8, 9)
+{'foo': 1, 'bar': 2}
+>>> print_params_4(1, 2, foo=1, bar=2)
+1 2 3
+()
+{'foo': 1, 'bar': 2}
+>>>
+>>> def store(data, *full_names):
+...     for full_name in full_names:
+...         names = full_name.split()
+...         if len(names) == 2: names.insert(1, '')
+...         labels = 'first', 'middle', 'last'
+...         for label, name in zip(labels, names):
+...             people = lookup(data, label, name)
+...             if people:
+...                 people.append(full_name)
+...             else:
+...                 data[label][name] = [full_name]
+...
+>>> d = {}
+>>> init(d)
+>>> store(d, 'Han Solo')
+>>> d
+{'first': {'Han': ['Han Solo']}, 'middle': {'': ['Han Solo']}, 'last': {'Solo': ['Han Solo']}}
+>>> store(d, 'Luke Skywalker', 'Anakin Skywalker')
+>>> lookup(d, 'last', 'Skywalker')
+['Luke Skywalker', 'Anakin Skywalker']
+
+# Reversing the Process:
+>>> params = {'name': 'Sir Robin', 'greeting': 'Well met'}
+>>> hello_3(**params)
+Well met, Sir Robin!
+>>>
+>>> def with_stars(**kwds):
+...     print('{name} is {age} years old'.format(**kwds))
+...
+>>> def without_stars(kwds):
+...     print('{name} is {age} years old'.format(**kwds))
+...
+>>> args = {'name': 'Mr. Gumby', 'age': 42}
+>>> with_stars(**args)
+Mr. Gumby is 42 years old
+>>> with_stars(args)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: with_stars() takes 0 positional arguments but 1 was given
+>>> without_stars(args)
+Mr. Gumby is 42 years old
+>>> without_stars(**args)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: without_stars() got an unexpected keyword argument 'name'
+
+# Parameter Practice
+>>> def story(**kwds):
+...     return 'Once upon a time, there was a ' \
+...         '{job} called {name}.'.format(**kwds)
+...
+>>> def power(x, y, *others):
+...     if others:
+...         print('Received redundant parameters: {}'.format(others))
+...     return pow(x, y)
+...
+>>> def interval(start, stop=None, step=1):
+...     'Imitates range() for step > 0'
+...     if stop is None:              # If the stop is not supplied
+...         start, stop = 0, start    # shuffle the parameters
+...     result = []
+...     i = start                     # We start counting at the start index
+...     while i < stop:               # Until the index reaches the stop index...
+...         result.append(i)          # ...append the index to the result...
+...         i += step                 # ...increment the index with the step (> 0)
+...     return result
+...
+>>> print(story(job='king', name='Gumby'))
+Once upon a time, there was a king called Gumby.
+>>> print(story(name='Sir Robin', job='brave knight'))
+Once upon a time, there was a brave knight called Sir Robin.
+>>> params = {'job': 'language', 'name': 'Python'}
+>>> print(story(params))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: story() takes 0 positional arguments but 1 was given
+>>> print(story(**params))
+Once upon a time, there was a language called Python.
+>>> del params['job']
+>>> print(story(job='stroke of genius', **params))
+Once upon a time, there was a stroke of genius called Python.
+
+>>> power(2,3)
+8
+>>> power(3,2)
+9
+>>> power(y=3,x=2)
+8
+>>> params = (5,) * 2
+>>> power(*params)
+3125
+>>> power(3, 3, 'Hello, world')
+Received redundant parameters: ('Hello, world',)
+27
+
+>>> interval(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> interval(1,5)
+[1, 2, 3, 4]
+>>> interval(3,12,4)
+[3, 7, 11]
+
+>>> power(*interval(3,7))
+Received redundant parameters: (5, 6)
+81
+
+
+# Scoping
+>>> x = 1
+>>> scope = vars()
+>>> scope['x']
+1
+>>> y = 2
+>>> scope
+{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'x': 1, 'scope': {...}, 'y': 2}
+>>>
+
+>>> def foo(): x = 42
+...
+>>> x = 2
+>>> foo()
+>>> x
+2
+
+>>> def output(x): print(x)
+...
+>>> x = 1
+>>> y = 2
+>>> output(y)
+2
+
+>>> def combine(parameter): print(parameter + external)
+...
+>>> external = "berry"
+>>> combine("Shrub")
+Shrubberry
+>>> def combine(parameter): print(parameter + globals()['parameter'])
+...
+>>> parameter = 'berry'
+>>> combine("shrub")
+shrubberry
+
+>>> x = 1
+>>> def change_global():
+...     global x
+...     x = x + 1
+...
+>>> change_global()
+>>> x
+2
+
+## Nested Scopes ##
+>>> def multiplier(factor):
+...     def multiplyByFactor(number):
+...             return number*factor
+...     return multiplyByFactor
+...
+>>> double = multiplier(2)
+>>> double(5)
+10
+>>> tripple = multiplier(3)
+>>> tripple(8)
+24
+>>> multiplier(4)(5)
+20
+
+
+# Recursion
+## Factorial: the factorial of 1 is 1; the factorial of a number n, which is
+## greater than 1 is the product of n and the factorial of n-1
+>>> def factorial(n):
+...     if n == 1:
+...             return 1
+...     else:
+...             return n * factorial(n-1)
+...
+>>> factorial(1)
+1
+>>> factorial(2)
+2
+>>> factorial(3)
+6
+>>> factorial(4)
+24
+
+## Power: power(x, 0) is 1 for all numbers x; power(x, n) for n > 0 is the
+## product of x and power(x, n-1).
+>>> def rpower(x,n):
+...     if n == 0:
+...             return 1
+...     else:
+...             return x * rpower(x,n-1)
+...
+>>> rpower(2,4)
+16
+>>> rpower(2,3)
+8
+>>> rpower(2,2)
+4
+>>> rpower(2,1)
+2
+>>> rpower(2,0)
+1
+>>> rpower(2,8)
+256
+>>> rpower(2,16)
+65536
+>>> rpower(2,32)
+4294967296
+>>> rpower(2,64)
+18446744073709551616
+
+## Binary Search: if the upper and lower limits are the same, they both refer
+## to the correct position of the number, so return it; Otherwise, find the
+## middle of the interval (the average of the upper and lower bound), and find
+## out if the number is in the right or left half. Keep searching in the proper
+## half.
+>>> def search(sequence, number, lower=0, upper=None):
+...     if upper is None: upper = len(sequence) - 1
+...     if lower == upper:
+...             assert number == sequence[upper]
+...             return upper
+...     else:
+...             middle = (lower + upper) // 2
+...             if number > sequence[middle]:
+...                     return search(sequence, number, middle+1, upper)
+...             else:
+...                     return search(sequence, number, lower, middle)
+...
+>>> nums = [34, 67, 8, 123, 4, 100, 95]
+>>> nums.sort()
+>>> nums
+[4, 8, 34, 67, 95, 100, 123]
+>>> search(nums, 67)
+3
+>>> nums[3]
+67
+>>> search(nums, 100)
+5
+>>> nums[5]
+100
