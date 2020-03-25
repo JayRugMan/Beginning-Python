@@ -1,4 +1,44 @@
 ### Chapter 8, Exceptions
 
 
-# 
+# The raise Statement
+>>> 1/0
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: division by zero
+>>> raise Exception
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+Exception
+>>> raise Exception('hyperdrive overloaded')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+Exception: hyperdrive overloaded
+>>>
+
+Python 2.7.17 (default, Nov  7 2019, 10:07:09)
+[GCC 7.4.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import exceptions
+>>> dir(exceptions)
+['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BufferError', 'BytesWarning', 'DeprecationWarning', 'EOFError', 'EnvironmentError', 'Exception', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'NameError', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'ReferenceError', 'RuntimeError', 'RuntimeWarning', 'StandardError', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'ZeroDivisionError', '__doc__', '__name__', '__package__']
+>>>
+
+Python 2 and 3:
+>>> raise ArithmeticError
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ArithmeticError
+
+
+# Custom Exceptions
+>>> class SomeCUstomeException(Exception): pass
+...
+>>>
+
+
+# Catching Exceptions
+see Division.py & Division_with_Exceptions.py
+
+
+# Look, Ma, No Arguments!
