@@ -38,7 +38,41 @@ ArithmeticError
 
 
 # Catching Exceptions
-see Division.py & Division_with_Exceptions.py
+see Division.py & Division_with_Exception.py
 
 
 # Look, Ma, No Arguments!
+>>> class MuffledCalculator:
+...     muffled = False
+...     def calc(self, expr):
+...         try:
+...             return eval(expr)
+...         except ZeroDivisionError:
+...             if self.muffled:
+...                 print('Division by zero is illegal')
+...             else:
+...                 raise
+...
+>>> calculator = MuffledCalculator()
+>>> calculator.calc('10/2')
+5.0
+>>> calculator.calc('10/0')  # No muffling
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 5, in calc
+  File "<string>", line 1, in <module>
+ZeroDivisionError: division by zero
+>>> calculator.muffled = True
+>>> calculator.calc('10/0')
+Division by zero is illegal
+
+
+# More Than One Except Clause
+see Division_with_Exceptions.py
+
+
+# Catching Two Exceptions with One Block
+see Division_with_Exception++.py
+
+
+# Catching an Object

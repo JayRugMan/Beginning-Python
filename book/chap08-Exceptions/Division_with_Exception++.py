@@ -9,7 +9,5 @@ def calculator():
 
 try:
     calculator()
-except ZeroDivisionError:
-    print("The second number can't be zero.")
-except ValueError:
-    print("That entry isn't a number.")
+except (ZeroDivisionError, ValueError, TypeError, NameError):
+    print("Your Numbers were bogus...")
