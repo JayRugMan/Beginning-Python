@@ -95,3 +95,69 @@ see Finally.py and All_4.py
 
 
 # Exceptions and Functions
+>>> def faulty():
+...     raise Exception('Something is wrong!')
+...
+>>> def ignore_exception():
+...     faulty()
+...
+>>> def handle_exception():
+...     try:
+...         faulty()
+...     except:
+...         print('Exception handled')
+...
+>>> ignore_exception()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in ignore_exception
+  File "<stdin>", line 2, in faulty
+Exception: Something is wrong!
+>>> handle_exception()
+Exception handled
+>>> faulty()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in faulty
+Exception: Something is wrong!
+
+>>> def describePerson(person):
+...     print('Description of {name}'.format(**person))
+...     print('Age: {age}'.format(**person))
+...     if 'occupation' in person:
+...         print('Occupation: {occupation}'.format(**person))
+...
+>>> John = {'name': 'John Smith', 'age': '43', 'occupation': 'Hole Digger'}
+>>> Georg = {'name': 'George Hardman', 'age': '53'}
+>>> describePerson(Georg)
+Description of George Hardman
+Age: 53
+>>> describePerson(John)
+Description of John Smith
+Age: 43
+Occupation: Hole Digger
+
+>>> def describePerson(person):
+...     print('Description of {name}'.format(**person))
+...     print('Age: {age}'.format(**person))
+...     try:
+...         print('Occupation: {occupation}'.format(**person))
+...     except KeyError: pass
+...
+>>> describePerson(Georg)
+Description of George Hardman
+Age: 53
+>>> describePerson(John)
+Description of John Smith
+Age: 43
+Occupation: Hole Digger
+
+>>> tad = ''
+>>> try:
+...     tad.write
+... except AttributeError:
+...     print('The object is not writable.')
+... else:
+...     print('The object is writable')
+...
+The object is not writable.
