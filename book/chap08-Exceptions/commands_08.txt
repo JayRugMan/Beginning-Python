@@ -76,3 +76,11 @@ see Division_with_Exception++.py
 
 
 # Catching an Object
+see Division_Catch_Exception_Object.py
+
+
+# A Real Catchall
+#I didn't write a script for this... to get it to catch all, just
+#leave off the exception between "except" and ":". From what I
+#gather, this is not advised because even CTRL + c, or sys.exit
+#are caught...
