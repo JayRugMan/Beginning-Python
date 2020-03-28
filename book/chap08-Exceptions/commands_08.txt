@@ -84,3 +84,14 @@ see Division_Catch_Exception_Object.py
 #leave off the exception between "except" and ":". From what I
 #gather, this is not advised because even CTRL + c, or sys.exit
 #are caught...
+
+
+# When All Is Well
+see Simple_Task.py, Division_2.0.py, and Division_2.1.py
+
+
+# And Finally...
+see Finally.py and All_4.py
+
+
+# Exceptions and Functions
