@@ -1,0 +1,51 @@
+### Chapter 9, Magic Methods, Properties, and Iterators
+
+
+# Constructors
+>>> f = FooBar()
+>>> f.init()
+^^ Without Constructors || vv with Constructors
+>>> f = FooBar()
+>>> class FooBar:
+...     def __init__(self):  # vs def init(self):
+...         self.somevar = 42
+...
+>>>
+>>> f = FooBar()
+>>> f.somevar
+42
+
+>>> class FooBar:
+...     def __init__(self, value=42):
+...         self.somevar = value
+...
+>>> f = FooBar()
+>>> f.somevar
+42
+>>> f = FooBar('This is a constructor argument')
+>>> f.somevar
+'This is a constructor argument'
+
+
+ # Overriding Methods in General, and the Constructor in Particular
+ >>> class A:
+...     def hello(self):
+...         print("Hello, I'm A.")
+...
+>>> class B(A):
+...     pass
+...
+>>> a = A()
+>>> b = B()
+>>> a.hello()
+Hello, I'm A.
+>>> b.hello()
+Hello, I'm A.
+
+>>> class B(A):
+...     def hello(self):
+...         print("Hello, I'm B.")
+...
+>>> b = B()
+>>> b.hello()
+Hello, I'm B.
