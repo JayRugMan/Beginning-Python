@@ -49,3 +49,205 @@ Hello, I'm A.
 >>> b = B()
 >>> b.hello()
 Hello, I'm B.
+
+>>> class Bird:
+...     def __init__(self):
+...         self.hungry = True
+...     def eat(self):
+...         if self.hungry:
+...             print('Aaaaaaaah...')
+...             self.hungry = False
+...         else:
+...             print('No, Thanks!')
+...
+>>> b = Bird()
+>>> b.eat()
+Aaaaaaaah...
+>>> b.eat()
+No, Thanks!
+>>>
+>>> class SongBird(Bird):
+...     def __init__(self):
+...         self.sound = 'Squack!'
+...     def sing(self):
+...         print(self.sound)
+...
+>>> sb = SongBird()
+>>> sb.sing()
+Squack!
+>>> sb.eat()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 5, in eat
+AttributeError: 'SongBird' object has no attribute 'hungry'
+
+
+# Calling the Unbound Superclass Constructor
+>>> class SongBird(Bird):
+...     def __init__(self):
+...         Bird.__init__(self)  # <<<< Difference
+...         self.sound = 'Squawk!'
+...     def sing(self):
+...         print(self.sound)
+...
+>>> sb = SongBird()
+>>> sb.sing()
+Squawk!
+>>> sb.eat()
+Aaaaaaaah...
+>>> sb.eat()
+No, Thanks!
+
+
+# Using the super Function
+>>> class Bird:
+...     def __init__(self):
+...         self.hunger = True
+...     def eat(self):
+...         if self.hunger:
+...             print('Aaaaaah...')
+...             self.hunger = False
+...         else:
+...             print('No, thanks!')
+...
+>>> class SongBird(Bird):
+...     def __init__(self):
+...         super().__init__()  # <<<<< Difference
+...         self.sound = 'SQUAWK!'
+...     def sing(self):
+...         print(self.sound)
+...
+>>> sb = SongBird()
+>>> sb.sing()
+SQUAWK!
+>>> sb.eat()
+Aaaaaah...
+>>> sb.eat()
+No, thanks!
+
+
+# Item Access
+# The Basic Sequence and Mapping Protocol
+>>> def checkIndex(key):
+...     """
+...     Is the given key an acceptable index?
+...     To be acceptable, the key should be a non-negative integer. if it
+...     is not an integer, a TyperError is raised; if it is negative, an
+...     IndexError is raised (since the sequence is of infinite length)
+...     """
+...     if not isinstance(key, (int)): raise TypeError
+...     if key<0: raise IndexError
+...
+>>>
+>>> class ArithmeticSequence:
+...     def __init__(self, start=0, step=1):
+...         """
+...         Initialize the arithmetic sequence.
+...         start   - the first value in the sequence
+...         step    - the difference between two adjacent values
+...         changed - a dictionary of valukes that have been modified by
+...                   the user
+...         """
+...         self.start = start                      # Store the start value
+...         self.step = step                        # Store the step value
+...         self.changed = {}                       # No items have been modified
+...     def __getitem__(self, key):
+...         """
+...         Get and item from the arithmetic sequence
+...         """
+...         checkIndex(key)
+...         try: return self.changed[key]           # Modified?
+...         except KeyError:                        # otherwise...
+...             return self.start + key*self.step   # ... calculate the value\
+...     def __setitem__(self, key, value):
+...         """
+...         Change an item in the arithmetic sequence.
+...         """
+...         checkIndex(key)
+...         self.changed[key] = value               # Store the changed value
+...
+>>> s = ArithmeticSequence(1, 2)
+>>> s[4]
+9
+>>> s[0]
+1
+>>> s[2]
+5
+>>> s[3]
+7
+>>> s[4]
+9
+>>> s[4] = 2
+>>> s[4]
+2
+>>> s[5]
+11
+>>> s[22]
+45
+>>> t = ArithmeticSequence()
+>>> t[14]
+14
+>>> t[14] = 3
+>>> for i in range(19):
+...     print(t[i])
+...
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+3
+15
+16
+17
+18
+>>> for i in range(19):
+...     print(s[i])
+...
+1
+3
+5
+7
+2
+11
+13
+15
+17
+19
+21
+23
+25
+27
+29
+31
+33
+35
+37
+>>> del s[4]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: __delitem__
+>>> s["four"]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 17, in __getitem__
+  File "<stdin>", line 8, in checkIndex
+TypeError
+>>> s[-42]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 17, in __getitem__
+  File "<stdin>", line 9, in checkIndex
+IndexError
+
+
+# Subclassing list, dict, and str
