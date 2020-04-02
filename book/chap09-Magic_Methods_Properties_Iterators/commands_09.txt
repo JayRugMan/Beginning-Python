@@ -251,3 +251,89 @@ IndexError
 
 
 # Subclassing list, dict, and str
+>>> class CounterList(list):
+...     def __init__(self, *args):
+...         super().__init__(*args)
+...         self.counter = 0
+...     def __getitem__(self, index):
+...         self.counter +=1
+...         return super().__getitem__(index)
+...
+>>> cl = CounterList(range(10))
+>>> cl
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> cl.reverse()
+>>> cl
+[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+>>> del cl[3:6]
+>>> cl
+[9, 8, 7, 3, 2, 1, 0]
+>>> cl.counter
+0
+>>> cl[4] + cl[2]
+9
+>>> cl.counter
+2
+>>> cl[0]
+9
+>>> cl.counter
+3
+
+
+# Properties
+>>> class Rectangle:
+...     def __init__(self):
+...         self.width = 0
+...         self.height = 0
+...     def setSize(self, size):
+...         self.width, self.height = size
+...     def getSize(self):
+...         return self.width, self.height
+...
+>>> r = Rectangle()
+>>> r.width = 10
+>>> r.height = 5
+>>> r.getSize()
+(10, 5)
+>>> r.setSize((150, 100))
+>>> r.width
+150
+
+# The property Function
+>>> __metaclass__ = type
+>>> class Rectangle:
+...     def __init__(self):
+...         self.width = 0
+...         self.height = 0
+...     def setSize(self, size):
+...         self.width, self.height = size
+...     def getSize(self):
+...         return self.width, self.height
+...     size = property(getSize, setSize)  # <<< difference
+...
+>>> r = Rectangle()
+>>> r.width = 10
+>>> r.height = 5
+>>> r.size
+(10, 5)
+>>> r.size = 150, 100
+>>> r.width
+150
+>>> class Square:
+...     def __init__(self):
+...         self.width = 0
+...         self.height = 0
+...     def blahJack(self, size):
+...         self.width, self.height = size
+...     def booJack(self):
+...         return self.width, self.height
+...     size = property(booJack, blahJack)
+...
+>>> s = Square()
+>>> s.width = 13
+>>> s.height = 29
+>>> s.size
+(13, 29)
+>>> s.size = 149, 10
+>>> s.width
+149
