@@ -323,9 +323,12 @@ IndexError
 ...     def __init__(self):
 ...         self.width = 0
 ...         self.height = 0
-...     def blahJack(self, size):
-...         self.width, self.height = size
-...     def booJack(self):
+...     def blahJack(self, size):  # Set
+...         try:
+...             self.width, self.height = size
+...         except TypeError:
+...             print('Error, enter two numbers separated by a comma.')
+...     def booJack(self):  # Get
 ...         return self.width, self.height
 ...     size = property(booJack, blahJack)
 ...
@@ -337,3 +340,86 @@ IndexError
 >>> s.size = 149, 10
 >>> s.width
 149
+
+>>> class Rtangle:
+...     def __init__(self):
+...         self.width = 0
+...         self.height = 0
+...     def setSize(self, size):
+...         try:
+...             self.width, self.height = size
+...         except TypeError:
+...             print('ERROR - Enter two numbers separated by a comma')
+...     def getSize(self):
+...         return self.width, self.height
+...     size = property(fset=setSize)  # keyword args, in order, are fget, fset, fdel, and doc
+...
+>>> r = Rtangle()
+>>> r.width = 14
+>>> r.height = 20
+>>> r.size = 2
+ERROR - Enter two numbers separated by a comma
+>>> r.size = 2, 4
+>>> r.size
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: unreadable attribute
+>>> r.width
+2
+>>> r.height
+4
+>>> class Rtangle:
+...     def __init__(self):
+...         self.width = 0
+...         self.height = 0
+...     def setSize(self, size):
+...         try:
+...             self.width, self.height = size
+...         except TypeError:
+...             print('ERROR - Enter two numbers separated by a comma')
+...     def getSize(self):
+...         return self.width, self.height
+...     def doc(self):
+...         """
+...         This is a test class. rectangle width and height.
+...         Size is two numbers, separated by commas
+...         """
+...     size = property(fset=setSize, doc=doc)  # keyword args, in order, are fget, fset, fdel, and doc
+...
+>>> r = Rtangle()
+>>> r.doc()
+
+        This is a test class. rectangle width and height.
+        Size is two numbers, separated by commas
+
+
+
+# Static Methods and Class Methods
+>>> __metaclass__ = type
+>>> class MyClass:
+...     def smeth():
+...         print('This is a static method')
+...     smeth = staticmethod(smeth)
+...     def cmeth(cls):
+...         print('This is a class method of {}'.format(cls))
+...     cmeth = classmethod(cmeth)
+...
+>>> mc = MyClass()
+>>> mc.smeth()
+This is a static method
+>>> mc.cmeth()
+
+>>> __metaclass__ = type
+>>> class MyClass:
+...     @staticmethod
+...     def smeth():
+...         print('This is a static method.')
+...     @classmethod
+...     def cmeth(cls):
+...         print('This is a class method of', cls)
+... 
+>>> MyClass.smeth()
+This is a static method.
+>>> MyClass.cmeth()
+This is a class method of <class '__main__.MyClass'>
+>>>
