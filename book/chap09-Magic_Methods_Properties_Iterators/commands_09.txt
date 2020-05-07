@@ -631,6 +631,37 @@ This is a class method of <class '__main__.MyClass'>
 ...
 >>> list(flatten(['foo', ['bar', ['baz']]]))
 ['foo', 'bar', 'baz']
+>>> list(flatten([['one', [2]], 'three']))
+['one', 2, 'three']
 
 
 # Generators in General
+>>> def simple_generator():
+...     yield 1
+...
+>>> simple_generator
+<function simple_generator at 0x7efdaa56e378>
+>>> simple_generator()
+<generator object simple_generator at 0x7efdaa552990>
+
+
+# Generator Methods
+>>> def repeater(value):
+...     while True:
+...         new = (yield value)
+...         if new is not None: value = new
+...
+>>> r = repeater(42)
+>>> next(r)
+42
+>>> r.send("Hello, World!")
+'Hello, World!'
+>>> r = repeater(42)
+>>> r.send("Hello, World!")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't send non-None value to a just-started generator
+>>> r.send(None)
+42
+>>> r.send("Hello, World!")
+'Hello, World!'
