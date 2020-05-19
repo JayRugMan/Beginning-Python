@@ -665,3 +665,72 @@ TypeError: can't send non-None value to a just-started generator
 42
 >>> r.send("Hello, World!")
 'Hello, World!'
+
+
+# Simulating Generators
+>>> def flatten(nested):
+...     result = []
+...     try:
+...         # Don't iterate over string-like objects
+...         try: nested + ''
+...         except TypeError: pass
+...         else: raise TypeError
+...         for sublist in nested:
+...             for element in flatten(sublist):
+...                 result.append(element)
+...     except TypeError:
+...         result.append(nested)
+...     return result
+...
+>>> list(flatten(['foo', ['bar', ['baz']]]))
+['foo', 'bar', 'baz']
+
+
+## The Eight Queens
+
+# Generators and Backtracking
+#Pseudocode
+for each possibility at level 1:
+    for each possibility at level 2:
+        ...
+            for each possibility at level n:
+                is it viable?
+
+
+# The Problem
+#Place 8 queens on a chess board is such a way that no two can capture
+#eachother
+
+
+# State Representation
+#Eight queens - one on each row, so tuple state[0] == 3 means queen on
+#row 1 is in column 4
+
+
+# Finding Conflict
+>>> def conflict(state, nextX):
+...     nextY = len(state)
+...     for i in range(nextY):
+...         if abs(state[i]-nextX) in (0, nextY-i):
+...             return True
+...         return False
+...
+>>>
+
+
+# The Base Case
+>>> def conflict(state, nextX):
+...     nextY = len(state)
+...     for i in range(nextY):
+...         if abs(state[i]-nextX) in (0,nextY-i):
+...             return True
+...     return False
+...
+>>> def queens(num, state):
+...     if len(state) == num-1:
+...         for pos in range(num):
+...             if not conflict(state, pos):
+...                 yield pos
+...
+>>> list(queens(4, (1, 3, 0)))
+[2]
