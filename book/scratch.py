@@ -36,11 +36,10 @@ class ArithmeticSequence:
         self.changed[key] = value               # Store the changed value
 
 
-
 def conflict(state, nextX):
     nextY = len(state)
     for i in range(nextY):
-        if abs(state[i]-nextX) in (0,nextY-i):
+        if abs(state[i]-nextX) in (0, nextY-i):
             return True
     return False
 
@@ -55,7 +54,7 @@ def queens(num, state):
 def conflict(state, nextX):  # (2,0,3,1,4), 6
     nextY = len(state)  # 5
     for i in range(nextY):  # i = 2    (0,1,2,3,4)
-        if abs(state[i]-nextX) in (0,nextY-i):  # |3-6|=3 in (0, 5-2=3)
+        if abs(state[i]-nextX) in (0, nextY-i):  # |3-6|=3 in (0, 5-2=3)
             return True
     return False
 
@@ -70,6 +69,7 @@ def queens(num, state):
             if not conflict(state, pos):
                 for result in queens(num, state + (pos,)):
                     yield (pos,) + result
+
 
 def queens(num=8, state=()):
     for pos in range(num):
@@ -110,6 +110,7 @@ def conflict_show(state, nextX):
     print(' Conflicts negative')
     return False
 
+
 def queens_show(num, state):
     if len(state) == num-1:  # 0 ==
         for pos in range(num):
@@ -118,16 +119,62 @@ def queens_show(num, state):
                 yield pos
 
 
+def conflict(state, nextX):
+    nextY = len(state)
+    for i in range(nextY):
+        if abs(state[i]-nextX) in (0, nextY-i):
+            return True
+    return False
+
+
+def queens(num=8, state=()):
+    for pos in range(num):
+        if not conflict(state, pos):
+            if len(state) == num-1:
+                yield (pos,)
+            else:
+                for result in queens(num, state + (pos,)):
+                    yield (pos,) + result
+
+
 def prettyprint(solution):
     def line(pos, length=len(solution)):
         return '{}{}{}'.format('[ ]'*pos, ' Q ', '[ ]'*(length-pos-1))
     for pos in solution:
         print(line(pos))
 
+
 def allTheBoards(num):
+    width = num * 3
     bCount = 0
     for cBoard in queens(num):
         bCount += 1
-        print('\n======{0:03d}======'.format(bCount))
+        bCount_fmtd = ' {} '.format(bCount)  # format me some bCount
+        print('\n{0:=^{1}}'.format(bCount_fmtd, width))
         prettyprint(cBoard)
-    print('\n{} total boards'.format(bCount))
+    total = '{} total boards'.format(bCount)
+    print('\n{0:^{1}}\n'.format(total, width))
+
+
+GCNTR = {'A': 0, 'B': 0, 'C': 0}
+def testme(total=2, nums=()):
+    lcntr = {'a': 0, 'b': 0, 'c': 0}
+    for num in range(total):
+        lcntr['a'] += 1
+        GCNTR['A'] += 1
+        print('a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+              ' num {0} nums {1}'.format(num, nums, **lcntr, **GCNTR))
+        if len(nums) == total-1:
+            lcntr['b'] += 1
+            GCNTR['B'] += 1
+            print(' a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+                  ' num {0} nums {1}'.format(num, nums, **lcntr, **GCNTR))
+            yield (num,)
+        else:
+            for result in testme(total, nums + (num,)):
+                lcntr['c'] += 1
+                GCNTR['C'] += 1
+                print('  a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+                      ' num {0} result {1}'.format(num, result,
+                                                   **lcntr, **GCNTR))
+                yield (num,) + result
