@@ -157,24 +157,50 @@ def allTheBoards(num):
 
 
 GCNTR = {'A': 0, 'B': 0, 'C': 0}
-def testme(total=2, nums=()):
+def testme(total=2, nums=(), level=0):
     lcntr = {'a': 0, 'b': 0, 'c': 0}
     for num in range(total):
         lcntr['a'] += 1
         GCNTR['A'] += 1
-        print('a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
-              ' num {0} nums {1}'.format(num, nums, **lcntr, **GCNTR))
+        print('{2}a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+              ' num {0} nums {1}'.format(num, nums, ' '*level,
+                                         **lcntr, **GCNTR))
         if len(nums) == total-1:
             lcntr['b'] += 1
             GCNTR['B'] += 1
-            print(' a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
-                  ' num {0} nums {1}'.format(num, nums, **lcntr, **GCNTR))
+            print('{2}a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+                  ' num {0} nums {1}'.format(num, nums, ' '*level,
+                                             **lcntr, **GCNTR))
+            print('{0}({1},) - b'.format(' '*level, num))
             yield (num,)
         else:
-            for result in testme(total, nums + (num,)):
+            for result in testme(total, nums + (num,), level+1):
                 lcntr['c'] += 1
                 GCNTR['C'] += 1
-                print('  a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
-                      ' num {0} result {1}'.format(num, result,
-                                                   **lcntr, **GCNTR))
+                print('{3}a-{a} b-{b} c-{c}    A-{A} B-{B} C-{C}'
+                      ' num {0} nums {1} result {2}'.format(
+                                                 num, nums, result, ' '*level,
+                                                 **lcntr, **GCNTR))
+                print('{0}{1} - c'.format(' '*level, (num,)+result))
                 yield (num,) + result
+
+list(testme())
+
+
+def guess_pin(pin=(1, 2, 3, 4)):
+    def bf_pin(numCount=1, total=10, gess=()):
+        for num in range(total):
+            if len(gess) == numCount-1:
+                yield (num,)
+            else:
+                for result in bf_pin(numCount, total, gess + (num,)):
+                    yield (num,) + result
+    for guess in bf_pin(numCount=len(pin)):
+        if guess == pin:
+            print('Pin is {}'.format(guess))
+            break
+
+
+>>> myPin = (3, 2, 1, 1, 4, 5)
+>>> guess_pin(myPin)
+Pin is (3, 2, 1, 1, 4, 5)
