@@ -201,6 +201,6 @@ def guess_pin(pin=(1, 2, 3, 4)):
             break
 
 
->>> myPin = (3, 2, 1, 1, 4, 5)
->>> guess_pin(myPin)
+myPin = (3, 2, 1, 1, 4, 5)
+guess_pin(myPin)
 Pin is (3, 2, 1, 1, 4, 5)
