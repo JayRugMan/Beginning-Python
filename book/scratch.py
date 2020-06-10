@@ -204,3 +204,16 @@ def guess_pin(pin=(1, 2, 3, 4)):
 myPin = (3, 2, 1, 1, 4, 5)
 guess_pin(myPin)
 Pin is (3, 2, 1, 1, 4, 5)
+
+
+# see https://unicode-table.com/en/#box-drawing
+boxTobBot = '━'
+print(boxTobBot)
+boxTRCorner = '┓'
+boxTLCorner = '┏'
+boxBRCorner = '┛'
+boxBLCorner = '┗'
+boxSides = '┃'
+print('{0}{1}{2}\n{3}{4}{3}\n{5}{1}{6}'.format(boxTLCorner, boxTobBot*3,
+                                               boxTRCorner, boxSides, ' '*3,
+                                               boxBLCorner, boxBRCorner))
