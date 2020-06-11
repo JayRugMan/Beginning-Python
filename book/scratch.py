@@ -217,3 +217,43 @@ boxSides = '┃'
 print('{0}{1}{2}\n{3}{4}{3}\n{5}{1}{6}'.format(boxTLCorner, boxTobBot*3,
                                                boxTRCorner, boxSides, ' '*3,
                                                boxBLCorner, boxBRCorner))
+
+
+def drawRectangle(width=2, height=2):
+    if width <= 0 or height <= 0:
+        raise Exception(TypeError('Width and height must be 1 or more'))
+    TLCorner = '┏'
+    TobBot = '━'
+    TRCorner = '┓'
+    Sides = '┃'
+    BLCorner = '┗'
+    BRCorner = '┛'
+    height = height + 1
+    width = (width * 2) - 1
+    grid = '{}{}{}'
+    for line in range(height):
+        if line == 0:
+            print(grid.format(TLCorner, TobBot*width, TRCorner))
+        elif line == (height - 1):
+            print(grid.format(BLCorner, TobBot*width, BRCorner))
+        else:
+            print(grid.format(Sides, ' '*width, Sides))
+
+
+class Rtangle:
+    def __init__(self):
+        self.width = 0
+        self.height = 0
+    def setSize(self, size):
+        try:
+            self.width, self.height = size
+        except TypeError:
+            print('ERROR - Enter two numbers separated by a comma')
+    def getSize(self):
+        return self.width, self.height
+    def doc(self):
+        print("""
+        This is a test class. rectangle width and height.
+        Size is two numbers, separated by commas
+        """)
+    size = property(fset=setSize, fget=getSize, doc=doc)  # keyword args, in order, are fget, fset, fdel, and doc
