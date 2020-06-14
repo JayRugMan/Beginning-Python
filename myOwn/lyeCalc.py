@@ -11,12 +11,12 @@ sapB = {
 }
 # Na base ratio based on Na molecular wieght devided by K molecular weight
 # or 39.997 g/mol divided by 56.106 g/mol
-NAvsKRatio = {"Na": 1402.755, "K": 1000}
+NAvsKRatio = {"NaOH": 1402.755, "KOH": 1000}
 oilList = ', '.join(list(sapB.keys()))
 prompts = {
     'oil': 'Type of oil ({}): '.format(oilList),
     'oil amount': 'How many grams of {oil} oil: ',
-    'base': 'Type of base (Na, K): '
+    'base': 'Type of base (NaOH, KOH): '
 }
 responses = {}
 calcdAmnts = {}
@@ -61,10 +61,11 @@ def showResults():
     ''' Prints out the results '''
     output = {'oil': responses['oil'],
               'oil amount': responses['oil amount'],
-              'sap value': calcdAmnts['sapVal']}
+              'sap value': calcdAmnts['sapVal'],
+              'base': responses['base']}
     print('''\n       Values by weight
 
-{oil} oil Saponification Value:\t{sap value:.6f}
+{oil} oil/{base} Saponification Value:\t{sap value:.6f}
 Amount of {oil} oil:\t\t{oil amount:.2f}
 
 Table for calculating a remaining-fat percentage
