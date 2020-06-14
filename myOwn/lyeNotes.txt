@@ -1,0 +1,27 @@
+Dividing the SAP value by 1402.50 or multiplying the KOH ratio by 40/56.1
+(the ratio of the molecular weights of NaOH/KOH), gives us the amount of
+NaOH required for any unit, as long as you use the same units to measure
+your NaOH and Oils. Example: An oil with an average SAP value of 190 will
+require 190/1402.50 = 0.135 g of NaOH per 1 g of oil, 0.135 ounces NaOH
+per ounce of oil, or 0.135 pounds of NaOH per pound of oil.
+
+Coconut Oil, Organic
+  250 - 265	0.184	0.258	Cocos Nucifera (Coconut) Oil
+Coconut Oil, Organic, Virgin
+  250 - 265	0.184	0.258	Cocos nucifera (Coconut) Oil
+Coconut Oil, RBD
+  250 - 264	0.183	0.257	Cocos Nucifera (Coconut) Oil
+Coconut Oil, Virgin, Organic
+  248 - 268	0.184	0.258	Cocos Nucifera (Virgin Coconut) Oil
+
+
+  258/1402.50 = 0.184
+
+for num in range(11):
+    water = calcdAmnts[num]['water']
+    lye = calcdAmnts[num]['lye']
+    wlSum = water + lye
+    pcntLye = lye / wlSum * 100
+    pcntWater = water / wlSum * 100
+    string = '{0}\t- water: {1:.2f}% - lye: {2:.2f}%'
+    print(string.format(num, pcntWater, pcntLye))
