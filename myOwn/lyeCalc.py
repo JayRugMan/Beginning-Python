@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 
 
-import sys
-
-
 class SAP_Basics:
     ''' Set constants for Saponification Values
     based on Potassium Hydroxide (KOH)
