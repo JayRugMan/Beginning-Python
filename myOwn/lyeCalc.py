@@ -62,32 +62,24 @@ class Final_Values():
             self.percLst[num]['water'] = int(self.waterAmnt*((100-num)*0.01))
 
 
-def get_input(type):
-    prompt = getattr(Prompts(), type)
-    output = input(prompt)
-    try:
-        return float(output)
-    except ValueError:
-        return output.lower()
-
-
 def screen_input(valueType, inputType, listOfItems=[]):
+    prompt = getattr(Prompts(), inputType)
     if valueType == 'number':
         while True:
-            value = get_input(inputType)
+            value = input(prompt)
             try:
-                float(value)
+                return float(value)
                 break
             except ValueError:
                 print("That's not a number")
     elif valueType == 'list':
         while True:
-            value = get_input(inputType)
+            value = input(prompt).lower()
             if value in listOfItems:
+                return value
                 break
             else:
                 print('{} not found in list'.format(value))
-    return value
 
 
 def showResults(final):
