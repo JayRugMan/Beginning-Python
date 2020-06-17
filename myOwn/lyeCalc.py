@@ -44,12 +44,12 @@ class Final_Values():
         self.solCon = 0.35
         self.oil = oil
         self.oilAmnt = amount
+
         if base == 'naoh':
             self.baseFull = 'sodium hydroxide'
         elif base == 'koh':
             self.baseFull = 'potassium hydroxide'
-        else:
-            raise Exception('Sorry, you entered an unknown base!')
+
         self.sapV = getattr(SAP_Basics(), oil)/getattr(Base_Ratios(), base)
         # Calcluate amount of Lye based on amount of oil(fat) and Sap value
         # (Amount of Fat) x (Saponification Value of the Fat) = (Amount of Lye)
@@ -62,7 +62,7 @@ class Final_Values():
             self.percLst[num]['water'] = int(self.waterAmnt*((100-num)*0.01))
 
 
-def screen_input(valueType, inputType, listOfItems=[]):
+def get_input(valueType, inputType, listOfItems=[]):
     prompt = getattr(Prompts(), inputType)
     if valueType == 'number':
         while True:
@@ -79,7 +79,7 @@ def screen_input(valueType, inputType, listOfItems=[]):
                 return value
                 break
             else:
-                print('{} not found in list'.format(value))
+                print('{} not found in {} list'.format(value, inputType))
 
 
 def showResults(final):
@@ -106,9 +106,11 @@ Table for calculating a remaining-fat percentage
 
 def main():
     '''Main Function'''
-    oil = screen_input('list', 'oil', list(SAP_Basics().__dict__.keys()))
-    oilAmnt = screen_input('number', 'oilAmnt')
-    base = screen_input('list', 'base', list(Base_Ratios().__dict__.keys()))
+    oilList = list(SAP_Basics().__dict__.keys())
+    baseList = list(Base_Ratios().__dict__.keys())
+    oil = get_input('list', 'oil', oilList)
+    oilAmnt = get_input('number', 'oilAmnt')
+    base = get_input('list', 'base', baseList)
     final = Final_Values(oil, oilAmnt, base)
     showResults(final)
 
