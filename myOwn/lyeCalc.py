@@ -12,6 +12,7 @@ class SAP_Basics:
         self.lard = 194.60420115
         self.coconut = 258
         self.castor = 181
+        self.ghee = 220
 
 
 class Base_Ratios:
