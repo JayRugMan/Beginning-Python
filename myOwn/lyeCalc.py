@@ -53,13 +53,121 @@ class Final_Values():
         self.sapV = getattr(SAP_Basics(), oil)/getattr(Base_Ratios(), base)
         # Calcluate amount of Lye based on amount of oil(fat) and Sap value
         # (Amount of Fat) x (Saponification Value of the Fat) = (Amount of Lye)
-        self.lyeAmnt = amount * self.sapV
+        self.lyeAmnt = self.oilAmnt * self.sapV
         self.waterAmnt = self.lyeAmnt*(1/self.solCon - 1)
         # calculate lye 100, 99 98 97 96 95 94 93 92 91 and 90 percent
+        # and puts it into list of dictionaries under attribute 'percLst'
         self.percLst = []
         for num in range(11):
             self.percLst.append({'lye': self.lyeAmnt*((100-num)*0.01)})
-            self.percLst[num]['water'] = int(self.waterAmnt*((100-num)*0.01))
+            self.percLst[num]['water'] = self.waterAmnt*((100-num)*0.01)
+
+
+class Line_Characters:
+    '''Characters for box and table'''
+
+    def __init__(self):
+        self.tpBtm = '━'
+        self.cornerTL = '┏'
+        self.cornerTR = '┓'
+        self.cornerBR = '┛'
+        self.cornerBL = '┗'
+        self.edges = '┃'
+        self.tblCross = '┼'
+        self.tblTop = '─'
+        self.tblEdges = '│'
+
+
+class Table(Line_Characters):
+    '''Builds table object'''
+
+    def __init__(self, final):
+        super().__init__()
+        numOfRows = len(final.percLst)
+        self.colmnW = [9, 11, 12]
+        headList = ['percent', 'lye (g)', 'water (ml)']
+        hrzBrdr = []
+        for i in self.colmnW:
+            hrzBrdr.append(self.tblTop*i)
+        self.separators = [self.tblEdges,
+                           self.tblCross] + list(self.tblEdges*numOfRows)
+        self.lines = [headList, hrzBrdr]
+        for num in range(numOfRows):
+            self.lines.append([num, round(final.percLst[num]['lye'], 3),
+                               round(final.percLst[num]['water'], 2)])
+
+    def build_table(self):
+        table = ''
+        row = '{0:>{3}}{sep}{1:^{4}}{sep}{2:<{5}}'
+        for line, sep in zip(self.lines, self.separators):
+            table = table + '\n' + row.format(*line, *self.colmnW, sep=sep)
+        table = '\n'.join(table.split('\n')[1:])  # removed 1st (blank) line
+        return table
+
+
+class OutPut:
+    '''This object is the output dictionary ready to be boxed'''
+
+    def __init__(self, final):
+        self.outputDict = {}
+        table = Table(final)
+        self.outputDict['center1'] = 'VALUES\n'
+        self.outputDict['left1'] = (
+          '{oil} oil/{baseFull} Saponification Value:\n'
+          '{sapV:.6f}\n\n'
+          'Amount of {oil} oil:\n'
+          '{oilAmnt:.3f} grams\n'
+        ).format(**final.__dict__)
+        self.outputDict['center2'] = (
+          'Table for calculating a remaining-fat percentage\n'
+          '(recommended about 5 - 8%)\n'
+        )
+        self.outputDict['center3'] = table.build_table()
+
+
+class Box(Line_Characters):
+    '''Construct a box around the imput'''
+
+    def __init__(self):
+        super().__init__()
+
+    def get_width(self, innardsDict):
+        '''Gets the longest line of the string'''
+        longest = 0
+        for value in innardsDict.values():
+            innardsLst = value.split('\n')
+            for item in innardsLst:
+                if len(item) > longest:
+                    longest = len(item)
+        return longest
+
+    def fill_box(self, innardsDict, width):
+        '''Either centers, or justifies left
+        or right values based on keys'''
+        strngList = []
+        for key, value in innardsDict.items():
+            if 'center' in key:
+                s = '{0}{1:^{w}}{0}'
+            elif 'right' in key:
+                s = '{0}{1:>{w}}{0}'
+            elif 'left' in key:
+                s = '{0}{1:<{w}}{0}'
+            for line in value.split('\n'):
+                strngList.append(s.format(self.edges, line, w=width))
+        return '\n'.join(strngList)
+
+    def put_in_box(self, innardsDict):
+        '''Puts the specified string into a box recieves a dict of strings,
+        separated based on number of differing formatting - centered, right
+        or left justified, the format(s) being the key(s)'''
+        width = self.get_width(innardsDict) + 2
+        top = '{}{}{}'.format(self.cornerTL, self.tpBtm*(width), self.cornerTR)
+        bottom = '{}{}{}'.format(self.cornerBL, self.tpBtm*(width),
+                                 self.cornerBR)
+        fString = '{t}{nl}{guts}{nl}{b}'
+        boxStr = fString.format(t=top, nl='\n', b=bottom,
+                                guts=self.fill_box(innardsDict, width))
+        return boxStr
 
 
 def get_input(valueType, inputType, listOfItems=[]):
@@ -84,24 +192,9 @@ def get_input(valueType, inputType, listOfItems=[]):
 
 def showResults(final):
     ''' Prints out the results '''
-    print('''\n       Values by weight
-
-{oil} oil/{baseFull} Saponification Value:
-{sapV:.6f}
-
-Amount of {oil} oil:
-{oilAmnt:.3f} grams
-
-Table for calculating a remaining-fat percentage
-(recommended about 5 - 8%):
-
-|percent  |lye (g)\t|water (ml)\t
-+---------+-------------+-----------'''.format(**final.__dict__))
-    # Creates table with remaining fat percentage,
-    # lye value, water value, and lye plus water value
-    for num in range(11):
-        print('|{0}\t  |{lye:.3f}\t|{water}'.format(num, **final.percLst[num]))
-    print('\n')
+    boxed = Box()
+    outputs = OutPut(final)
+    print(boxed.put_in_box(outputs.outputDict))
 
 
 def main():

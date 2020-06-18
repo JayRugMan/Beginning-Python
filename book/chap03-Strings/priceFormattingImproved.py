@@ -50,8 +50,8 @@ def drawTable(lst, wdth):
     # Draws the table
 
     w = wdth - 1  # minus one for the right edge
-    border1 = '='
-    border2 = '-'
+    border1 = '━'
+    border2 = '─'
     edge1 = '+'
     edge2 = '|'
     print('{edge:{fill}<{w}}{edge}'.format(edge=edge1, fill=border1, w=w))
