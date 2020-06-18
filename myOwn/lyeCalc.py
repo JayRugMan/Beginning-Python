@@ -27,8 +27,8 @@ class Prompts:
     '''List of prompts to be used when getting input'''
 
     def __init__(self):
-        self.oilList = ' '.join(list(SAP_Basics().__dict__.keys()))
-        self.oil = 'Type of oil ({}): '.format(self.oilList)
+        oilList = ' '.join(list(SAP_Basics().__dict__.keys()))
+        self.oil = 'Type of oil ({}): '.format(oilList)
         self.oilAmnt = 'How many grams: '
         self.base = 'Type of base (NaOH KOH): '
 
@@ -41,7 +41,7 @@ class Final_Values():
 
     def __init__(self, oil, amount, base):
         # solution contant or solCon is to achieve lye/water ratio of 35%:65%
-        self.solCon = 0.35
+        solCon = 0.35
         self.oil = oil
         self.oilAmnt = amount
 
@@ -53,14 +53,14 @@ class Final_Values():
         self.sapV = getattr(SAP_Basics(), oil)/getattr(Base_Ratios(), base)
         # Calcluate amount of Lye based on amount of oil(fat) and Sap value
         # (Amount of Fat) x (Saponification Value of the Fat) = (Amount of Lye)
-        self.lyeAmnt = self.oilAmnt * self.sapV
-        self.waterAmnt = self.lyeAmnt*(1/self.solCon - 1)
+        lyeAmnt = amount * self.sapV
+        waterAmnt = lyeAmnt*(1/solCon - 1)
         # calculate lye 100, 99 98 97 96 95 94 93 92 91 and 90 percent
         # and puts it into list of dictionaries under attribute 'percLst'
         self.percLst = []
         for num in range(11):
-            self.percLst.append({'lye': self.lyeAmnt*((100-num)*0.01)})
-            self.percLst[num]['water'] = self.waterAmnt*((100-num)*0.01)
+            self.percLst.append({'lye': lyeAmnt*((100-num)*0.01)})
+            self.percLst[num]['water'] = waterAmnt*((100-num)*0.01)
 
 
 class Line_Characters:
@@ -113,11 +113,11 @@ class OutPut:
         table = Table(final)
         self.outputDict['center1'] = 'VALUES\n'
         self.outputDict['left1'] = (
-          '{oil} oil/{baseFull} Saponification Value:\n'
-          '{sapV:.6f}\n\n'
-          'Amount of {oil} oil:\n'
-          '{oilAmnt:.3f} grams\n'
-        ).format(**final.__dict__)
+          '{f.oil} oil/{f.baseFull} saponification value:\n'
+          '{f.sapV:.6f}\n\n'
+          'Amount of {f.oil} oil:\n'
+          '{f.oilAmnt:.3f} grams\n'
+        ).format(f=final)
         self.outputDict['center2'] = (
           'Table for calculating a remaining-fat percentage\n'
           '(recommended about 5 - 8%)\n'
@@ -126,7 +126,7 @@ class OutPut:
 
 
 class Box(Line_Characters):
-    '''Construct a box around the imput'''
+    '''Construct a box around the input'''
 
     def __init__(self):
         super().__init__()
@@ -142,9 +142,10 @@ class Box(Line_Characters):
         return longest
 
     def fill_box(self, innardsDict, width):
-        '''Either centers, or justifies left
-        or right values based on keys'''
-        strngList = []
+        '''Either centers, or justifies left or right
+        values based on keys and returns a single string
+        combining each section formatted properly'''
+        strList = []
         for key, value in innardsDict.items():
             if 'center' in key:
                 s = '{0}{1:^{w}}{0}'
@@ -153,8 +154,8 @@ class Box(Line_Characters):
             elif 'left' in key:
                 s = '{0}{1:<{w}}{0}'
             for line in value.split('\n'):
-                strngList.append(s.format(self.edges, line, w=width))
-        return '\n'.join(strngList)
+                strList.append(s.format(self.edges, line, w=width))
+        return '\n'.join(strList)
 
     def put_in_box(self, innardsDict):
         '''Puts the specified string into a box recieves a dict of strings,
@@ -165,14 +166,14 @@ class Box(Line_Characters):
         bottom = '{}{}{}'.format(self.cornerBL, self.tpBtm*(width),
                                  self.cornerBR)
         fString = '{t}{nl}{guts}{nl}{b}'
-        boxStr = fString.format(t=top, nl='\n', b=bottom,
-                                guts=self.fill_box(innardsDict, width))
-        return boxStr
+        boxedStr = fString.format(t=top, nl='\n', b=bottom,
+                                  guts=self.fill_box(innardsDict, width))
+        return boxedStr
 
 
-def get_input(valueType, inputType, listOfItems=[]):
-    prompt = getattr(Prompts(), inputType)
-    if valueType == 'number':
+def get_input(inputType, valueType, listOfItems=[]):
+    prompt = getattr(Prompts(), valueType)
+    if inputType == 'float':
         while True:
             value = input(prompt)
             try:
@@ -180,14 +181,14 @@ def get_input(valueType, inputType, listOfItems=[]):
                 break
             except ValueError:
                 print("That's not a number")
-    elif valueType == 'list':
+    elif inputType == 'str':
         while True:
             value = input(prompt).lower()
             if value in listOfItems:
                 return value
                 break
             else:
-                print('{} not found in {} list'.format(value, inputType))
+                print('{} not found in {} list'.format(value, valueType))
 
 
 def showResults(final):
@@ -201,9 +202,9 @@ def main():
     '''Main Function'''
     oilList = list(SAP_Basics().__dict__.keys())
     baseList = list(Base_Ratios().__dict__.keys())
-    oil = get_input('list', 'oil', oilList)
-    oilAmnt = get_input('number', 'oilAmnt')
-    base = get_input('list', 'base', baseList)
+    oil = get_input('str', 'oil', oilList)
+    oilAmnt = get_input('float', 'oilAmnt')
+    base = get_input('str', 'base', baseList)
     final = Final_Values(oil, oilAmnt, base)
     showResults(final)
 
