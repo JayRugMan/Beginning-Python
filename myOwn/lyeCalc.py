@@ -16,8 +16,8 @@ class SAP_Basics:
 
 
 class Base_Ratios:
-    '''Na base ratio based on Na molecular wieght devided by K molecular weight
-    or 39.997 g/mol divided by 56.106 g/mol'''
+    '''Na base ratio based on Na molecular wieght devided by
+    K molecular weight or 39.997 g/mol divided by 56.106 g/mol'''
 
     def __init__(self):
         self.naoh = 1402.755
@@ -101,7 +101,7 @@ class Table(Line_Characters):
         table = ''
         row = '{0:>{3}}{sep}{1:^{4}}{sep}{2:<{5}}'
         for line, sep in zip(self.lines, self.separators):
-            table = table + '\n' + row.format(*line, *self.colmnW, sep=sep)
+            table += '\n' + row.format(*line, *self.colmnW, sep=sep)
         table = '\n'.join(table.split('\n')[1:])  # removed 1st (blank) line
         return table
 
