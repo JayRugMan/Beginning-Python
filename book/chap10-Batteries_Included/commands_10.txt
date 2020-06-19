@@ -2,3 +2,53 @@
 
 
 
+## Modules
+# Modules Are Programs
+#see hello.py
+>>> import sys
+>>> sys.path.append('<...>/Beginning-Python/book/chap10-Batteries_Included')
+>>> import hello
+Hello, world!
+>>> import hello
+>>> hello = reload(hello)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'reload' is not defined
+
+
+## Modules Are Used to Define Things
+# Defining a Function in a Module
+#see hello2.py
+>>> import hello2
+>>> hello()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'module' object is not callable
+>>> hi = hello()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'module' object is not callable
+>>> hello2.hello()
+Hello, world!
+
+
+# Adding Test Code to a Modules
+#see hello3.py
+>>> import hello3
+Hello, world!
+>>> hello3.hello()
+Hello, world!
+
+ #see hello4.py
+ >>> __name__
+'__main__'
+>>> hello4.__name__
+'hello4'
+>>> import hello4
+>>> hello4.hello()
+Hello, world!
+>>> hello4.test()
+Hello, world!
+
+
+## Make Your Modules Available
