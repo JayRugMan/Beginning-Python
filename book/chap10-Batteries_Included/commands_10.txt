@@ -52,3 +52,48 @@ Hello, world!
 
 
 ## Make Your Modules Available
+# Putting Your Modules in the Right Place
+Python 3.6.9 (default, Apr 18 2020, 01:56:04)
+[GCC 8.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys, pprint
+>>> pprint.pprint(sys.path)
+['',
+ '/usr/lib/python36.zip',
+ '/usr/lib/python3.6',
+ '/usr/lib/python3.6/lib-dynload',
+ '<a need-to-know basis>/python3-venv/lib/python3.6/site-packages']  #<< python venv, if not obvious
+>>>
+...
+Python 2.7.17 (default, Apr 15 2020, 17:20:14)
+[GCC 7.5.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys, pprint
+>>> pprint.pprint(sys.path)
+['',
+ '/usr/lib/python2.7',
+ '/usr/lib/python2.7/plat-x86_64-linux-gnu',
+ '/usr/lib/python2.7/lib-tk',
+ '/usr/lib/python2.7/lib-old',
+ '/usr/lib/python2.7/lib-dynload',
+ '/usr/local/lib/python2.7/dist-packages',
+ '/usr/lib/python2.7/dist-packages',
+ '/usr/lib/python2.7/dist-packages/gtk-2.0',
+ '/usr/lib/python2.7/dist-packages/wx-3.0-gtk3']
+>>>
+
+[chap10-Batteries_Included] $ cp hello4.py <a need-to-know basis>/python3-venv/lib/python3.6/site-packages/another_hello.py
+>>> import another_hello
+>>> another_hello.hello()
+Hello, world!
+>>>
+
+
+## Packages
+# see constants/__init__.py
+>>> import constants
+>>> constants.friend
+'Jason Hardman'
+>>> constants.PI
+3.141592653589793
+>>>
