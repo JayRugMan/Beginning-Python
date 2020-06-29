@@ -1,4 +1,8 @@
 # Box.py
+
+from jaymatting.Line_Characters import Line_Characters
+
+
 class Box(Line_Characters):
     '''Constructs a box around the input - takes dictionary of
     strings, where the key contains either center, right, or
