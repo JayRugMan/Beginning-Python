@@ -232,3 +232,59 @@ When step is given, it specifies the increment (or decrement).
 ...     print('no')
 ...
 yes
+# see reverseargs.py
+(python3-venv) me@mycomp:chap10-Batteries_Included$ python3 reverseargs.py three two one
+one two three
+
+# OS
+>>> osEnv = os.environ
+>>> osEnv['_']
+'/home/me/python3-venv/bin/python'
+>>> osEnv['SHELL']
+'/bin/bash'
+>>> osEnv['XDG_CURRENT_DESKTOP']
+'X-Cinnamon'
+>>>
+
+>>> osSys = os.system
+>>> osSys('ls')
+Box.py	Line_Characters.py  __pycache__
+0
+>>> osSys('ls __pycache__')
+Box.cpython-36.opt-1.pyc  Line_Characters.cpython-36.opt-1.pyc
+0
+>>> osSys('pwd')
+/home/me/Documents/CodingProjects/python/Beginning-Python/myOwn/jaymatting
+0
+>>> osSys('grep -i processor /proc/cpuinfo')
+processor	: 0
+processor	: 1
+processor	: 2
+processor	: 3
+processor	: 4
+processor	: 5
+processor	: 6
+processor	: 7
+0
+>>> osSys('free -tm')
+              total        used        free      shared  buff/cache   available
+Mem:           7664        2694         561         835        4409        3836
+Swap:          7875         457        7418
+Total:        15540        3151        7980
+0
+>>> osSys('/usr/bin/firefox')  # this opened in the GUI until I killed with ctrl + c
+^CExiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+2
+>>> import webbrowser
+>>> webbrowser.open('https://www.python.org')  # opened this in a tab of current chrome session
+True
+>>> Opening in existing browser session.
+[0623/103137.918723:ERROR:nacl_helper_linux.cc(308)] NaCl helper process running without a sandbox!
+Most likely you need to configure your SUID sandbox correctly
+
+>>>
+
+# fileinput
