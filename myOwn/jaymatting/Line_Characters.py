@@ -1,6 +1,15 @@
 # Line_Characters.py
-class Line_Characters:
-    '''Characters for box and table'''
+class Tables:
+    '''Characters for table'''
+
+    def __init__(self):
+        self.tblCross = '┼'
+        self.tblTop = '─'
+        self.tblEdges = '│'
+
+
+class Boxes:
+    '''Characters for boxes'''
 
     def __init__(self):
         self.tpBtm = '━'
@@ -9,6 +18,3 @@ class Line_Characters:
         self.cornerBR = '┛'
         self.cornerBL = '┗'
         self.edges = '┃'
-        self.tblCross = '┼'
-        self.tblTop = '─'
-        self.tblEdges = '│'
