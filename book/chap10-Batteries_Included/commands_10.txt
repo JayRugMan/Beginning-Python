@@ -288,3 +288,4 @@ Most likely you need to configure your SUID sandbox correctly
 >>>
 
 # fileinput
+# see ./numberlines.py
