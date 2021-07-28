@@ -21,53 +21,46 @@ def calc_age(current_dt, b_day):
     '''
     Takes birthday and current time to calculate age
     '''
-    theAge={}
+    the_age={}
     # Converts the given birthday to datetime format
-    b_dayDate = datetime.datetime.strptime(b_day, '%m/%d/%Y-%H:%M:%S')
-    timeDifference = current_dt - b_dayDate
-    
+    b_daydate = datetime.datetime.strptime(b_day, '%m/%d/%Y-%H:%M:%S')
+    time_difference = current_dt - b_daydate
     # Calculates years as float and as interger - int goes into final dict
-    years = ((timeDifference.total_seconds()) / (365.242*24*3600))
-    theAge['years'] = int(years)
-    
-    # Calculates Months from the decimal remainder of 
+    years = ((time_difference.total_seconds()) / (365.2425*24*3600))
+    the_age['years'] = int(years)
+    # Calculates Months from the decimal remainder of
     # difference between the year float and year interger
-    months =(years - theAge['years']) * 12
-    theAge['months'] = int(months)
-    
+    months =(years - the_age['years']) * 12
+    the_age['months'] = int(months)
     # Same as months, but for days
-    days =(months - theAge['months']) * (365.242/12)
-    theAge['days'] = int(days)
-    
+    days =(months - the_age['months']) * (365.242/12)
+    the_age['days'] = int(days)
     # I think you get the point...
-    hours = (days - theAge['days']) * 24
-    theAge['hours'] = int(hours)
-    
+    hours = (days - the_age['days']) * 24
+    the_age['hours'] = int(hours)
     # ... and on...
-    minutes = (hours - theAge['hours']) * 60
-    theAge['minutes'] = int(minutes)
-    
+    minutes = (hours - the_age['hours']) * 60
+    the_age['minutes'] = int(minutes)
     # ... to seconds.
-    seconds = (minutes - theAge['minutes']) * 60
-    theAge['seconds']  = int(seconds)
-    
-    return theAge
+    seconds = (minutes - the_age['minutes']) * 60
+    the_age['seconds']  = int(seconds)
+    return the_age
 
 
 def main():
     '''
     The main event
     '''
-    rightNow = datetime.datetime.now()
+    right_now = datetime.datetime.now()
     birthday = get_birthday()
-    age = calc_age(rightNow, birthday)
-    finalStr = 'You are {years} years, ' + \
+    age = calc_age(right_now, birthday)
+    final_str = 'You are {years} years, ' + \
                '{months} months, ' + \
                '{days} days, ' + \
                '{hours} hours, ' + \
                '{minutes} minutes, ' + \
                'and {seconds} seconds old.'
-    print(finalStr.format(**age))
+    print(final_str.format(**age))
 
 
 main()
