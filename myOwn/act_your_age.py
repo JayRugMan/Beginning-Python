@@ -5,7 +5,8 @@ age in years, months, days, hours, minutes, and seconds
 '''
 #####
 #
-#  modeled and imporved upon https://gist.github.com/shahri23/1804a3acb7ffb58a1ec8f1eda304af1a
+#  modeled and imporved upon
+#  https://gist.github.com/shahri23/1804a3acb7ffb58a1ec8f1eda304af1a
 #
 #####
 
