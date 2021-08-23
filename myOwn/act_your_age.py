@@ -17,7 +17,7 @@ def get_birthday():
     '''
     Asks for birthday input
     '''
-    bday = input('When were you born (mm/dd/yyyy-hh:mm:ss)? ')
+    bday = input('When were you born (dd/mm/yyyy-HH:MM)? ')
     return bday
 
 
@@ -27,7 +27,7 @@ def calc_age(current_dt, b_day):
     '''
     the_age={}
     # Converts the given birthday to datetime format
-    b_daydate = datetime.datetime.strptime(b_day, '%m/%d/%Y-%H:%M:%S')
+    b_daydate = datetime.datetime.strptime(b_day, '%d/%m/%Y-%H:%M')
     time_difference = current_dt - b_daydate
     # Calculates years as float and as interger - int goes into final dict
     years = ((time_difference.total_seconds()) / (365.2425*24*3600))
@@ -45,9 +45,6 @@ def calc_age(current_dt, b_day):
     # ... and on...
     minutes = (hours - the_age['hours']) * 60
     the_age['minutes'] = int(minutes)
-    # ... to seconds.
-    seconds = (minutes - the_age['minutes']) * 60
-    the_age['seconds']  = int(seconds)
     return the_age
 
 
@@ -62,8 +59,7 @@ def main():
                '{months} months, ' + \
                '{days} days, ' + \
                '{hours} hours, ' + \
-               '{minutes} minutes, ' + \
-               'and {seconds} seconds old.'
+               '{minutes} minutes old.'
     print(final_str.format(**age))
 
 
