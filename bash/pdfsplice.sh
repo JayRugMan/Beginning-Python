@@ -6,7 +6,7 @@
 function usage() {
   cat <<EOF
 
-Usage for ${SCRIPT_NAME} -h | -i | [-s <num> ] [-e <int> ] -f <input_file.pdf> [-f <output_file.pdf>]
+Usage for ${SCRIPT_NAME} -h | -i | [-s <num>] [-e <int>] -f <input_file.pdf> [-f <output_file.pdf>]
 
 OPTIONS:
 
