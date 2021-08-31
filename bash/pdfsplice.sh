@@ -5,14 +5,17 @@
 
 function usage() {
   cat <<EOF
-Usage for ${SCRIPT_NAME}:
+
+Usage for ${SCRIPT_NAME} -h | -i | [-s <num> ] [-e <int> ] -f <input_file.pdf> [-f <output_file.pdf>]
+
+OPTIONS:
 
  -h                  Prints usage
 
  -i                  Enter interactive mode
 
  -s <integer>        Starting page of PDF to splice. If blank,
-                     page 1 is assumed
+                     page 1 is assumed.
 
  -e <integer>        Ending page to splice. If blank, the
                      last page is assumed.
@@ -136,6 +139,10 @@ function parse_file() {
 function main() {
   # Main Function
   get_options ${@}
+  if [[ -z $INPUT_FILE ]]; then
+    usage
+	exit 1
+  fi
   parse_file
 }
 
