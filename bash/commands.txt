@@ -18,3 +18,7 @@ tar xJf total_annihilation_wine.tar.xz
 cd total_annihilation_wine/
 sudo apt install icoutils unrar zenity innoextract
 ./total_annihilation_wine.sh -respath="/home/jason/total_anihilation_commander_pack/" -buildpath="/home/jason/Desktop/"
+
+
+# create password hash for /etc/shadow file with python3:
+python -c "import crypt, getpass, pwd; print(crypt.crypt('password', '\$6\$SALT\$'))"
