@@ -22,3 +22,9 @@ sudo apt install icoutils unrar zenity innoextract
 
 # create password hash for /etc/shadow file with python3:
 python -c "import crypt, getpass, pwd; print(crypt.crypt('password', '\$6\$SALT\$'))"
+
+# encrypt pw to file and encrypting the file (must gpg key set up already)
+read -s MyPass && echo $MyPass > pandPass.txt && unset MyPass && gpg -v --sign --encrypt -r <KEY Short Name> -u <KEY Short Name> pandPass.txt && rm pandPass.txt
+# line to use this file in pianobar's config:
+password_command = gpg --decrypt /home/username/.config/pianobar/pandPass.txt.gpg
+
