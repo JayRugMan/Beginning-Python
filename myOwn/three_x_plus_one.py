@@ -32,7 +32,7 @@ def get_number():
         the_number = input(': ')
         if number_is_good(the_number):
             break
-    return the_number
+    return int(the_number)
 
 
 def algorithm(the_int):
