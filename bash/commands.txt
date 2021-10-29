@@ -28,3 +28,14 @@ read -s MyPass && echo $MyPass > pandPass.txt && unset MyPass && gpg -v --sign -
 # line to use this file in pianobar's config:
 password_command = gpg --decrypt /home/username/.config/pianobar/pandPass.txt.gpg
 
+
+# Get just the interface and IP address:
+for intFace in $(ip a | grep -E '^[0-9]{1,3}' | cut -d " " -f 2); do
+  ip a | awk -v interface="$intFace" -F'( |/){1,}' '
+    {
+      if($0~interface) printBit=1;
+      if($0~/  valid_lft/) printBit=0;
+      if(printBit==1 && $0~/ inet /) print interface " " $3
+    }
+  '; done
+
