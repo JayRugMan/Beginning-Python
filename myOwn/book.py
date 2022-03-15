@@ -4,6 +4,7 @@
 import base64
 import sys
 import argparse
+import secrets
 
 
 def main():
@@ -147,6 +148,8 @@ def main():
             ).decode('utf-8').split('\n') if len(i) != 0
         ]
     book_str = '\n'.join(book_lst)
+    num_of_lines = len(book_lst)
+    book_lst.insert(0, 'These bits are the book')
     
     print('file used as book: {book_file}\nmessage: {the_message}'.format(**args))
 
