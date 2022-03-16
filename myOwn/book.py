@@ -84,6 +84,23 @@ def get_args(argv=None):
     return vars(parser.parse_args(argv))
 
 
+def process_book(book):
+    '''Processes the book file to return a list of lines with shifted
+    indexes and a line count (hence the "insert")'''
+
+    with open(book, 'rb') as the_book:
+        book_lst = [
+            i for i in base64.encodebytes(
+                the_book.read()
+            ).decode('utf-8').split('\n') if len(i) != 0
+        ]
+
+    num_of_lines = len(book_lst)
+    book_lst.insert(0, 'These bits are the book')
+    
+    return num_of_lines, book_lst
+
+
 def process_message_file(message_file):
     '''turns file into a string for further processing'''
 
@@ -125,27 +142,52 @@ def process_message(raw_message, specials):
 
 def encode_message(book_f, message):
     '''takes the book and the message and works some maigic'''
-
-    with open(book_f, 'rb') as the_book:
-        book_lst = [
-            i for i in base64.encodebytes(
-                the_book.read()
-            ).decode('utf-8').split('\n') if len(i) != 0
-        ]
-
-    num_of_lines = len(book_lst)
-    book_lst.insert(0, 'These bits are the book')
+    
+    numb_of_lines, book_list = process_book(book_f)
     code = ''
     for character in message:
         while True:
-            random_line_num = secrets.randbelow(num_of_lines)
-            if character in book_lst[random_line_num]:
-                line = ' {}'.format(book_lst[random_line_num])  # offset index
+            random_line_num = secrets.randbelow(numb_of_lines)
+            if character in book_list[random_line_num]:
+                line = ' {}'.format(book_list[random_line_num])  # offset index
                 idx = line.index(character)
                 code += '{} {} '.format(random_line_num, idx)
                 break
 
     return code[:-1]  # because the last char is a space
+
+
+def interpret_specials(message, specials):
+    '''takes special characters and raw message to translate, returning them
+    to normal for the final string'''
+
+    for new, old in specials.items():
+        if old in message:
+            message = message.replace(old, new)
+
+    return message
+
+
+def de_the_code(code, book_f, special_cs):
+    '''Takes numbers and book, then returns what it all means'''
+
+    numb_of_lines, book_list = process_book(book_f)
+    raw_message = ''
+    line_num = None
+    char_num = None
+
+    for item in code.split(' '):
+        if not line_num:
+            line_num = item
+        else:
+            char_num = item
+        if line_num and char_num:
+            line = ' {}'.format(book_list[ int(line_num) ])
+            raw_message += line[ int(char_num) ]
+            line_num = None
+            char_num = None
+
+    return interpret_specials(raw_message, special_cs)
 
 
 def main():
@@ -178,7 +220,11 @@ def main():
         message_string = process_message(args['the_message'], special_chars)
         final_answer = encode_message(args['book_file'], message_string)
     elif args['the_code']:
-        final_answer = "coming soon"
+        final_message = de_the_code(args['the_code'],
+                                   args['book_file'],
+                                   special_chars
+                                  )
+        final_answer = 'Message:\n{}\n'.format(final_message)
     else:
         final_answer = 'Oppsy... how did this happen?'
 
