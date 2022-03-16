@@ -18,41 +18,42 @@ def get_args(argv=None):
 
 '''
     book_help = '''\
-                 This designates the binary file that acts as the
-                 "book" in the book code and can be any type of
-                 binary file, like a webpage, img, .jpg, .mp4, etc.
-                 Keep in mind if the file is too small, the entropy
-                 will be small; if the file is too big, the process
-                 time and performance may be impacted.
+                 This designates the file that acts as the "book" in the book
+                 code by using its base64 encoding. It can be any type of
+                 file - .html, .img, .jpg, .mp4, etc. Keep in mind if the
+                 file is too small, the entropy will be small; if the file is
+                 too big, the process time and performance may be impacted.
 
 '''
     message_help='''\
-                 This is the message string to be encoded. It can be
-                 a string or a plain-text file. This cannot be used
-                 with -c/--code.
+                 This is the message string to be encoded. It can be a string
+                 or a plain-text file. This cannot be used with -c/--code.
 
 '''
     code_help='''\
-                 The code goes here. This cannot be used with
-                 -m/--message.
+                 The code goes here. This can also be a file containing the
+                 code in plain text. This cannot be used with -m/--message.
 
 '''
     the_epilog='''\
 
-  Special Characters -                   Only the following special characters will work:
-                                           ---  . , ' ? + - = : ! @ # $ % ^ & * /  ---
-
-                                         Note that some special characters will encode better
-                                         if a message file is used instead of a string on the
-                                         terminal
+notes:
+  Only the following special characters will work:
+    . , ' ? + - = : ! @ # $ % ^ & * /
+                        
+  Some special characters will encode better if a message file is \
+used instead of a string on the terminal
 
 '''
 
     parser = (argparse.ArgumentParser(
                   prog='book.py',
-                  formatter_class=lambda prog: argparse.HelpFormatter(
-                      prog,max_help_position=50),
-##JH                  formatter_class=argparse.RawTextHelpFormatter,
+                  formatter_class=lambda prog: argparse.RawDescriptionHelpFormatter(
+                      prog,indent_increment=2,max_help_position=41),
+##JH                  formatter_class=lambda prog: argparse.HelpFormatter(
+##JH                      prog,indent_increment=2,max_help_position=41),
+##JH                  formatter_class=lambda prog: argparse.RawTextHelpFormatter(
+##JH                      prog,indent_increment=2,max_help_position=41),
                   add_help=False,
                   description=the_description,
                   epilog=the_epilog
@@ -85,8 +86,8 @@ def get_args(argv=None):
 
 
 def process_book(book):
-    '''Processes the book file to return a list of lines with shifted
-    indexes and a line count (hence the "insert")'''
+    '''Processes the book file to return a list of lines in base64 charset
+    with shifted indeces and a line count (hence the "insert")'''
 
     with open(book, 'rb') as the_book:
         book_lst = [
@@ -95,21 +96,22 @@ def process_book(book):
             ).decode('utf-8').split('\n') if len(i) != 0
         ]
 
-    num_of_lines = len(book_lst)
+    # This makes line 1 move to line 2 to be index 1
+    # for later. The string is arbitrary.
     book_lst.insert(0, 'These bits are the book')
     
-    return num_of_lines, book_lst
+    return book_lst
 
 
-def process_message_file(message_file):
+def process_txt_file(txt_file):
     '''turns file into a string for further processing'''
 
-    ex_msg = "doesn't look like a message is in " + \
-        message_file + \
-        "Try one with ascii text next time."
+    ex_msg = "doesn't look like any text is in " + \
+        txt_file + \
+        ". Try one with ascii text next time."
 
     try:
-        with open(message_file, 'r') as file:
+        with open(txt_file, 'r') as file:
             file_lst = [i for i in file.read().split('\n') if len(i) != 0]
     except UnicodeDecodeError:
         # if this is a non-text file, like an image, etc
@@ -119,39 +121,43 @@ def process_message_file(message_file):
     return ' '.join(file_lst)
 
 
-def process_message(raw_message, specials):
-    '''Processes the message to determine if it's a sting or file, then if
+def enrich_message(message_object, specials):
+    '''Refines the message to determine if it's a sting or file, then if
     it has any special characters, which are translated to special-character
     strings so the can be encoded with base64 characters'''
 
     # Returns true or false depending on whether the string provided is a
     # file. Even if the user is trying to specify a file, but does not exist,
     # it will treat it as a string. Harsh, I know.
-    if exists(raw_message):
-        raw_message = process_message_file(raw_message)
+    if exists(message_object):
+        message_object = process_txt_file(message_object)
 
-    final_message = ''
-    for char in raw_message:
+    enriched_message = ''
+
+    for char in message_object:
         if char in specials.keys():
-            final_message += specials[char]
+            enriched_message += specials[char]
         else:
-            final_message += char
+            enriched_message += char
 
-    return final_message
+    return enriched_message
 
 
-def encode_message(book_f, message):
+def encode_message(message, special_cs, book_f):
     '''takes the book and the message and works some maigic'''
     
-    numb_of_lines, book_list = process_book(book_f)
+    message_str = enrich_message(message, special_cs)
+    book_list = process_book(book_f)
+    numb_of_lines = len(book_list)
     code = ''
-    for character in message:
+
+    for character in message_str:
         while True:
-            random_line_num = secrets.randbelow(numb_of_lines)
-            if character in book_list[random_line_num]:
-                line = ' {}'.format(book_list[random_line_num])  # offset index
+            rand_line_num = secrets.randbelow(numb_of_lines)
+            if character in book_list[rand_line_num] and rand_line_num != 0:
+                line = ' {}'.format(book_list[rand_line_num])  # offset index
                 idx = line.index(character)
-                code += '{} {} '.format(random_line_num, idx)
+                code += '{} {} '.format(rand_line_num, idx)
                 break
 
     return code[:-1]  # because the last char is a space
@@ -168,21 +174,29 @@ def interpret_specials(message, specials):
     return message
 
 
-def de_the_code(code, book_f, special_cs):
+def de_the_code(code_object, book_f, special_cs):
     '''Takes numbers and book, then returns what it all means'''
 
-    numb_of_lines, book_list = process_book(book_f)
+    # Returns true or false depending on whether the string provided is a
+    # file. If the user is trying to specify a file, but does not exist,
+    # it will treat it as a string and return nothing. Harsh, I know.
+    if exists(code_object):
+        code_object = process_txt_file(code_object)
+
+    book_list = process_book(book_f)
     raw_message = ''
     line_num = None
     char_num = None
 
-    for item in code.split(' '):
+    # This loop stores number pairs from a string-turned-to-list to then
+    # store corresponding line and character from the book
+    for item in code_object.split(' '):
         if not line_num:
             line_num = item
         else:
             char_num = item
         if line_num and char_num:
-            line = ' {}'.format(book_list[ int(line_num) ])
+            line = ' {}'.format(book_list[ int(line_num) ])  # to offset index
             raw_message += line[ int(char_num) ]
             line_num = None
             char_num = None
@@ -217,13 +231,15 @@ def main():
     args = get_args(options)
 
     if args['the_message']:
-        message_string = process_message(args['the_message'], special_chars)
-        final_answer = encode_message(args['book_file'], message_string)
+        final_answer = encode_message(args['the_message'],
+                                      special_chars,
+                                      args['book_file']
+                                     )
     elif args['the_code']:
         final_message = de_the_code(args['the_code'],
-                                   args['book_file'],
-                                   special_chars
-                                  )
+                                    args['book_file'],
+                                    special_chars
+                                   )
         final_answer = 'Message:\n{}\n'.format(final_message)
     else:
         final_answer = 'Oppsy... how did this happen?'
