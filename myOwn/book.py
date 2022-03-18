@@ -39,8 +39,8 @@ def get_args(argv=None):
 
 notes:
   Only the following special characters will work:
-    . , ' ? + - = : ! @ # $ % ^ & * /
-                        
+    . , ' ? + - = : ! @ # $ % ^ & * / ( )
+
   Some special characters will encode better if a message file is \
 used instead of a string on the terminal
 
@@ -99,7 +99,7 @@ def process_book(book):
     # This makes line 1 move to line 2 to be index 1
     # for later. The string is arbitrary.
     book_lst.insert(0, 'These bits are the book')
-    
+
     return book_lst
 
 
@@ -145,13 +145,14 @@ def enrich_message(message_object, specials):
 
 def encode_message(message, special_cs, book_f):
     '''takes the book and the message and works some maigic'''
-    
+
     message_str = enrich_message(message, special_cs)
     book_list = process_book(book_f)
     numb_of_lines = len(book_list)
     code = ''
 
     for character in message_str:
+        timeout = 50
         while True:
             rand_line_num = secrets.randbelow(numb_of_lines)
             if character in book_list[rand_line_num] and rand_line_num != 0:
@@ -159,6 +160,10 @@ def encode_message(message, special_cs, book_f):
                 idx = line.index(character)
                 code += '{} {} '.format(rand_line_num, idx)
                 break
+            if timeout == 0:  ## breaks infinite loop cause by bad character
+                print('Looks like {} is an invalid character'.format(character))
+                sys.exit(1)
+            timeout -= 1
 
     return code[:-1]  # because the last char is a space
 
@@ -183,6 +188,15 @@ def de_the_code(code_object, book_f, special_cs):
     if exists(code_object):
         code_object = process_txt_file(code_object)
 
+    try:
+        int(code_object.split(' ')[0]) + int(code_object.split(' ')[1])
+    except ValueError:
+        print('ERROR: provided code is invalid')
+        sys.exit(1)
+    except IndexError:
+        print('ERROR: character index needed')
+        sys.exit(1)
+
     book_list = process_book(book_f)
     raw_message = ''
     line_num = None
@@ -196,8 +210,12 @@ def de_the_code(code_object, book_f, special_cs):
         else:
             char_num = item
         if line_num and char_num:
-            line = ' {}'.format(book_list[ int(line_num) ])  # to offset index
-            raw_message += line[ int(char_num) ]
+            try:
+                line = ' {}'.format(book_list[ int(line_num) ])  # offset index
+                raw_message += line[ int(char_num) ]
+            except IndexError:
+                print('ERROR: Wacky Numbers!?!')
+                sys.exit(1)
             line_num = None
             char_num = None
 
@@ -225,7 +243,9 @@ def main():
         '^': "XSP6",
         '&': "XSP7",
         '*': "XSP8",
-        ' ': "+"
+        ' ': "XSPs",
+        '(': "XSP9",
+        ')': "XSP0"
     }
 
     args = get_args(options)
