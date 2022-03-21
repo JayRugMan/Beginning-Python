@@ -39,7 +39,7 @@ def get_args(argv=None):
 
 notes:
   Only the following special characters will work:
-    . , ' ? + - = : ! @ # $ % ^ & * / ( )
+    . , ' ? + - = : ; ! @ # $ % ^ & * / ( )
 
   Some special characters will encode better if a message file is \
 used instead of a string on the terminal
@@ -228,24 +228,25 @@ def main():
 
     options = None
     special_chars = {
-        '.': "XSPp",
-        ',': "XSPc",
-        "'": "XSPa",
-        '?': "XSPq",
-        '-': "XSPd",
-        '=': "XSPe",
-        ':': "XSPo",
-        '!': "XSP1",
-        '@': "XSP2",
-        '#': "XSP3",
-        '$': "XSP4",
-        '%': "XSP5",
-        '^': "XSP6",
-        '&': "XSP7",
-        '*': "XSP8",
-        ' ': "XSP+",
-        '(': "XSP9",
-        ')': "XSP0"
+        '.': "QXp",
+        ',': "QXc",
+        "'": "QXa",
+        '?': "QXq",
+        '-': "QXd",
+        '=': "QXe",
+        ':': "QXo",
+        ';': "QXs",
+        '!': "QX1",
+        '@': "QX2",
+        '#': "QX3",
+        '$': "QX4",
+        '%': "QX5",
+        '^': "QX6",
+        '&': "QX7",
+        '*': "QX8",
+        '(': "QX9",
+        ')': "QX0",
+        ' ': "QX+"
     }
 
     args = get_args(options)
