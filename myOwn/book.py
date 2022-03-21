@@ -161,7 +161,8 @@ def encode_message(message, special_cs, book_f):
                 code += '{} {} '.format(rand_line_num, idx)
                 break
             if timeout == 0:  ## breaks infinite loop cause by bad character
-                print('Looks like {} is an invalid character'.format(character))
+                error_out = 'Looks like {} is an invalid character'
+                print(error_out.format(character))
                 sys.exit(1)
             timeout -= 1
 
@@ -231,7 +232,6 @@ def main():
         ',': "XSPc",
         "'": "XSPa",
         '?': "XSPq",
-        '+': "XSPl",
         '-': "XSPd",
         '=': "XSPe",
         ':': "XSPo",
@@ -243,7 +243,7 @@ def main():
         '^': "XSP6",
         '&': "XSP7",
         '*': "XSP8",
-        ' ': "XSPs",
+        ' ': "XSP+",
         '(': "XSP9",
         ')': "XSP0"
     }
