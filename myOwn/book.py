@@ -39,7 +39,7 @@ def get_args(argv=None):
 
 notes:
   Only the following special characters will work:
-    . , ' ? + - = : ; ! @ # $ % ^ & * / ( )
+ . , ' ? + - = : ; ! @ # $ % ^ & * / ( ) [ ] { } _
 
   Some special characters will encode better if a message file is \
 used instead of a string on the terminal
@@ -234,7 +234,7 @@ def main():
         '?': "QXq",
         '-': "QXd",
         '=': "QXe",
-        ':': "QXo",
+        ':': "QXC",
         ';': "QXs",
         '!': "QX1",
         '@': "QX2",
@@ -246,6 +246,11 @@ def main():
         '*': "QX8",
         '(': "QX9",
         ')': "QX0",
+        '[': "QXl",
+        ']': "QXL",
+        '{': "QXj",
+        '}': "QXJ",
+        '_': "QXu",
         ' ': "QX+"
     }
 
