@@ -6,7 +6,7 @@ from random import shuffle
 
 
 def getNames():
-    'Gets names into names list'
+    '''Gets names into names list'''
 
     nms = []
     prompt = 'Enter name (or "done" when done): '
@@ -35,7 +35,7 @@ def areMatches(lst1, lst2):
 
 
 def shuffleNames(nms):
-    'Takes a list and returns the list shuffled'
+    '''Takes a list and returns the list shuffled'''
 
     # Makes a copy of the list to be shuffled
     shuf_nms = nms[:]
@@ -48,7 +48,7 @@ def shuffleNames(nms):
 
 
 def makeAssignments(nms, shuf_nms):
-    'Matches names in lists to make assignments'
+    '''Matches names in lists to make assignments'''
 
     filter = ['and', '&', '+']
     assgnmnts = []
@@ -65,7 +65,7 @@ def makeAssignments(nms, shuf_nms):
 
 
 def userSelect(rng):
-    'Gets users number associated with name from list'
+    '''Gets users number associated with name from list'''
 
     prompt = 'Enter your number to see your assignment ("0" to exit): '
 
@@ -84,7 +84,7 @@ def userSelect(rng):
 
 
 def giveResults(nms, assgnmnts):
-    'Prints assignments, one at a time, clearing the screen each time'
+    '''Prints assignments, one at a time, clearing the screen each time'''
 
     # creates a numbered list, then a list-string separated by line-feed
     nm_lst_str = [' {} - {}'.format(l, n) for l, n in enumerate(nms, 1)]
@@ -113,7 +113,7 @@ def giveResults(nms, assgnmnts):
 
 
 def main():
-    'Main Function'
+    '''Main Function'''
 
     names = getNames()
     shuffled_names = shuffleNames(names)
