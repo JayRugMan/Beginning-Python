@@ -10,8 +10,7 @@ ones = [
     'six',
     'seven',
     'eight',
-    'nine'
-]
+    'nine']
 
 teens = [
     'eleven',
@@ -22,8 +21,7 @@ teens = [
     'sixteen',
     'seventeen',
     'eighteen',
-    'nineteen' 
-]
+    'nineteen']
 
 tens = [
     'ten',
@@ -34,16 +32,14 @@ tens = [
     'sixty',
     'seventy',
     'eighty',
-    'ninety'
-]
+    'ninety']
 
 magnitudes = [
     'hundred',
     'thousand',
     'million',
     'billion',
-    'trillion'
-]
+    'trillion']
 
 
 def get_digit(txt_num):
@@ -64,3 +60,14 @@ def get_text(dig_num):
     elif 9 < dig_num < 100 and (dig_num % 10) == 0:
         the_text = tens[int((dig_num / 10) - 1)]
     return the_text
+
+
+def factor(the_number):
+    num_str = str(the_number)
+    num_len = len(num_str)
+    the_zeros = (num_len - 1)
+    factor_list = []
+    for i in range(num_len):
+        factor_list.append(int(num_str[i] + "0" * the_zeros))
+        the_zeros -= 1
+    return factor_list
