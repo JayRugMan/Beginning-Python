@@ -89,12 +89,20 @@ def process_book(book):
     '''Processes the book file to return a list of lines in base64 charset
     with shifted indeces and a line count (hence the "insert")'''
 
-    with open(book, 'rb') as the_book:
-        book_lst = [
-            i for i in base64.encodebytes(
-                the_book.read()
-            ).decode('utf-8').split('\n') if len(i) != 0
-        ]
+    ex_msg = 'A book named "' + book + '" was not found.'
+
+    try:
+        with open(book, 'rb') as the_book:
+            book_lst = [
+                i for i in base64.encodebytes(
+                    the_book.read()
+                ).decode('utf-8').split('\n') if len(i) != 0
+            ]
+    except FileNotFoundError:
+        # If the Book file does not exist
+        print(ex_msg)
+        sys.exit(1)
+
 
     # This makes line 1 move to line 2 to be index 1
     # for later. The string is arbitrary.
