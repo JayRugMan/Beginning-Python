@@ -1,10 +1,12 @@
-### Chapter 10, Batteries Included
-
+# Chapter 10, Batteries Included
 
 
 ## Modules
-# Modules Are Programs
-#see hello.py
+
+### Modules Are Programs
+> see hello.py
+
+```python
 >>> import sys
 >>> sys.path.append('<...>/Beginning-Python/book/chap10-Batteries_Included')
 >>> import hello
@@ -14,11 +16,15 @@ Hello, world!
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 NameError: name 'reload' is not defined
+```
 
 
 ## Modules Are Used to Define Things
-# Defining a Function in a Module
-#see hello2.py
+
+### Defining a Function in a Module
+> see hello2.py
+
+```python
 >>> import hello2
 >>> hello()
 Traceback (most recent call last):
@@ -30,29 +36,35 @@ Traceback (most recent call last):
 TypeError: 'module' object is not callable
 >>> hello2.hello()
 Hello, world!
+```
 
 
-# Adding Test Code to a Modules
-#see hello3.py
+### Adding Test Code to a Modules
+> see hello3.py
+
+```python
 >>> import hello3
 Hello, world!
 >>> hello3.hello()
 Hello, world!
+```
 
- #see hello4.py
- >>> __name__
+> see hello4.py
+```python
+>>> __name__
 '__main__'
+>>> import hello4
 >>> hello4.__name__
 'hello4'
->>> import hello4
 >>> hello4.hello()
 Hello, world!
 >>> hello4.test()
 Hello, world!
-
+```
 
 ## Make Your Modules Available
-# Putting Your Modules in the Right Place
+### Putting Your Modules in the Right Place
+```python
 Python 3.6.9 (default, Apr 18 2020, 01:56:04)
 [GCC 8.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -81,35 +93,45 @@ Type "help", "copyright", "credits" or "license" for more information.
  '/usr/lib/python2.7/dist-packages/gtk-2.0',
  '/usr/lib/python2.7/dist-packages/wx-3.0-gtk3']
 >>>
+```
 
+```bash
 [chap10-Batteries_Included] $ cp hello4.py <a need-to-know basis>/python3-venv/lib/python3.6/site-packages/another_hello.py
+```
+```python
 >>> import another_hello
 >>> another_hello.hello()
 Hello, world!
 >>>
+```
 
 
 ## Packages
-# see constants/__init__.py
+### see constants/__init__.py
+```python
 >>> import constants
 >>> constants.friend
 'Jason Hardman'
 >>> constants.PI
 3.141592653589793
 >>>
+```
 
 
 ## Exploring Modules
-# What's in a Module?
+### What's in a Module?
+```python
 >>> [n for n in dir(copy) if not n.startswith('_')]
 ['Error', 'copy', 'deepcopy', 'dispatch_table', 'error']
 >>> copy.__all__
 ['Error', 'copy', 'deepcopy']
 (python3-venv) me@mycomp:chap10-Batteries_Included$ grep "__all__" /usr/lib/python3.6/copy.py
 __all__ = ["Error", "copy", "deepcopy"]
+```
 
 
-# Getting Help with help
+### Getting Help with help
+```python
 >>> help(copy.copy)
 
 
@@ -139,9 +161,11 @@ Generic (shallow and deep) copying operations.
 
 Interface summary:
 ...
+```
 
 
 ## Documentation
+```python
 >>> print(range.__doc__)
 range(stop) -> range object
 range(start, stop[, step]) -> range object
@@ -152,15 +176,19 @@ start defaults to 0, and stop is omitted!  range(4) produces 0, 1, 2, 3.
 These are exactly the valid indices for a list of 4 elements.
 When step is given, it specifies the increment (or decrement).
 >>>
+```
 
 
 ## Use the Source
+```python
 >>> print(copy.__file__)
 /usr/lib/python3.6/copy.py
+```
 
 
 ## The Standard Library: A Few Favorites
-# sys
+### sys
+```python
 >>> pprint.pprint(sys.modules)
 {'__main__': <module '__main__' (built-in)>,
  '_codecs': <module '_codecs' (built-in)>,
@@ -232,11 +260,17 @@ When step is given, it specifies the increment (or decrement).
 ...     print('no')
 ...
 yes
-# see reverseargs.py
+```
+
+> see reverseargs.py
+
+```bash
 (python3-venv) me@mycomp:chap10-Batteries_Included$ python3 reverseargs.py three two one
 one two three
+```
 
-# OS
+### OS
+```python
 >>> osEnv = os.environ
 >>> osEnv['_']
 '/home/me/python3-venv/bin/python'
@@ -286,6 +320,9 @@ True
 Most likely you need to configure your SUID sandbox correctly
 
 >>>
+```
 
-# fileinput
-# see ./numberlines.py
+### fileinput
+> see ./numberlines.py
+
+This will create a backup of the file and prefix every line in the file with "xxx | "
