@@ -1,7 +1,8 @@
-### Chapter 9, Magic Methods, Properties, and Iterators
+# Chapter 9, Magic Methods, Properties, and Iterators
 
 
-# Constructors
+## Constructors
+```python
 >>> f = FooBar()
 >>> f.init()
 ^^ Without Constructors || vv with Constructors
@@ -25,10 +26,12 @@
 >>> f = FooBar('This is a constructor argument')
 >>> f.somevar
 'This is a constructor argument'
+```
 
 
- # Overriding Methods in General, and the Constructor in Particular
- >>> class A:
+## Overriding Methods in General, and the Constructor in Particular
+```python
+>>> class A:
 ...     def hello(self):
 ...         print("Hello, I'm A.")
 ...
@@ -41,7 +44,8 @@
 Hello, I'm A.
 >>> b.hello()
 Hello, I'm A.
-
+```
+```python
 >>> class B(A):
 ...     def hello(self):
 ...         print("Hello, I'm B.")
@@ -49,7 +53,8 @@ Hello, I'm A.
 >>> b = B()
 >>> b.hello()
 Hello, I'm B.
-
+```
+```python
 >>> class Bird:
 ...     def __init__(self):
 ...         self.hungry = True
@@ -80,9 +85,10 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "<stdin>", line 5, in eat
 AttributeError: 'SongBird' object has no attribute 'hungry'
+```
 
-
-# Calling the Unbound Superclass Constructor
+## Calling the Unbound Superclass Constructor
+```python
 >>> class SongBird(Bird):
 ...     def __init__(self):
 ...         Bird.__init__(self)  # <<<< Difference
@@ -97,9 +103,11 @@ Squawk!
 Aaaaaaaah...
 >>> sb.eat()
 No, Thanks!
+```
 
 
-# Using the super Function
+## Using the super Function
+```python
 >>> class Bird:
 ...     def __init__(self):
 ...         self.hunger = True
@@ -124,10 +132,12 @@ SQUAWK!
 Aaaaaah...
 >>> sb.eat()
 No, thanks!
+```
 
 
-# Item Access
-# The Basic Sequence and Mapping Protocol
+## Item Access
+### The Basic Sequence and Mapping Protocol
+```python
 >>> def checkIndex(key):
 ...     """
 ...     Is the given key an acceptable index?
@@ -248,9 +258,11 @@ Traceback (most recent call last):
   File "<stdin>", line 17, in __getitem__
   File "<stdin>", line 9, in checkIndex
 IndexError
+```
 
 
-# Subclassing list, dict, and str
+### Subclassing list, dict, and str
+```python
 >>> class CounterList(list):
 ...     def __init__(self, *args):
 ...         super().__init__(*args)
@@ -278,9 +290,11 @@ IndexError
 9
 >>> cl.counter
 3
+```
 
 
-# Properties
+### Properties
+```python
 >>> class Rectangle:
 ...     def __init__(self):
 ...         self.width = 0
@@ -298,8 +312,10 @@ IndexError
 >>> r.setSize((150, 100))
 >>> r.width
 150
+```
 
-# The property Function
+#### The property Function
+```python
 >>> __metaclass__ = type
 >>> class Rectangle:
 ...     def __init__(self):
@@ -340,7 +356,8 @@ IndexError
 >>> s.size = 149, 10
 >>> s.width
 149
-
+```
+```python
 >>> class Rtangle:
 ...     def __init__(self):
 ...         self.width = 0
@@ -391,10 +408,12 @@ AttributeError: unreadable attribute
 
         This is a test class. rectangle width and height.
         Size is two numbers, separated by commas
+```
 
 
 
-# Static Methods and Class Methods
+## Static Methods and Class Methods
+```python
 >>> __metaclass__ = type
 >>> class MyClass:
 ...     def smeth():
@@ -408,7 +427,8 @@ AttributeError: unreadable attribute
 >>> mc.smeth()
 This is a static method
 >>> mc.cmeth()
-
+```
+```python
 >>> __metaclass__ = type
 >>> class MyClass:
 ...     @staticmethod
@@ -423,9 +443,11 @@ This is a static method.
 >>> MyClass.cmeth()
 This is a class method of <class '__main__.MyClass'>
 >>>
+```
 
 
-# __getattr__, __setattr__, and Friends
+## __getattr__, __setattr__, and Friends
+```python
 >>> class Rectangle:
 ...     def __init__(self):
 ...         self.width = 0
@@ -460,9 +482,11 @@ This is a class method of <class '__main__.MyClass'>
 >>> t.fun = 4, 3
 >>> t.fun
 (4, 3)
+```
 
 
-# Iterators
+## Iterators
+```python
 >>> class Fibs:
 ...     def __init__(self):
 ...         self.a = 0
@@ -559,7 +583,8 @@ This is a class method of <class '__main__.MyClass'>
 34
 55
 89
-
+```
+```python
 >>> it = iter([1, 2, 3])
 >>> next(it)  # python2, it's it.next()
 1
@@ -567,9 +592,11 @@ This is a class method of <class '__main__.MyClass'>
 2
 >>> next(it)
 3
+```
 
 
-# Making Sequences from Iterators
+## Making Sequences from Iterators
+```python
 >>> class TestIterator:
 ...     value = 0
 ...     def __next__(self):
@@ -582,9 +609,11 @@ This is a class method of <class '__main__.MyClass'>
 >>> ti = TestIterator()
 >>> list(ti)
 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
 
 
-# Generators
+## Generators
+```python
 >>> nested = [[1,2], [3, 4], [5]]
 >>> def flatten(nested):
 ...     for sublist in nested:
@@ -601,9 +630,11 @@ This is a class method of <class '__main__.MyClass'>
 5
 >>> list(flatten(nested))
 [1, 2, 3, 4, 5]
+```
 
 
-# A Recursive Generator
+## A Recursive Generator
+```python
 >>> def flatten(nested):
 ...     try:
 ...         for sublist in nested:
@@ -616,7 +647,8 @@ This is a class method of <class '__main__.MyClass'>
 <generator object flatten at 0x7f3a85704888>
 >>> list(flatten([[[1],2],3,4,[5,[6,7]],8]))
 [1, 2, 3, 4, 5, 6, 7, 8]
-
+```
+```python
 >>> def flatten(nested):
 ...     try:
 ...         # Don't iterate over string-like objects
@@ -633,9 +665,11 @@ This is a class method of <class '__main__.MyClass'>
 ['foo', 'bar', 'baz']
 >>> list(flatten([['one', [2]], 'three']))
 ['one', 2, 'three']
+```
 
 
-# Generators in General
+## Generators in General
+```python
 >>> def simple_generator():
 ...     yield 1
 ...
@@ -643,9 +677,11 @@ This is a class method of <class '__main__.MyClass'>
 <function simple_generator at 0x7efdaa56e378>
 >>> simple_generator()
 <generator object simple_generator at 0x7efdaa552990>
+```
 
 
-# Generator Methods
+## Generator Methods
+```python
 >>> def repeater(value):
 ...     while True:
 ...         new = (yield value)
@@ -665,9 +701,11 @@ TypeError: can't send non-None value to a just-started generator
 42
 >>> r.send("Hello, World!")
 'Hello, World!'
+```
 
 
-# Simulating Generators
+## Simulating Generators
+```python
 >>> def flatten(nested):
 ...     result = []
 ...     try:
@@ -684,30 +722,32 @@ TypeError: can't send non-None value to a just-started generator
 ...
 >>> list(flatten(['foo', ['bar', ['baz']]]))
 ['foo', 'bar', 'baz']
+```
 
 
 ## The Eight Queens
 
-# Generators and Backtracking
-#Pseudocode
-for each possibility at level 1:
-    for each possibility at level 2:
-        ...
-            for each possibility at level n:
-                is it viable?
+### Generators and Backtracking
+> #Pseudocode
+> for each possibility at level 1:
+>     for each possibility at level 2:
+>         ...
+>             for each possibility at level n:
+>                 is it viable?
 
 
-# The Problem
-#Place 8 queens on a chess board is such a way that no two can capture
-#eachother
+### The Problem
+Place 8 queens on a chess board is such a way that no two can capture 
+eachother
 
 
-# State Representation
-#Eight queens - one on each row, so tuple state[0] == 3 means queen on
-#row 1 is in column 4
+### State Representation
+Eight queens - one on each row, so tuple state[0] == 3 means queen on 
+row 1 is in column 4
 
 
-# Finding Conflict
+### Finding Conflict
+```python
 >>> def conflict(state, nextX):
 ...     nextY = len(state)
 ...     for i in range(nextY):
@@ -716,9 +756,10 @@ for each possibility at level 1:
 ...     return False
 ...
 >>>
+```
 
-
-# The Base Case
+### The Base Case
+```python
 >>> def conflict(state, nextX):
 ...     nextY = len(state)
 ...     for i in range(nextY):
@@ -734,9 +775,10 @@ for each possibility at level 1:
 ...
 >>> list(queens(4, (1, 3, 0)))
 [2]
+```
 
-
-# The Recursive Case
+### The Recursive Case
+```python
 >>> def conflict(state, nextX):
 ...     nextY = len(state)
 ...     for i in range(nextY):
@@ -766,9 +808,11 @@ for each possibility at level 1:
 [(0, 4, 7, 5, 2, 6, 1, 3), (0, 5, 7, 2, 6, 3, 1, 4), (0, 6, 3, 5, 7, 1, 4, 2), (0, 6, 4, 7, 1, 3, 5, 2), (1, 3, 5, 7, 2, 0, 6, 4), (1, 4, 6, 0, 2, 7, 5, 3), (1, 4, 6, 3, 0, 7, 5, 2), (1, 5, 0, 6, 3, 7, 2, 4), (1, 5, 7, 2, 0, 3, 6, 4), (1, 6, 2, 5, 7, 4, 0, 3), (1, 6, 4, 7, 0, 3, 5, 2), (1, 7, 5, 0, 2, 4, 6, 3), (2, 0, 6, 4, 7, 1, 3, 5), (2, 4, 1, 7, 0, 6, 3, 5), (2, 4, 1, 7, 5, 3, 6, 0), (2, 4, 6, 0, 3, 1, 7, 5), (2, 4, 7, 3, 0, 6, 1, 5), (2, 5, 1, 4, 7, 0, 6, 3), (2, 5, 1, 6, 0, 3, 7, 4), (2, 5, 1, 6, 4, 0, 7, 3), (2, 5, 3, 0, 7, 4, 6, 1), (2, 5, 3, 1, 7, 4, 6, 0), (2, 5, 7, 0, 3, 6, 4, 1), (2, 5, 7, 0, 4, 6, 1, 3), (2, 5, 7, 1, 3, 0, 6, 4), (2, 6, 1, 7, 4, 0, 3, 5), (2, 6, 1, 7, 5, 3, 0, 4), (2, 7, 3, 6, 0, 5, 1, 4), (3, 0, 4, 7, 1, 6, 2, 5), (3, 0, 4, 7, 5, 2, 6, 1), (3, 1, 4, 7, 5, 0, 2, 6), (3, 1, 6, 2, 5, 7, 0, 4), (3, 1, 6, 2, 5, 7, 4, 0), (3, 1, 6, 4, 0, 7, 5, 2), (3, 1, 7, 4, 6, 0, 2, 5), (3, 1, 7, 5, 0, 2, 4, 6), (3, 5, 0, 4, 1, 7, 2, 6), (3, 5, 7, 1, 6, 0, 2, 4), (3, 5, 7, 2, 0, 6, 4, 1), (3, 6, 0, 7, 4, 1, 5, 2), (3, 6, 2, 7, 1, 4, 0, 5), (3, 6, 4, 1, 5, 0, 2, 7), (3, 6, 4, 2, 0, 5, 7, 1), (3, 7, 0, 2, 5, 1, 6, 4), (3, 7, 0, 4, 6, 1, 5, 2), (3, 7, 4, 2, 0, 6, 1, 5), (4, 0, 3, 5, 7, 1, 6, 2), (4, 0, 7, 3, 1, 6, 2, 5), (4, 0, 7, 5, 2, 6, 1, 3), (4, 1, 3, 5, 7, 2, 0, 6), (4, 1, 3, 6, 2, 7, 5, 0), (4, 1, 5, 0, 6, 3, 7, 2), (4, 1, 7, 0, 3, 6, 2, 5), (4, 2, 0, 5, 7, 1, 3, 6), (4, 2, 0, 6, 1, 7, 5, 3), (4, 2, 7, 3, 6, 0, 5, 1), (4, 6, 0, 2, 7, 5, 3, 1), (4, 6, 0, 3, 1, 7, 5, 2), (4, 6, 1, 3, 7, 0, 2, 5), (4, 6, 1, 5, 2, 0, 3, 7), (4, 6, 1, 5, 2, 0, 7, 3), (4, 6, 3, 0, 2, 7, 5, 1), (4, 7, 3, 0, 2, 5, 1, 6), (4, 7, 3, 0, 6, 1, 5, 2), (5, 0, 4, 1, 7, 2, 6, 3), (5, 1, 6, 0, 2, 4, 7, 3), (5, 1, 6, 0, 3, 7, 4, 2), (5, 2, 0, 6, 4, 7, 1, 3), (5, 2, 0, 7, 3, 1, 6, 4), (5, 2, 0, 7, 4, 1, 3, 6), (5, 2, 4, 6, 0, 3, 1, 7), (5, 2, 4, 7, 0, 3, 1, 6), (5, 2, 6, 1, 3, 7, 0, 4), (5, 2, 6, 1, 7, 4, 0, 3), (5, 2, 6, 3, 0, 7, 1, 4), (5, 3, 0, 4, 7, 1, 6, 2), (5, 3, 1, 7, 4, 6, 0, 2), (5, 3, 6, 0, 2, 4, 1, 7), (5, 3, 6, 0, 7, 1, 4, 2), (5, 7, 1, 3, 0, 6, 4, 2), (6, 0, 2, 7, 5, 3, 1, 4), (6, 1, 3, 0, 7, 4, 2, 5), (6, 1, 5, 2, 0, 3, 7, 4), (6, 2, 0, 5, 7, 4, 1, 3), (6, 2, 7, 1, 4, 0, 5, 3), (6, 3, 1, 4, 7, 0, 2, 5), (6, 3, 1, 7, 5, 0, 2, 4), (6, 4, 2, 0, 5, 7, 1, 3), (7, 1, 3, 0, 6, 4, 2, 5), (7, 1, 4, 2, 0, 6, 3, 5), (7, 2, 0, 5, 1, 4, 6, 3), (7, 3, 0, 2, 5, 1, 6, 4)]
 >>> len(list(queens(8)))
 92
+```
 
 
-# Wrapping It Up
+### Wrapping It Up
+```python
 >>> def conflict(state, nextX):
 ...     nextY = len(state)
 ...     for i in range(nextY):
@@ -920,7 +964,7 @@ for each possibility at level 1:
 [ ][ ] Q [ ][ ][ ]
 [ ][ ][ ][ ] Q [ ]
 
-======= 2 ========width
+======= 2 ========
 [ ][ ] Q [ ][ ][ ]
 [ ][ ][ ][ ][ ] Q
 [ ] Q [ ][ ][ ][ ]
@@ -1044,10 +1088,11 @@ for each possibility at level 1:
   [ ][ ][ ] Q [ ][ ][ ][ ]
   [ ][ ][ ][ ][ ] Q [ ][ ]
   [ ][ ] Q [ ][ ][ ][ ][ ]
+```
 
 
-
-# Bonus
+## Bonus
+```python
 >>> def drawRectangle(width=2, height=2):
 ...     if width <= 0 or height <= 0:
 ...         raise Exception(TypeError('Width and height must be 1 or more'))
@@ -1113,3 +1158,4 @@ for each possibility at level 1:
         Size is two numbers, separated by commas
 
 >>>
+```
