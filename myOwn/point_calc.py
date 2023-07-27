@@ -89,7 +89,8 @@ class the_equation():
 
 
 def display_menu(line):
-    the_menu = ''' -- MENU --
+    the_menu = '''
+ -- MENU --
  y = mx + b
  {}
 
@@ -107,7 +108,7 @@ def display_menu(line):
 the_line = the_equation()
 
 menu_items = ['sx', 'sy', 'cb', 'gm', 'gb', 'um', 'ub', 'q']
-output_str = '\n  --- {} = {} --- \n'
+output_str = '\n\n\n  --- {} = {} --- \n\n'
 
 while True:
     display_menu(the_line)
