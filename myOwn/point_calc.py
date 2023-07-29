@@ -49,7 +49,11 @@ class the_equation():
 
     def calc_b(self):
         while True:
-            x,y = input('enter "x,y": ').split(',')
+            try:
+                x,y = input('enter "x,y": ').split(',')
+            except ValueError:
+                print('You forgot a number')
+                continue
             try:
                 x = float(x)
                 y = float(y)
