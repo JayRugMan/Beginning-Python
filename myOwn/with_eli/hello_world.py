@@ -4,5 +4,5 @@ h = 'Hello'
 w = 'world'
 hw = h + ', ' + w + '!'
 
-print(h + w)
-print(hw)
+print(h + w)  # "Helloworld"
+print(hw)     # "Hello, world!"
