@@ -27,5 +27,5 @@ elif color in color_list:
 else:
     fc = f"Hmm. I didn't know {color} was a color."
 
-print(hf)     # "Hello, <name>!"
+print(hf)
 print(fc)
