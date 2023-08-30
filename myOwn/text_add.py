@@ -1,73 +1,87 @@
 #! /usr/bin/env python3
 
-ones = [
-    'zero',
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'seven',
-    'eight',
-    'nine']
 
-teens = [
-    'eleven',
-    'twelve',
-    'thirteen',
-    'fourteen',
-    'fifteen',
-    'sixteen',
-    'seventeen',
-    'eighteen',
-    'nineteen']
+from itertools import tee
 
-tens = [
-    'ten',
-    'twenty',
-    'thirty',
-    'forty', 
-    'fifty',
-    'sixty',
-    'seventy',
-    'eighty',
-    'ninety']
-
-magnitudes = [
-    'hundred',
-    'thousand',
-    'million',
-    'billion',
-    'trillion']
+from cairo import TEXT_CLUSTER_FLAG_BACKWARD
 
 
-def get_digit(txt_num):
-    if txt_num in ones:
-        the_digit = ones.index(txt_num)
-    elif txt_num in teens:
-        the_digit = teens.index(txt_num) + 11
-    elif txt_num in tens:
-        the_digit = ( tens.index(txt_num) + 1 ) * 10
-    return the_digit
+class the_number():
+    def __init__(self):
+        self.ones = [
+            'zero',
+            'one',
+            'two',
+            'three',
+            'four',
+            'five',
+            'six',
+            'seven',
+            'eight',
+            'nine'
+        ]
+        self.teens = [
+            'eleven',
+            'twelve',
+            'thirteen',
+            'fourteen',
+            'fifteen',
+            'sixteen',
+            'seventeen',
+            'eighteen',
+            'nineteen'
+        ]
+        self.tens = [
+            'ten',
+            'twenty',
+            'thirty',
+            'forty', 
+            'fifty',
+            'sixty',
+            'seventy',
+            'eighty',
+            'ninety'
+        ]
+        self.magnitudes = [
+            'hundred',
+            'thousand',
+            'million',
+            'billion',
+            'trillion'
+        ]
+    def factor(self, the_number):
+        num_str = str(the_number)
+        factor_list = list(map(int, list(num_str)))
+        list_len = len(factor_list)
+        num_list = []
+        for i in range(list_len):
+            if i == (list_len - 2) and 10 < int(f"{factor_list[i]}{factor_list[i+1]}") < 20:
+                num_list.append( int(f"{factor_list[i]}{factor_list[i+1]}") )
+                break
+            else:
+                num_list.append(int(factor_list[i]))
+        return num_list
+    def get_digit(self, txt_num):
+        if txt_num in self.ones:
+            the_digit = self.ones.index(txt_num)
+        elif txt_num in self.teens:
+            the_digit = self.teens.index(txt_num) + 11
+        elif txt_num in self.tens:
+            the_digit = ( self.tens.index(txt_num) + 1 ) * 10
+        return the_digit
+    def get_text(self, dig_num):
+        factored_num = self.factor(dig_num)
+        place_count = len(''.join(map(str, factored_num)))
+        text_num = []
+        for factor in factored_num:
+            if place_count >= 3:
+                text_num.append(f"{self.ones[factor]}-{self.magnitudes[ (place_count-3) ]}")
 
 
-def get_text(dig_num):
-    if 0 <= dig_num < 10:
-        the_text = ones[dig_num]
-    elif 10 < dig_num < 20:
-        the_text = teens[int(dig_num - 11)]
-    elif 9 < dig_num < 100 and (dig_num % 10) == 0:
-        the_text = tens[int((dig_num / 10) - 1)]
-    return the_text
-
-
-def factor(the_number):
-    num_str = str(the_number)
-    num_len = len(num_str)
-    the_zeros = (num_len - 1)
-    factor_list = []
-    for i in range(num_len):
-        factor_list.append(int(num_str[i] + "0" * the_zeros))
-        the_zeros -= 1
-    return factor_list
+            if 0 <= factor < 10:
+                text_num.append(self.ones[factor])
+            elif 10 < factor < 20:
+                text_num.append(self.teens[int(factor - 11)])
+            elif 9 < factor < 100 and (factor % 10) == 0:
+                text_num.append(self.tens[int((factor / 10) - 1)])
+        return '-'.join(text_num)
