@@ -3,6 +3,8 @@
 '''
 Rock Paper Scissors
 -------------------------------------------------------------
+Modified code from:
+https://hackr.io/blog/python-projects
 '''
 
 
