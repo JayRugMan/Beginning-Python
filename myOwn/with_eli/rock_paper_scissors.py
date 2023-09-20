@@ -18,17 +18,15 @@ def cs():
 
 
 def play_rps():
-    play = True
     cs()
-    while play:
+    while True:
         user_choice = input('\nChoose your weapon'
                             ' [R]ock](1), [P]aper(2), or [S]cissors(3)'
                             ' (q or 4 to quit): ')
 
         if re.match("[Qq4]", user_choice):
             # Quits
-            play = False
-            continue
+            break
         elif not re.match("[SsRrPp123]", user_choice):
             cs()
             print(f"\nI don't know what weapon that is, man!")
