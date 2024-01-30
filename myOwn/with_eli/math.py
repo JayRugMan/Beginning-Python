@@ -10,10 +10,10 @@ def get_operands(oper):
     rand_tuple = {
         '+': (0, 100),
         '-': (1, 100),
-        '*': (0, 12),
-        '/': (1, 144)
+        '×': (0, 12),
+        '÷': (1, 144)
     }
-    if oper in ['+', '*']:
+    if oper in ['+', '×']:
         a = random.randint(*rand_tuple[oper])
         b = random.randint(*rand_tuple[oper])
     elif oper == '-':
@@ -23,7 +23,7 @@ def get_operands(oper):
             b = random.randint(*rand_tuple[oper])
             if a >= b:
                 break
-    elif oper == '/':
+    elif oper == '÷':
         # Will loop until divisor goes into dividend evenly
         while True:
             a = random.randint(*rand_tuple[oper])
@@ -42,8 +42,8 @@ def do_math(op):
     operators = {
         '+': operator.add,
         '-': operator.sub,
-        '*': operator.mul,
-        '/': operator.truediv
+        '×': operator.mul,
+        '÷': operator.truediv
     }
 
     problem_number = 1
@@ -52,7 +52,7 @@ def do_math(op):
     # User decides how many problems to solve
     while True:
         try:
-            possible = int(input("How many problems to you want to do: "))
+            possible = int(input("How many problems to you want to do (between 1 and 100): "))
             if possible > 100:
                 print(f"😳 {possible} is too many...")
             elif possible <= 0:
@@ -97,13 +97,28 @@ def get_option(options):
             print(f"{option} is not in the list of options")
 
 
+def print_menu():
+    '''Takes list of options to print a menu'''
+    opts = {
+        'a': "Addition (+)",
+        's': "Subtraction (-)",
+        'm': "Multiplication (×)",
+        'd': "Division (÷)",
+        'e/q/x': "Exit"
+    }
+    print("\n-- Choose an operation --\n")
+    for key,value in opts.items():
+        print(f" {key:5} - {value}")
+
+
+
 def main():
     '''The Main event'''
     options = {
         'a': '+',  # Addition
         's': '-',  # Subtraction
-        'm': '*',  # Multiplication
-        'd': '/',  # Division
+        'm': '×',  # Multiplication
+        'd': '÷',  # Division
         'e': 'exit',  # Exit
         'q': 'exit',  # Exit
         'x': 'exit'   # Exit
@@ -113,6 +128,7 @@ def main():
     print(f"===== Welcome to Math Game ======")
 
     while True:
+        print_menu()
         option = get_option(options)
         if option in ["q", "x", "e"]:
             os.system('cls' if os.name == 'nt' else 'clear')
