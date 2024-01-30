@@ -8,10 +8,10 @@ import operator
 def get_operands(oper):
     '''Provides appropriate operands depending on the operator provided'''
     rand_tuple = {
-        '+': (0, 100),
+        '+': (10, 100),
         '-': (1, 100),
-        '×': (0, 12),
-        '÷': (1, 144)
+        '×': (2, 12),
+        '÷': (2, 144)
     }
     if oper in ['+', '×']:
         a = random.randint(*rand_tuple[oper])
@@ -21,14 +21,14 @@ def get_operands(oper):
         while True:
             a = random.randint(*rand_tuple[oper])
             b = random.randint(*rand_tuple[oper])
-            if a >= b:
+            if a > b:
                 break
     elif oper == '÷':
         # Will loop until divisor goes into dividend evenly
         while True:
             a = random.randint(*rand_tuple[oper])
             b = random.randint(*rand_tuple[oper])
-            if a % b == 0:
+            if a % b == 0 and a != b and (a/b) <= 12 and b <= 12:
                 break
     else:
         raise ValueError("Something went sideways with get_operands")
@@ -48,6 +48,7 @@ def do_math(op):
 
     problem_number = 1
     correct = 0
+    silly = "  🙈 That's not a number, silly 😖"
 
     # User decides how many problems to solve
     while True:
@@ -60,7 +61,7 @@ def do_math(op):
             else:
                 break
         except ValueError:
-            print("That's not a number, silly")
+            print(silly)
 
     # Generates random problems with given operator
     while problem_number <= possible:
@@ -71,30 +72,31 @@ def do_math(op):
         # Gets answer, making sure it's an integer
         while True:
             try:
-                user_answer = int(input(f"{problem_number:3}: {x} {op} {y} = "))
+                user_answer = int(input(f"\n{problem_number:3}: {x} {op} {y} = "))
                 break
             except ValueError:
-                print("That's not a number, silly")
+                print(silly)
         if user_answer == right_answer:
-            print("Correct")
+            print("  🏅 Correct! 🏅")
             correct += 1
         else:
-            print(f"Incorrect. {x} {op} {y} = {right_answer}")
+            print(f"  💩 Incorrect. {x} {op} {y} = {right_answer}")
 
         problem_number += 1
     
     percentage = correct / possible * 100
-    print(f"You got {percentage}% ({correct}/{possible})")
+    print(f"\n\nYou got {percentage}% ({correct}/{possible})")
+    input("\nHit ENTER to clear screen for menu...")
 
 
 def get_option(options):
     '''Get's the option from the user'''
     while True:
-        option = input(': ')
+        option = input('\n: ')
         if option in options:
             return option
         else:
-            print(f"{option} is not in the list of options")
+            print(f"🙈 {option} is not in the list of options 😖")
 
 
 def print_menu():
@@ -106,6 +108,8 @@ def print_menu():
         'd': "Division (÷)",
         'e/q/x': "Exit"
     }
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(f"===== Welcome to Math Game ======")
     print("\n-- Choose an operation --\n")
     for key,value in opts.items():
         print(f" {key:5} - {value}")
@@ -123,9 +127,6 @@ def main():
         'q': 'exit',  # Exit
         'x': 'exit'   # Exit
     }
-
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print(f"===== Welcome to Math Game ======")
 
     while True:
         print_menu()
