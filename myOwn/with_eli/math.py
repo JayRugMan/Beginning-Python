@@ -9,25 +9,25 @@ def get_operands(oper):
     '''Provides appropriate operands depending on the operator provided'''
     rand_tuple = {
         '+': (0, 100),
-        '-': (2,100),
-        '*': (0,12),
+        '-': (1, 100),
+        '*': (0, 12),
         '/': (1, 144)
     }
     if oper in ['+', '*']:
-        a = random.randint(rand_tuple[oper])
-        b = random.randint(rand_tuple[oper])
+        a = random.randint(*rand_tuple[oper])
+        b = random.randint(*rand_tuple[oper])
     elif oper == '-':
         # Loops if answer is going to be a negative number
         while True:
-            a = random.randint(rand_tuple[oper])
-            b = random.randint(rand_tuple[oper])
+            a = random.randint(*rand_tuple[oper])
+            b = random.randint(*rand_tuple[oper])
             if a >= b:
                 break
     elif oper == '/':
         # Will loop until divisor goes into dividend evenly
         while True:
-            a = random.randint(rand_tuple[oper])
-            b = random.randint(rand_tuple[oper])
+            a = random.randint(*rand_tuple[oper])
+            b = random.randint(*rand_tuple[oper])
             if a % b == 0:
                 break
     else:
@@ -52,7 +52,7 @@ def do_math(op):
     # User decides how many problems to solve
     while True:
         try:
-            possible = int(input("How many problems to you want to do:"))
+            possible = int(input("How many problems to you want to do: "))
             if possible > 100:
                 print(f"😳 {possible} is too many...")
             elif possible <= 0:
@@ -71,7 +71,7 @@ def do_math(op):
         # Gets answer, making sure it's an integer
         while True:
             try:
-                user_answer = int(input(f"{x} {op} {y} = "))
+                user_answer = int(input(f"{problem_number:3}: {x} {op} {y} = "))
                 break
             except ValueError:
                 print("That's not a number, silly")
