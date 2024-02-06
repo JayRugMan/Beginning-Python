@@ -68,7 +68,7 @@ def do_math(op):
 
     problem_number = 1
     correct = 0
-    silly = "  🙈 That's not a number, silly 😖"
+    silly = f"🙈 {c_yl}That's not a number, silly{c_r} 😖"
 
     # User decides how many problems to solve
     while True:
