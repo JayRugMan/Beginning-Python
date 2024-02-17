@@ -59,6 +59,8 @@ def get_operands(oper):
 def do_math(op):
     '''Takes operator and does math with it'''
 
+    max_probs = 132
+
     operators = {
         '+': operator.add,
         '-': operator.sub,
@@ -73,8 +75,8 @@ def do_math(op):
     # User decides how many problems to solve
     while True:
         try:
-            possible = int(input("How many problems to you want to do (between 1 and 100): "))
-            if possible > 100:
+            possible = int(input(f"How many problems to you want to do (between 1 and {max_probs}): "))
+            if possible > max_probs:
                 print(f"😳 {c_yl}{possible} is too many...{c_r}")
             elif possible <= 0:
                 print(f"😉 {c_br}{c_bl}Uh...!? it's got to be more than 0{c_r}")
