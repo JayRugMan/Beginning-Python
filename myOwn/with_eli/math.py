@@ -25,7 +25,25 @@ global c_br; c_br = Style.BRIGHT    # bright
 global c_r;  c_r = Style.RESET_ALL  # reset color - needed to terminate color
 
 
-def get_operands(oper):
+def specify_multiplier():
+    # Can sepecify all a specific multiplier
+    while True:
+        mul_opt = input(f"Specify a multiplier (2 - 12) or 'm' for mixed: ")
+        try:
+            # If it's an integer in range
+            mul_opt = int(mul_opt)
+            if mul_opt in list(range(2, 13)):
+                break
+        except ValueError:
+            # Or if it's m for mixed
+            if mul_opt == 'm':
+                break
+            else:
+                continue
+    return mul_opt    
+
+
+def get_operands(m_spec, oper):
     '''Provides appropriate operands depending on the operator provided'''
     rand_tuple = {
         '+': (10, 100),
@@ -33,9 +51,20 @@ def get_operands(oper):
         '×': (2, 12),
         '÷': (2, 144)
     }
-    if oper in ['+', '×']:
+    if oper == '+':
         a = random.randint(*rand_tuple[oper])
         b = random.randint(*rand_tuple[oper])
+    elif oper == '×':
+        if m_spec == 'm':
+            a = random.randint(*rand_tuple[oper])
+            b = random.randint(*rand_tuple[oper])
+        else:
+            while True:
+                # only break when one of the multipliers is the specified integer
+                a = random.randint(*rand_tuple[oper])
+                b = random.randint(*rand_tuple[oper])
+                if a == m_spec or b == m_spec:
+                    break
     elif oper == '-':
         # Loops if answer is going to be a negative number
         while True:
@@ -59,6 +88,9 @@ def get_operands(oper):
 def do_math(op):
     '''Takes operator and does math with it'''
 
+    max_probs = 132
+    multiple_specification = None
+
     operators = {
         '+': operator.add,
         '-': operator.sub,
@@ -73,8 +105,8 @@ def do_math(op):
     # User decides how many problems to solve
     while True:
         try:
-            possible = int(input("How many problems to you want to do (between 1 and 100): "))
-            if possible > 100:
+            possible = int(input(f"How many problems to you want to do (between 1 and {max_probs}): "))
+            if possible > max_probs:
                 print(f"😳 {c_yl}{possible} is too many...{c_r}")
             elif possible <= 0:
                 print(f"😉 {c_br}{c_bl}Uh...!? it's got to be more than 0{c_r}")
@@ -83,10 +115,14 @@ def do_math(op):
         except ValueError:
             print(silly)
 
+    # If multiplying, then you can choose to specify a multiplier
+    if op == '×':
+        multiple_specification = specify_multiplier()
+
     # Generates random problems with given operator
     while problem_number <= possible:
         # Finds random operands based on operation selected
-        x, y = get_operands(op)
+        x, y = get_operands(multiple_specification, op)
         right_answer = int(operators[op](x, y))
 
         # Gets answer, making sure it's an integer
